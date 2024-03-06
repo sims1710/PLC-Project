@@ -1,0 +1,1 @@
+/* Update the pointer for the hidden word display */
