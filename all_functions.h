@@ -1,10 +1,17 @@
 /* Define all planned functions here, include in all c files (TEMPORARY)*/
+#include <stdio.h>
 
 /* Return filename to read from, no external input, only player input inside function */
-char *choose_difficulty();
+typedef struct
+{
+    char *filename;
+    int word_len;
+} chosen_difficulty;
+
+chosen_difficulty *choose_difficulty();
 
 /* Return a selected word, function input is filename */
-char *get_word(char *filename);
+char *get_word(chosen_difficulty *filename);
 
 /* Update contents of pointer for hidden word, return nothing, function input is pointer to hidden word display and chosen word */
 void update_hidden_word(char *hidden_word, char *chosen_word, char input_letter);
