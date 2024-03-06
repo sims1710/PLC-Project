@@ -1,5 +1,7 @@
 /* Define all planned functions here, include in all c files (TEMPORARY)*/
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 /* Return filename to read from, no external input, only player input inside function */
 typedef struct
@@ -8,7 +10,7 @@ typedef struct
     int word_len;
 } chosen_difficulty;
 
-chosen_difficulty *choose_difficulty();
+void choose_difficulty(chosen_difficulty *file_set);
 
 /* Return a selected word, function input is filename */
 char *get_word(chosen_difficulty *filename);
