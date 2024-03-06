@@ -1,0 +1,1 @@
+/* Where all functions are run to make the game run*/
