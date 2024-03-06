@@ -1,0 +1,1 @@
+/* Define all planned functions here, include in all c files (TEMPORARY)*/
