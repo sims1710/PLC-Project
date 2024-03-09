@@ -1,8 +1,8 @@
 # PLC-Project
 
-Hangman in C
+## Hangman in C
 
-**Textfiles:**
+### Textfiles:
 
 The textfiles of words were manually created on a .xlxs file which were later conveted to .txt files. The words were sourced from the following websites:
 1.
