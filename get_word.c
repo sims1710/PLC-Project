@@ -26,5 +26,6 @@ char *get_word(chosen_difficulty *file_set)
         }
         iterate++;
     }
+    fclose(file_set->filename);
     return chosen_word;
 }
