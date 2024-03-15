@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include "all_functions.h"
 
-void player_input(char *chosen_word, char *hidden_word, char *guessed_letters, int *lives)
+void player_input(char *chosen_word, char *guessed_letters, int *lives)
 {
     int correct_guess = 0;
     size_t length = strlen(chosen_word);
