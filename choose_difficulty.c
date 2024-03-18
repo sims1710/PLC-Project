@@ -4,16 +4,33 @@
 void choose_difficulty(chosen_difficulty *file_set)
 {
     /* Edits file_set given */
-    char *difficulty;
-    int rletter;
+    char difficulty;
+    int rletter, d, valid;
     /* TODO: Print difficulty details, player input to choose difficulty */
-    printf("Please choose a difficulty. \n - 1: 4-5 letters \n - 2: 4-6 letters\n - 3: 5-7 letters");
-    fgets(difficulty, 6, stdin);
+    printf("The following difficulties are available: \nEasy: 4-5 letter words \nMedium: 4-6 letter words \nHard: 5-7 letter words \n");
+    printf("Please choose a difficulty. \n - 1: Easy \n - 2: Medium\n - 3: Hard\n");
+    valid = 0;
+    while (valid == 0)
+    {
+        fgets(difficulty, sizeof(difficulty), stdin);
+        if (difficulty > '0' && difficulty < '4')
+        {
+            valid = 1;
+        }
+        else
+        {
+            printf("Error: user input is not 1, 2, or 3. Please try again.\n");
+        }
+    }
+    /* Clear input stream here for cleanliness */
+
     /* TODO: Change random's seed using time function */
     srand(time(NULL));
     /* TODO: Switch case based on difficulty chosen, choose random int between range */
     /* Easy: 4-5, Medium: 4-6, Hard: 5-7 */
-    switch ((int)*difficulty)
+    /* Switch case cannot take 6 letter expression */
+    d = (int)(difficulty - '0');
+    switch (d)
     {
     case 1:
         rletter = rand() % 2;
