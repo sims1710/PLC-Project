@@ -21,6 +21,7 @@ char *get_word(chosen_difficulty *file_set)
     {
         if (iterate == index)
         {
+            /* Might need to redo this part */
             fgets(chosen_word, 100, fptr);
             break;
         }
