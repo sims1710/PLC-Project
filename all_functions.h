@@ -3,6 +3,10 @@
 #include <stdlib.h>
 #include <time.h>
 
+/* Fixed Values */
+#define MAX_LIVES 7
+#define ALPHABET_COUNT 26
+
 /* Return filename to read from, no external input, only player input inside function */
 typedef struct
 {
@@ -21,6 +25,9 @@ void update_hidden_word(char *hidden_word, char *chosen_word, char input_letter)
 /* Check player input, invalid if number or already guessed, run if update if hit. function input is the selected word, hidden word display  */
 void player_input(char *chosen_word, char *hidden_word, char *guessed_letters, int *lives);
 void player_input(char *chosen_word, char *hidden_word, char *guessed_letters, int *lives, int word_len);
+
+/* Display the Hangman menu in console */
+void display_hangman(char *hidden_word, int *lives, int word_len);
 
 /* Clear console screen */
 void clear_screen();

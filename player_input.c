@@ -10,6 +10,8 @@
 4. Function ends
 */
 
+/* guessed letter is a malloc of 26 char */
+
 void player_input(char *chosen_word, char *guessed_letters, int *lives)
 {
     int correct_guess = 0;
@@ -113,4 +115,6 @@ void player_input(char *chosen_word, char *hidden_word, char *guessed_letters, i
         printf("You should not see this message.");
         break;
     }
+    /* TODO: Add input into guessed letters */
+    guessed_letters[input_letter - 'a'] = input_letter;
 }
