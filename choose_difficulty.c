@@ -12,7 +12,7 @@ void choose_difficulty(chosen_difficulty *file_set)
     valid = 0;
     while (valid == 0)
     {
-        fgets(difficulty, sizeof(difficulty), stdin);
+        difficulty = fgetc(stdin);
         if (difficulty > '0' && difficulty < '4')
         {
             valid = 1;
@@ -23,7 +23,7 @@ void choose_difficulty(chosen_difficulty *file_set)
         }
     }
     /* Clear input stream here for cleanliness */
-
+    clear_stdin();
     /* TODO: Change random's seed using time function */
     srand(time(NULL));
     /* TODO: Switch case based on difficulty chosen, choose random int between range */
