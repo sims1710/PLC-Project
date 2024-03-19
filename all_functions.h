@@ -20,6 +20,7 @@ void update_hidden_word(char *hidden_word, char *chosen_word, char input_letter)
 
 /* Check player input, invalid if number or already guessed, run if update if hit. function input is the selected word, hidden word display  */
 void player_input(char *chosen_word, char *hidden_word, char *guessed_letters, int *lives);
+void player_input(char *chosen_word, char *hidden_word, char *guessed_letters, int *lives, int word_len);
 
 /* Clear console screen */
 void clear_screen();
