@@ -29,6 +29,9 @@ void player_input(char *chosen_word, char *hidden_word, char *guessed_letters, i
 /* Display the Hangman menu in console */
 void display_hangman(char *hidden_word, int *lives, int word_len);
 
+/* Make connections between letters and numbers */
+int *link_number();
+
 /* Clear console screen */
 void clear_screen();
 
