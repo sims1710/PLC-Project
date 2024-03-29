@@ -14,7 +14,16 @@ typedef struct
     int word_len;
 } chosen_difficulty;
 
+typedef struct 
+{
+    int current_level;
+    int difficulty;
+    chosen_difficulty chosenDiff;
+} GameLevels;
+
 void choose_difficulty(chosen_difficulty *file_set);
+void choose_difficulty(GameLevels *gameLevels);
+
 
 /* Return a selected word, function input is filename */
 char *get_word(chosen_difficulty *filename);
@@ -42,3 +51,6 @@ int* random_number(char* chosen_word, int word_len);
 
 /* Function to suggest hints */
 int suggest_hint(char* chosen_word, int word_len, int* numbers_hint, int difficulty, int* hints_given, int* player_points);
+
+/*Implement the time attack mode*/
+void time_attack_mode(char *chosen_word, int time_limit_seconds);

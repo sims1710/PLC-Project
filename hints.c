@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
+#include "all_functions.h"
 
 int* random_number(char* chosen_word, int word_len){
     int i, index;
@@ -26,10 +27,12 @@ int* random_number(char* chosen_word, int word_len){
         - difficulty easy and medium: 1 point
         - difficulty hard: 2 points  */
 /* TODO: need to get the difficulty variable */
-int suggest_hint(char* chosen_word, int word_len, int* numbers_hint, char *guessed_letters, int difficulty, int* hints_given, int* player_points){
+int suggest_hint(char* chosen_word, int* numbers_hint, char *guessed_letters, GameLevels *gamelevel, int* hints_given, int* player_points){
     int i, hint;
     int* random_integers;
-    const int hint_cost = difficulty == 3 ? 2 : 1;
+    int word_len;
+    const int hint_cost = gamelevel->difficulty == 3 ? 2 : 1;
+    word_len = gamelevel->chosenDiff.word_len;
 
     random_integers = random_number(chosen_word, word_len);
 
