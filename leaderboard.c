@@ -43,18 +43,37 @@ void generateLeaderboardHTML() {
         return;
     }
 
+    // the HTML Code
     fprintf(fp, "<!DOCTYPE html>\n");
     fprintf(fp, "<html>\n");
     fprintf(fp, "<head>\n");
     fprintf(fp, "<title>Leaderboard</title>\n");
+    fprintf(fp, "<link rel=\"icon\" href=\"/images/hangman.webp\" type=\"image/png\">\n");
     fprintf(fp, "<style>\n");
     fprintf(fp, "body {\n");
-    fprintf(fp, "    background-image: url('background.jpg');\n"); // Change 'background.jpg' to your image file
-    fprintf(fp, "    background-size: cover;\n");
+    fprintf(fp, "    background-image: url('/images/background.png') !important;\n");
     fprintf(fp, "    font-family: Arial, sans-serif;\n");
+    fprintf(fp, "    background-size: cover;\n");
+    fprintf(fp, "    background-size: 80%%; /* Adjust the percentages as needed */\n");
+    fprintf(fp, "}\n");
+    fprintf(fp, ".heading-box {\n");
+    fprintf(fp, "    padding: 10px;\n");
+    fprintf(fp, "    text-align: center;\n");
+    fprintf(fp, "}\n");
+    fprintf(fp, ".heading-text {\n");
+    fprintf(fp, "    font-size: 48px;\n");
+    fprintf(fp, "    display: inline-block;\n");
+    fprintf(fp, "    animation: changeColor 3s infinite;\n");
+    fprintf(fp, "}\n");
+    fprintf(fp, "@keyframes changeColor {\n");
+    fprintf(fp, "    0%% { color: red; }\n");
+    fprintf(fp, "    25%% { color: green; }\n");
+    fprintf(fp, "    50%% { color: blue; }\n");
+    fprintf(fp, "    75%% { color: yellow; }\n");
+    fprintf(fp, "    100%% { color: orange; }\n");
     fprintf(fp, "}\n");
     fprintf(fp, ".container {\n");
-    fprintf(fp, "    max-width: 800px;\n");
+    fprintf(fp, "    width: 800px;\n");
     fprintf(fp, "    margin: 0 auto;\n");
     fprintf(fp, "    padding: 20px;\n");
     fprintf(fp, "}\n");
@@ -63,13 +82,27 @@ void generateLeaderboardHTML() {
     fprintf(fp, "    margin: 0 auto 20px;\n");
     fprintf(fp, "}\n");
     fprintf(fp, ".heading-box {\n");
-    fprintf(fp, "    background-color: #f2f2f2;\n");
-    fprintf(fp, "    border: 2px solid #4CAF50;\n");
+    fprintf(fp, "    background-color: #000000;\n");
     fprintf(fp, "    padding: 10px;\n");
     fprintf(fp, "    text-align: center;\n");
     fprintf(fp, "}\n");
+    fprintf(fp, ".mode-heading-box {\n");
+    fprintf(fp, "    background-color: #000000;\n");
+    fprintf(fp, "    color: #ffffff;\n");
+    fprintf(fp, "    padding: 10px;\n");
+    fprintf(fp, "    text-align: left;\n");
+    fprintf(fp, "}\n");
+    fprintf(fp, ".glow-text {\n");
+    fprintf(fp, "    color: #ffffff;\n");
+    fprintf(fp, "    animation: glow 2s ease-in-out infinite alternate;\n");
+    fprintf(fp, "}\n");
+    fprintf(fp, "@keyframes glow {\n");
+    fprintf(fp, "    0%% { text-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 30px #ffffff, 0 0 40px #ffffff, 0 0 70px #ffffff, 0 0 80px #ffffff, 0 0 100px #ffffff, 0 0 150px #ffffff; }\n");
+    fprintf(fp, "    50%% { text-shadow: 0 0 5px #ffffff, 0 0 10px #ffffff, 0 0 15px #ffffff, 0 0 20px #ffffff, 0 0 35px #ffffff, 0 0 40px #ffffff, 0 0 50px #ffffff, 0 0 75px #ffffff; }\n");
+    fprintf(fp, "    100%% { text-shadow: 0 0 20px #ffffff, 0 0 30px #ffffff, 0 0 40px #ffffff, 0 0 80px #ffffff, 0 0 100px #ffffff, 0 0 150px #ffffff, 0 0 200px #ffffff, 0 0 300px #ffffff; }\n");
+    fprintf(fp, "}\n");
     fprintf(fp, "table {\n");
-    fprintf(fp, "    width: %s;\n", "100%");
+    fprintf(fp, "    width: 100%%;\n");
     fprintf(fp, "    border-collapse: collapse;\n");
     fprintf(fp, "}\n");
     fprintf(fp, "th, td {\n");
@@ -77,20 +110,35 @@ void generateLeaderboardHTML() {
     fprintf(fp, "    text-align: left;\n");
     fprintf(fp, "}\n");
     fprintf(fp, "th {\n");
-    fprintf(fp, "    background-color: #4CAF50;\n");
-    fprintf(fp, "    color: white;\n");
+    fprintf(fp, "    background-color: #ffffff; /* White background for headers */\n");
+    fprintf(fp, "    color: #000000; /* Black text for headers */\n");
+    fprintf(fp, "    transition: background-color 0.3s, color 0.3s; /* Smooth transition effect */\n");
     fprintf(fp, "}\n");
     fprintf(fp, "tr:nth-child(even) {\n");
-    fprintf(fp, "    background-color: #f2f2f2;\n");
+    fprintf(fp, "    background-color: #e5e5e5; /* Paler black background for even rows */\n");
+    fprintf(fp, "    transition: background-color 0.3s; /* Smooth transition effect */\n");
+    fprintf(fp, "}\n");
+    fprintf(fp, "tr:nth-child(odd) {\n");
+    fprintf(fp, "    background-color: #cccccc; /* Slightly darker paler black background for odd rows */\n");
+    fprintf(fp, "    transition: background-color 0.3s; /* Smooth transition effect */\n");
+    fprintf(fp, "}\n");
+    fprintf(fp, "tr:hover {\n");
+    fprintf(fp, "    background-color: #808080; /* Grey background on hover for rows */\n");
+    fprintf(fp, "}\n");
+    fprintf(fp, "tr:hover td {\n");
+    fprintf(fp, "    color: #000000; /* Black text on hover for rows */\n");
     fprintf(fp, "}\n");
     fprintf(fp, "</style>\n");
     fprintf(fp, "</head>\n");
     fprintf(fp, "<body>\n");
     fprintf(fp, "<div class='container'>\n");
-    fprintf(fp, "<img src='logo.png' alt='Logo' class='logo'>\n"); // Change 'logo.png' to your logo file
     fprintf(fp, "<div class='heading-box'>\n");
-    fprintf(fp, "<h1>Leaderboard</h1>\n");
+    fprintf(fp, "<h1 class=\"heading-text\">Leaderboard</h1>\n");
     fprintf(fp, "</div>\n");
+    fprintf(fp, "</div>\n");
+
+    // Center the tables horizontally
+    fprintf(fp, "<div style='display: flex; flex-direction: column; align-items: center;'>\n");
 
     // Generate table for each mode
     for (int mode = 1; mode <= 3; mode++) {
@@ -109,12 +157,12 @@ void generateLeaderboardHTML() {
                 modeName = "Unknown";
                 break;
         }
-
-        fprintf(fp, "<div class='heading-box'>\n");
-        fprintf(fp, "<h2>Mode %s</h2>\n", modeName);
+        fprintf(fp, "<div class='container'>\n");
+        fprintf(fp, "<div class='mode-heading-box'>\n");
+        fprintf(fp, "<h2 class='glow-text' style='padding: 20px;'>Mode %s</h2>\n", modeName);
         fprintf(fp, "</div>\n");
         fprintf(fp, "<table>\n");
-        fprintf(fp, "<tr><th>Rank</th><th>Name</th><th>Score</th></tr>\n");
+        fprintf(fp, "<tr><th>RANK</th><th>NAME</th><th>SCORE</th></tr>\n");
 
         int count = 0;
         for (int i = 0; i < numEntries && count < 10; i++) {
@@ -133,11 +181,13 @@ void generateLeaderboardHTML() {
         }
 
         fprintf(fp, "</table>\n");
+        fprintf(fp, "</div>\n"); // Close the container div
     }
 
-    fprintf(fp, "</div>\n");
+    fprintf(fp, "</div>\n"); // Close the flex container div
     fprintf(fp, "</body>\n");
     fprintf(fp, "</html>\n");
+
 
     fclose(fp);
 }
