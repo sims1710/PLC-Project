@@ -1,18 +1,20 @@
 # include "all_functions.h"
 
+/* Define a struct for leaderboard entries */
 typedef struct {
     char name[MAX_NAME_LENGTH];
     int score;
     int mode;
 } LeaderboardEntry;
 
-LeaderboardEntry leaderboard[MAX_ENTRIES];
+LeaderboardEntry leaderboard[MAX_LEADERBOARD_ENTRIES];
 int numEntries = 0;
 
+/* Function to add an entry to the leaderboard */
 void addToLeaderboard(const char *name, int score, int mode) {
-    if (numEntries < MAX_ENTRIES) {
+    if (numEntries < MAX_LEADERBOARD_ENTRIES) {
         strncpy(leaderboard[numEntries].name, name, MAX_NAME_LENGTH - 1);
-        leaderboard[numEntries].name[MAX_NAME_LENGTH - 1] = '\0'; // Ensure null termination
+        leaderboard[numEntries].name[MAX_NAME_LENGTH - 1] = '\0'; 
         leaderboard[numEntries].score = score;
         leaderboard[numEntries].mode = mode;
         numEntries++;
@@ -21,6 +23,7 @@ void addToLeaderboard(const char *name, int score, int mode) {
     }
 }
 
+/* Function to sort the leaderboard using bubble sort */
 void bubbleSortLeaderboard() {
     int i, j;
     LeaderboardEntry temp;
@@ -36,6 +39,7 @@ void bubbleSortLeaderboard() {
     }
 }
 
+/* Function to generate HTML for the leaderboard */
 void generateLeaderboardHTML() {
     FILE *fp = fopen("leaderboard.html", "w");
     if (fp == NULL) {
@@ -43,7 +47,7 @@ void generateLeaderboardHTML() {
         return;
     }
 
-    // the HTML Code
+    /* HTML code for styling and leaderboard structure */
     fprintf(fp, "<!DOCTYPE html>\n");
     fprintf(fp, "<html>\n");
     fprintf(fp, "<head>\n");
@@ -137,10 +141,9 @@ void generateLeaderboardHTML() {
     fprintf(fp, "</div>\n");
     fprintf(fp, "</div>\n");
 
-    // Center the tables horizontally
     fprintf(fp, "<div style='display: flex; flex-direction: column; align-items: center;'>\n");
 
-    // Generate table for each mode
+    /* Generate table for each mode */ 
     for (int mode = 1; mode <= 3; mode++) {
         const char *modeName;
         switch (mode) {
@@ -173,7 +176,7 @@ void generateLeaderboardHTML() {
             }
         }
 
-        // Add dummy rows if count is less than 10
+        /* Add dummy rows if count is less than 10 */
         while (count < 10) {
             fprintf(fp, "<tr><td>%d</td><td>%s</td><td>%d</td></tr>\n",
                     count + 1, "Dummy", 0);
@@ -181,10 +184,10 @@ void generateLeaderboardHTML() {
         }
 
         fprintf(fp, "</table>\n");
-        fprintf(fp, "</div>\n"); // Close the container div
+        fprintf(fp, "</div>\n"); 
     }
 
-    fprintf(fp, "</div>\n"); // Close the flex container div
+    fprintf(fp, "</div>\n"); 
     fprintf(fp, "</body>\n");
     fprintf(fp, "</html>\n");
 
@@ -192,14 +195,15 @@ void generateLeaderboardHTML() {
     fclose(fp);
 }
 
-void updateLeaderboard(int score) {
-    addToLeaderboard("Player", score, 1); // Assuming mode 1 for this example
+/* Function to update the leaderboard with a new score for a specific mode */
+void updateLeaderboard(int score, int mode) {
+    addToLeaderboard("Player", score, mode); /* Assuming mode 1 for this example */
     bubbleSortLeaderboard();
     generateLeaderboardHTML();
 }
 
 int main() {
-    updateLeaderboard(0); // Example call to updateLeaderboard function with a score of 0
+    updateLeaderboard(0, 1); /* Example call to updateLeaderboard function with a score of 0 */
     printf("Leaderboard HTML file generated successfully.\n");
     return 0;
 }
