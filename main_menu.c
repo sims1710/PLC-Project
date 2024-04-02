@@ -1,10 +1,14 @@
 # include "all_functions.h"
 
+/* Enumerations for menu choices and difficulty levels */
 typedef enum {
     NEW_GAME = 1,
     SAVED_GAME = 2,
     MULTIPLAYER = 3,
-    LEADERBOARD = 4
+    LEADERBOARD = 4,
+    ATTACK = 5,
+    ENDLESS = 6,
+    GAMERULE = 7,
 } Choice;
 
 typedef enum {
@@ -13,6 +17,7 @@ typedef enum {
     HARD = 3
 } Difficulty;
 
+/* Function to validate user input within a specified range */
 int validateChoice(int start, int end) {
     int choice;
     char input[100];
@@ -39,6 +44,7 @@ int validateChoice(int start, int end) {
     return choice;
 }
 
+/* Function to get player's name */
 void enter_player_name(char *name) {
     printf("\n");
     printf("   *************************************************************************************************************\n");
@@ -53,6 +59,7 @@ void enter_player_name(char *name) {
     scanf("%s", name);
 }
 
+/* Main menu function */
 void main_menu(){
     int choice, choice2;
     char name[100];
@@ -83,13 +90,20 @@ void main_menu(){
     printf("                   ┌────────────┐     ┌────────────┐     ┌─────────────┐     ┌─────────────┐\n");
     printf("                   │  New Game  │     │ Saved Game │     │ Multiplayer │     │ Leaderboard │\n");
     printf("                   └────────────┘     └────────────┘     └─────────────┘     └─────────────┘\n");
+    printf("                             ┌────────────┐     ┌────────────┐     ┌─────────────┐          \n");
+    printf("                             │Time Attack │     │   Endless  │     │  Game Rules │          \n");
+    printf("                             └────────────┘     └────────────┘     └─────────────┘          \n");
+    printf("\n");
 
     printf("\n");
-    printf("    Please select an option (by inputing 1\\2\\3\\4): \n");
+    printf("    Please select an option (by inputing 1\\2\\3\\4\\5\\6\\7): \n");
     printf("    1. New Game\n");
     printf("    2. Saved Game\n");
     printf("    3. Multiplayer\n");
     printf("    4. Leaderboard\n");
+    printf("    5. Time Attack Mode\n");
+    printf("    6. Endless Mode\n");
+    printf("    7. Game Rules\n");
     printf("\n");
     
     choice = validateChoice(1, 4); // Validate the main menu choice
@@ -220,7 +234,22 @@ void main_menu(){
     case LEADERBOARD:
         printf("    You have selected Leaderboard.\n");
         printf("    Loading leaderboard...\n");
-        updateLeaderboard(0);
+        // updateLeaderboard(0);
+        break;
+
+    case ATTACK:
+        printf("    You have selected Time Attack Mode.\n");
+        printf("    Loading Time Attack Mode...\n");
+        break;
+
+    case ENDLESS:
+        printf("    You have selected Endless Mode.\n");
+        printf("    Loading Endless Mode...\n");
+        break;
+
+    case GAMERULE:
+        printf("    You have selected Game Rules.\n");
+        printf("    Loading Game Rules...\n");
         break;
 
     default:
@@ -228,7 +257,7 @@ void main_menu(){
     }
 }
 
-int main1(){
+int main(){
     main_menu();
     return 0;
 }
