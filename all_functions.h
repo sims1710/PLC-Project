@@ -3,10 +3,15 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h> // Added
+#include <stdbool.h>
 
 /* Constants */
 #define MAX_ENTRIES 100
 #define MAX_NAME_LENGTH 50
+#define EXIT_CHAR 'E'
+#define MAX_LEADERBOARD_ENTRIES 10
+#define MAX_GUESSES 8
+#define MAX_WORD_LENGTH 100
 
 /* Return filename to read from, no external input, only player input inside function */
 typedef struct
@@ -36,9 +41,19 @@ int main1(); // Temporary Function
 void score_tracker(int *score, int *lives);
 
 /* Display and update leaderboard */
-void updateLeaderboard(int score);
+void updateLeaderboard(int score, int mode);
 void addToLeaderboard(const char *name, int score, int mode);
 void bubbleSortLeaderboard();
 void generateLeaderboardHTML();
 
+/* Display Game Rules */
+void displayRules();
 
+/* Endless Mode */
+void endless_mode();
+
+/* Multiplayer Mode */
+void multiplayer_mode();
+
+/* Adding a new word upon winning */
+void add_new_word();
