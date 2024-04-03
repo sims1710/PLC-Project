@@ -17,15 +17,16 @@ void time_attack_mode(char *chosen_word, char *hidden_word, char *guessed_letter
         printf("Guess the word: %s\n", hidden_word);
         player_input(chosen_word, hidden_word, guessed_letters, &lives, word_len);
 
-        time(&current_time); /*Check current time*/
-        /*Printing out the remaining time left for the player*/
-        if(difftime(current_time, start_time) < fixed_time_limits) {
-            time_left = fixed_time_limits - current_time;
-            printf("You still have %s time left!", ctime(&time_left));
-        }
+        /*Check current time*/
+        time(&current_time); 
+        /*Calculate the time the player has left*/
+        time_left = fixed_time_limits - difftime(current_time, start_time);
 
         /*Checking if the player time exceed the game time, if it exceeds, Time's up*/
-        if (difftime(current_time, start_time) > fixed_time_limits) {
+        if(time_left > 0) {
+            printf("You still have %s time left!", ctime(&time_left));
+        } else {
+            /*Printing out the remaining time left for the player*/
             printf("Time's up! You didn't guess the word in time.\n");
             break;
         }

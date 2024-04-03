@@ -14,33 +14,39 @@ void update_hidden_word(char *hidden_word, char *chosen_word, char input_letter)
 {
     State currentState = START;
     int i = 0;
-    int length = strlen(chosen_word); // Get the length once to improve efficiency
+    int length = strlen(chosen_word); 
 
     while (currentState != END) {
         switch (currentState) {
             case START:
-                i = 0; // Initialize the index
+                i = 0; 
                 currentState = CHECK_LETTER;
                 break;
             case CHECK_LETTER:
                 if (i >= length) {
-                    currentState = END; // End if all letters have been checked
+                    /*End if all letters have been checked*/
+                    currentState = END; 
                 } else if (chosen_word[i] == input_letter) {
-                    currentState = UPDATE_LETTER; // Match found, update the letter
+                    /*Match found, update the letter*/
+                    currentState = UPDATE_LETTER; 
                 } else {
-                    currentState = CONTINUE_SEARCH; // No match, move to the next letter
+                    /*No match, move to the next letter*/
+                    currentState = CONTINUE_SEARCH; 
                 }
                 break;
             case UPDATE_LETTER:
-                hidden_word[i] = input_letter; // Update the hidden word with the input letter
-                currentState = CONTINUE_SEARCH; // Continue search after updating
+                /*Update the hidden word with the input letter*/
+                hidden_word[i] = input_letter; 
+                /*Continue search after updating*/
+                currentState = CONTINUE_SEARCH; 
                 break;
             case CONTINUE_SEARCH:
-                i++; // Move to the next character
-                currentState = CHECK_LETTER; // Check the next letter
+                i++; 
+                /*Check the next letter*/
+                currentState = CHECK_LETTER; 
                 break;
             case END:
-                // Exit the loop
+                /*Exit the loop*/
                 break;
         }
     }
