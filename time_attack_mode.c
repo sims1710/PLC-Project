@@ -7,7 +7,7 @@
 void time_attack_mode(char *chosen_word, int time_limit_seconds){
     int i;
     time_t start_time, current_time;
-    int lives = 5;
+    int lives = 7;
     int word_len = strlen(chosen_word);
     char *hidden_word = malloc(word_len + 1);
     char *guessed_letters = malloc(26); /*Allocate space for each letter of the alphabet*/

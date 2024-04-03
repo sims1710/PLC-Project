@@ -21,7 +21,7 @@ typedef struct
     chosen_difficulty chosenDiff;
 } GameLevels;
 
-void choose_difficulty(chosen_difficulty *file_set);
+/*void choose_difficulty(chosen_difficulty *file_set);*/
 void choose_difficulty(GameLevels *gameLevels);
 
 
