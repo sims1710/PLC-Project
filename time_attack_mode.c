@@ -4,7 +4,7 @@
 #include <string.h>
 #include "all_functions.h"
 
-void time_attack_mode(char *chosen_word, char *hidden_word, char *guessed_letters, int *lives, int word_len){
+void time_attack_mode(char *chosen_word, char *hidden_word, char *guessed_letters, int *lives, int word_len, int *scores){
     int i;
     time_t start_time, current_time, time_left;
     /*4 minutes (360 seconds) for the player to guess the word in this time attack mode*/
@@ -15,7 +15,7 @@ void time_attack_mode(char *chosen_word, char *hidden_word, char *guessed_letter
 
     while (lives > 0) {
         printf("Guess the word: %s\n", hidden_word);
-        player_input(chosen_word, hidden_word, guessed_letters, &lives, word_len);
+        player_input(chosen_word, hidden_word, guessed_letters, &lives, word_len, scores);
 
         /*Check current time*/
         time(&current_time); 

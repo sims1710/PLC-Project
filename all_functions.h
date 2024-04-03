@@ -39,9 +39,9 @@ char *get_word(chosen_difficulty *filename);
 void update_hidden_word(char *hidden_word, char *chosen_word, char input_letter);
 
 /* Check player input, invalid if number or already guessed, run if update if hit. function input is the selected word, hidden word display  */
-void player_input(char *chosen_word, char *hidden_word, char *guessed_letters, int *lives, int word_len);
+void player_input(char *chosen_word, char *hidden_word, char *guessed_letters, int *lives, int word_len, int *score);
 /* Pending fix */
-void player_input(char *chosen_word, char *guessed_letters, int *lives, int *score); // Updated
+/*void player_input(char *chosen_word, char *guessed_letters, int *lives, int *score); // Updated*/
 
 /* Display the Hangman menu in console */
 void display_hangman(char *hidden_word, int *lives, int word_len);
