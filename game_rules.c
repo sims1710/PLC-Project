@@ -161,7 +161,7 @@ void displayRules() {
     fprintf(file, "\n");
     fprintf(file, "        <button class=\"accordion\">Time Attack Mode</button>\n");
     fprintf(file, "        <div class=\"panel\">\n");
-    fprintf(file, "            <p>In the time attack, you get to experience the difficulty of Hard Mode and try to solve one word within 4 minutes. The word can be of any length between 4 to 7 letters. The 7 lives rule is applicable. If you manage to solve the game in 360 seconds (6 min), you win the round.</p>\n");
+    fprintf(file, "            <p>In the time attack, you get to experience the countdown difficulty of Hard Mode and try to solve one word within 4 minutes. The word can be of any length between 4 to 7 letters. The 7 lives rule is applicable. If you manage to solve the game in 360 seconds (6 min), you win the round.</p>\n");
     fprintf(file, "        </div>\n");
     fprintf(file, "\n");
     fprintf(file, "        <button class=\"accordion\">Endless Mode</button>\n");
