@@ -12,7 +12,7 @@
 
 /* guessed letter is a malloc of 26 char */
 
-void player_input(char *chosen_word, char *hidden_word, char *guessed_letters, int *lives, int word_len)
+void player_input(char *chosen_word, char *hidden_word, char *guessed_letters, int *lives, int word_len, int *score)
 {
     char input_letter;
     int valid, match, i;
@@ -55,6 +55,7 @@ void player_input(char *chosen_word, char *hidden_word, char *guessed_letters, i
         {
             match = 1;
             update_hidden_word(hidden_word, chosen_word, input_letter);
+            (*score)++; // Increment score for correct guess
         }
     }
     /* Response to match */
