@@ -166,12 +166,12 @@ void displayRules() {
     fprintf(file, "\n");
     fprintf(file, "        <button class=\"accordion\">Endless Mode</button>\n");
     fprintf(file, "        <div class=\"panel\">\n");
-    fprintf(file, "            <p>There are unlimited tries and levels! You get to play wordds inputted by winners of other modes and play around without any constraints.</p>\n");
+    fprintf(file, "            <p>There are unlimited tries and levels! You get to play words inputted by winners of other modes and play around without any constraints.</p>\n");
     fprintf(file, "        </div>\n");
     fprintf(file, "\n");
     fprintf(file, "        <button class=\"accordion\">Multiplayer Mode</button>\n");
     fprintf(file, "        <div class=\"panel\">\n");
-    fprintf(file, "            <p>You get to play 20 levels consisting with words of word length 4-6 with a friend! You each have 8 lives and get to guess the word. If Player 1 fails to guess on the first try, for example, Player 2 gets to play.</p>\n");
+    fprintf(file, "            <p>You get to play 20 levels consisting with words of word length 4-6 with a friend! You each have 7 lives and get to guess the word. If Player 1 fails to guess on the first try, for example, Player 2 gets to play.</p>\n");
     fprintf(file, "        </div>\n");
     fprintf(file, "\n");
     fprintf(file, "        <div class=\"Have_Fun\">Hope you have a fun time!</div>\n");
