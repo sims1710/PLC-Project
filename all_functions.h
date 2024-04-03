@@ -62,7 +62,7 @@ int *random_number(char *chosen_word, int word_len);
 int suggest_hint(char *chosen_word, int word_len, int *numbers_hint, int difficulty, int *hints_given, int *player_points);
 
 /*Implement the time attack mode*/
-void time_attack_mode(char *chosen_word, int time_limit_seconds);
+void time_attack_mode(char *chosen_word, char *hidden_word, char *guessed_letters, int *lives, int word_len, int *scores);
 
 /* Main Menu */
 void main_menu();
