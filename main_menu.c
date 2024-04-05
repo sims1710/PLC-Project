@@ -257,7 +257,7 @@ void main_menu(){
     }
 }
 
-int main(){
+/*int main(){
     main_menu();
     return 0;
-}
+}*/

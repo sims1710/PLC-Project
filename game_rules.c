@@ -1,6 +1,6 @@
 # include "all_functions.h"
 
-void displayRules() {
+void display_rules() {
     FILE *file = fopen("how_to_play.html", "w"); // Create a new HTML file
     
     if (file == NULL) {
