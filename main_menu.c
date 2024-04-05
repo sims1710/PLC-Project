@@ -106,7 +106,7 @@ void main_menu(){
     printf("    7. Game Rules\n");
     printf("\n");
     
-    choice = validateChoice(1, 4); // Validate the main menu choice
+    choice = validateChoice(1, 7); // Validate the main menu choice
 
     printf("\n");
 

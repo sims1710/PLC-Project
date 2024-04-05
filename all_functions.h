@@ -95,3 +95,7 @@ void add_new_word();
 void save_game_state(int lives, int score, char* lettersGuessed, char* word, int gameOver);
 void load_game_state(int* lives, int* score, char* lettersGuessed, char* word, int* gameOver);
 
+/* timer functions */
+time_t start_time();
+time_t end_time(time_t start);
+
