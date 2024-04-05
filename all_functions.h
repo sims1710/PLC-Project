@@ -27,10 +27,10 @@ typedef struct
     int current_level;
     int difficulty;
     chosen_difficulty chosenDiff;
-} GameLevels;
+} game_level;
 
 /*void choose_difficulty(chosen_difficulty *file_set);*/
-void choose_difficulty(GameLevels *gameLevels);
+void choose_difficulty(game_level *game_levels);
 
 /* Return a selected word, function input is filename */
 char *get_word(chosen_difficulty *filename);
@@ -57,7 +57,7 @@ void clear_stdin();
 int *random_number(char *chosen_word, int word_len);
 
 /* Function to suggest hints */
-int suggest_hint(char *chosen_word, int word_len, int *numbers_hint, int difficulty, int *hints_given, int *player_points);
+int suggest_hint(char *chosen_word, char *guessed_letters, game_level *game_levels, int *hints_given, int *player_points);
 
 /*Implement the time attack mode*/
 void time_attack_mode(char *chosen_word, char *hidden_word, char *guessed_letters, int *lives, int word_len, int *scores);
@@ -78,7 +78,7 @@ void bubbleSortLeaderboard();
 void generateLeaderboardHTML();
 
 /* Display Game Rules */
-void displayRules();
+void display_rules();
 
 /* Endless Mode */
 void endless_mode();
@@ -141,3 +141,10 @@ void enter_player_name(char *name);
 
 
 */
+/* Save and resume function */
+void save_game_state(int lives, int score, char *lettersGuessed, char *word, int gameOver);
+void load_game_state(int *lives, int *score, char *lettersGuessed, char *word, int *gameOver);
+
+/* timer functions */
+time_t start_time();
+time_t end_time(time_t start);

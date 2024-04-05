@@ -202,8 +202,8 @@ void updateLeaderboard(int score, int mode) {
     generateLeaderboardHTML();
 }
 
-int main() {
+/*int main() {
     updateLeaderboard(0, 1); /* Example call to updateLeaderboard function with a score of 0 */
-    printf("Leaderboard HTML file generated successfully.\n");
+    /*printf("Leaderboard HTML file generated successfully.\n");
     return 0;
-}
+}*/

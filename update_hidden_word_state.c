@@ -10,6 +10,14 @@ typedef enum{
     END
 }State;
 
+/* Using the State struct to keep track of the letter guessed by the player
+   this function will end (when reach the END state) when all of the letters have been checked
+   and it will check the input letter when it reach the CHECK_LETTER state 
+   
+   @param hidden_word: is a string that is the player that need to guess and will updated the guess letter into this string
+          chosen_word: is a string which is the word that the player need to guess and will be used to check against hidden_word
+          input_letter: is a character that the player inputs
+   @return return nothing because it is updating the hidden_word string character b*/
 void update_hidden_word(char *hidden_word, char *chosen_word, char input_letter)
 {
     State currentState = START;

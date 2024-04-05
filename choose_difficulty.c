@@ -1,7 +1,7 @@
 /* Determine which file to read */
 #include "all_functions.h"
 
-void choose_difficulty(GameLevels *gameLevels) {
+void choose_difficulty(game_level *game_levels) {
     char difficulty;
     int rletter, valid;
 
@@ -24,10 +24,10 @@ void choose_difficulty(GameLevels *gameLevels) {
     srand(time(NULL));
 
     /*Store the chosen difficulty in the GameLevels struct*/
-    gameLevels->difficulty = difficulty - '0';
+    game_levels->difficulty = difficulty - '0';
 
     /*Calculate the word length based on difficulty chosen*/
-    switch (gameLevels->difficulty) {
+    switch (game_levels->difficulty) {
         case 1:
             rletter = rand() % 2;
             break;
@@ -42,63 +42,63 @@ void choose_difficulty(GameLevels *gameLevels) {
     /*Assign the filename based on the random letter count*/
     switch (rletter) {
         case 0:
-            gameLevels->chosenDiff.filename = "4_letter_words.txt";
+            game_levels->chosenDiff.filename = "4_letter_words.txt";
             break;
         case 1:
-            gameLevels->chosenDiff.filename = "5_letter_words.txt";
+            game_levels->chosenDiff.filename = "5_letter_words.txt";
             break;
         case 2:
-            gameLevels->chosenDiff.filename = "6_letter_words.txt";
+            game_levels->chosenDiff.filename = "6_letter_words.txt";
             break;
         case 3:
-            gameLevels->chosenDiff.filename = "7_letter_words.txt";
+            game_levels->chosenDiff.filename = "7_letter_words.txt";
             break;
     }
-    gameLevels->chosenDiff.word_len = rletter + 4;
+    game_levels->chosenDiff.word_len = rletter + 4;
 }
 
 /*for easy mode: first 12 words to be guessed are 4 letters and the 8 words to be guessed are 5 letters
 for medium mode: first 8 words are 4 letters, 6 words next are 5 letters and 6 words next are 6 letters
 for hard mode: first 6 words are 5 letters, next 6 words are 6 letters and next 8 words are 7 letters
 help me implement the function*/
-void update_game_level(GameLevels *gameLevels) {
+void update_game_level(game_level *game_levels) {
     /*Increase current_level*/
-    gameLevels->current_level++;
+    game_levels->current_level++;
 
     /*Determine the word length based on the current level and difficulty*/
-    int level = gameLevels->current_level;
-    switch (gameLevels->difficulty) {
+    int level = game_levels->current_level;
+    switch (game_levels->difficulty) {
         case 1: /*Easy*/
             if (level <= 12) {
-                gameLevels->chosenDiff.filename = "4_letter_words.txt";
-                gameLevels->chosenDiff.word_len = 4;
+                game_levels->chosenDiff.filename = "4_letter_words.txt";
+                game_levels->chosenDiff.word_len = 4;
             } else {
-                gameLevels->chosenDiff.filename = "5_letter_words.txt";
-                gameLevels->chosenDiff.word_len = 5;
+                game_levels->chosenDiff.filename = "5_letter_words.txt";
+                game_levels->chosenDiff.word_len = 5;
             }
             break;
         case 2: /*Medium*/
             if (level <= 8) {
-                gameLevels->chosenDiff.filename = "4_letter_words.txt";
-                gameLevels->chosenDiff.word_len = 4;
+                game_levels->chosenDiff.filename = "4_letter_words.txt";
+                game_levels->chosenDiff.word_len = 4;
             } else if (level <= 14) {
-                gameLevels->chosenDiff.filename = "5_letter_words.txt";
-                gameLevels->chosenDiff.word_len = 5;
+                game_levels->chosenDiff.filename = "5_letter_words.txt";
+                game_levels->chosenDiff.word_len = 5;
             } else {
-                gameLevels->chosenDiff.filename = "6_letter_words.txt";
-                gameLevels->chosenDiff.word_len = 6;
+                game_levels->chosenDiff.filename = "6_letter_words.txt";
+                game_levels->chosenDiff.word_len = 6;
             }
             break;
         case 3: /*Hard*/
             if (level <= 6) {
-                gameLevels->chosenDiff.filename = "5_letter_words.txt";
-                gameLevels->chosenDiff.word_len = 5;
+                game_levels->chosenDiff.filename = "5_letter_words.txt";
+                game_levels->chosenDiff.word_len = 5;
             } else if (level <= 12) {
-                gameLevels->chosenDiff.filename = "6_letter_words.txt";
-                gameLevels->chosenDiff.word_len = 6;
+                game_levels->chosenDiff.filename = "6_letter_words.txt";
+                game_levels->chosenDiff.word_len = 6;
             } else {
-                gameLevels->chosenDiff.filename = "7_letter_words.txt";
-                gameLevels->chosenDiff.word_len = 7;
+                game_levels->chosenDiff.filename = "7_letter_words.txt";
+                game_levels->chosenDiff.word_len = 7;
             }
             break;
         default:
