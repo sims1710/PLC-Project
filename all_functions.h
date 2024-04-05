@@ -89,6 +89,14 @@ void multiplayer_mode();
 /* Adding a new word upon winning */
 void add_new_word();
 
+/* Save and resume function */
+void save_game_state(int lives, int score, char *lettersGuessed, char *word, int gameOver);
+void load_game_state(int *lives, int *score, char *lettersGuessed, char *word, int *gameOver);
+
+/* timer functions */
+time_t start_time();
+time_t end_time(time_t start);
+
 /* UI
 void displayRules();
 
@@ -120,6 +128,14 @@ void score_tracker(int *score, int *lives);
 
 void add_new_word();
 
+void save_game_state(int lives, int score, char *lettersGuessed, char *word, int gameOver);
+
+void load_game_state(int *lives, int *score, char *lettersGuessed, char *word, int *gameOver);
+
+time_t start_time();
+
+time_t end_time(time_t start);
+
 */
 
 /* Menu functions
@@ -141,10 +157,3 @@ void enter_player_name(char *name);
 
 
 */
-/* Save and resume function */
-void save_game_state(int lives, int score, char *lettersGuessed, char *word, int gameOver);
-void load_game_state(int *lives, int *score, char *lettersGuessed, char *word, int *gameOver);
-
-/* timer functions */
-time_t start_time();
-time_t end_time(time_t start);
