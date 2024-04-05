@@ -3,6 +3,5 @@
 
 void clear_stdin()
 {
-    while ((getchar()) != '\n')
-        ;
+    while ((getchar()) != '\n');
 }
