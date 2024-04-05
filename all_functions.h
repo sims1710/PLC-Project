@@ -40,8 +40,6 @@ void update_hidden_word(char *hidden_word, char *chosen_word, char input_letter)
 
 /* Check player input, invalid if number or already guessed, run if update if hit. function input is the selected word, hidden word display  */
 void player_input(char *chosen_word, char *hidden_word, char *guessed_letters, int *lives, int word_len, int *score);
-/* Pending fix */
-/*void player_input(char *chosen_word, char *guessed_letters, int *lives, int *score); // Updated*/
 
 /* Display the Hangman menu in console */
 void display_hangman(char *hidden_word, int *lives, int word_len);
@@ -59,7 +57,7 @@ void clear_stdin();
 int *random_number(char *chosen_word, int word_len);
 
 /* Function to suggest hints */
-int suggest_hint(char* chosen_word, char *guessed_letters, game_level *game_levels, int* hints_given, int* player_points);
+int suggest_hint(char *chosen_word, char *guessed_letters, game_level *game_levels, int *hints_given, int *player_points);
 
 /*Implement the time attack mode*/
 void time_attack_mode(char *chosen_word, char *hidden_word, char *guessed_letters, int *lives, int word_len, int *scores);
@@ -92,10 +90,70 @@ void multiplayer_mode();
 void add_new_word();
 
 /* Save and resume function */
-void save_game_state(int lives, int score, char* lettersGuessed, char* word, int gameOver);
-void load_game_state(int* lives, int* score, char* lettersGuessed, char* word, int* gameOver);
+void save_game_state(int lives, int score, char *lettersGuessed, char *word, int gameOver);
+void load_game_state(int *lives, int *score, char *lettersGuessed, char *word, int *gameOver);
 
 /* timer functions */
 time_t start_time();
 time_t end_time(time_t start);
 
+/* UI
+void displayRules();
+
+void main_menu();
+
+void display_hangman(char *hidden_word, int *lives, int word_len);
+
+void clear_screen();
+
+void clear_stdin();
+
+*/
+
+/* Game functions
+
+char *get_word(chosen_difficulty *filename);
+
+void update_hidden_word(char *hidden_word, char *chosen_word, char input_letter);
+
+void player_input(char *chosen_word, char *hidden_word, char *guessed_letters, int *lives, int word_len, int *score);
+
+int *link_number();
+
+int *random_number(char *chosen_word, int word_len);
+
+int suggest_hint(char *chosen_word, int word_len, int *numbers_hint, int difficulty, int *hints_given, int *player_points);
+
+void score_tracker(int *score, int *lives);
+
+void add_new_word();
+
+void save_game_state(int lives, int score, char *lettersGuessed, char *word, int gameOver);
+
+void load_game_state(int *lives, int *score, char *lettersGuessed, char *word, int *gameOver);
+
+time_t start_time();
+
+time_t end_time(time_t start);
+
+*/
+
+/* Menu functions
+
+void time_attack_mode(char *chosen_word, char *hidden_word, char *guessed_letters, int *lives, int word_len, int *scores);
+
+void multiplayer_mode();
+
+void endless_mode();
+
+void updateLeaderboard(int score, int mode);
+void addToLeaderboard(const char *name, int score, int mode);
+void bubbleSortLeaderboard();
+void generateLeaderboardHTML();
+
+int validateChoice(int start, int end);
+void enter_player_name(char *name);
+
+
+
+*/
