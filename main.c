@@ -1,13 +1,13 @@
 /* Where all functions are run to make the game run*/
+#include <stdio.h>
+#include <stdlib.h>
 #include "all_functions.h"
 
 int main(int argc, char *argv[])
 {
-    char *chosen_word;
-    char *guessed_letters;
-    char *hidden_word;
+    char *chosen_word, *guessed_letters, *hidden_word;
     int *lives, *score;
-    int word_len, i = 0;
+    int word_len, i;
     chosen_difficulty *file_set;
     game_level *game_levels;
 
@@ -20,6 +20,10 @@ int main(int argc, char *argv[])
 
     /*extracting the word length from the game_level structure*/
     word_len = game_levels->chosenDiff.word_len;
+
+    /*allocating memory for guessed letters and hidden word*/
+    guessed_letters = (char*)malloc(sizeof(char)*26);
+    hidden_word = (char*)malloc(sizeof(char)*word_len);
 
     /*getting the word for the players to guess*/
     chosen_word = get_word(file_set);
