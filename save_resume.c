@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "all_functions.h"
+#include <Windows.h>
 
 /*
 current game states:
@@ -26,12 +27,16 @@ void save_game_state(int lives, int score, char* lettersGuessed, char* word, int
 }
 
 void load_game_state(int* lives, int* score, char* lettersGuessed, char* word, int* gameOver) {
+    int i;
+
     FILE* file = fopen("input.txt", "r");
 
     if (file == NULL) {
         printf("No saved game found!\n");
+        Sleep(1);
         /* calls the start of a new game */
-        
+        clear_screen();
+        main_menu();
     }
     else{
 
@@ -39,17 +44,27 @@ void load_game_state(int* lives, int* score, char* lettersGuessed, char* word, i
 
         /* reload the game into the main gameplay function */
         if (*gameOver != 1){
+            printf("Saved game found! Loading...\n");
             fscanf(file, "lives: %d\n", lives);
             fscanf(file, "score: %d\n", score);
             fscanf(file, "letters_guessed: %s\n", lettersGuessed);
             fscanf(file, "word: %s\n", word);
+            i = 0;
+            while(*word != '\0'){
+                i++;
+            }
             /* main gameplay function */
+            Sleep(2);
+            clear_screen();
+            display_hangman(word, lives, i);
         }
         /* new game*/
         else{
-
+            printf("No saved game found!\n");
+            Sleep(1);
+            clear_screen();
+            main_menu();
         }
-
         
     }
 
