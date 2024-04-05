@@ -4,6 +4,9 @@
 #include <string.h>
 #include "all_functions.h"
 
+/*The time attack mode is to time the player against the time when they trying to guess a word that was randomly selected
+ the player will lose if they are unable to guess the word correctly before the fixed time limit ends (4 minutes)
+ or the player will lose if they lose their all of their lives even before the time ends*/
 void time_attack_mode(char *chosen_word, char *hidden_word, char *guessed_letters, int *lives, int word_len, int *scores){
     int i;
     time_t start_time, current_time, time_left;

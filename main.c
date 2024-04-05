@@ -3,4 +3,7 @@
 
 int main(int argc, char *argv[])
 {
+    chosen_difficulty *difficulty_choosed;
+    game_level *game_levels;
+
 }

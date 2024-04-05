@@ -27,10 +27,10 @@ typedef struct
     int current_level;
     int difficulty;
     chosen_difficulty chosenDiff;
-} GameLevels;
+} game_level;
 
 /*void choose_difficulty(chosen_difficulty *file_set);*/
-void choose_difficulty(GameLevels *gameLevels);
+void choose_difficulty(game_level *game_levels);
 
 /* Return a selected word, function input is filename */
 char *get_word(chosen_difficulty *filename);
