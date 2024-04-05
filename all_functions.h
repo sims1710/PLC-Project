@@ -54,3 +54,8 @@ int suggest_hint(char* chosen_word, int word_len, int* numbers_hint, int difficu
 
 /*Implement the time attack mode*/
 void time_attack_mode(char *chosen_word, int time_limit_seconds);
+
+/* Save and resume function */
+void save_game_state(int lives, int score, char* lettersGuessed, char* word, int gameOver);
+void load_game_state(int* lives, int* score, char* lettersGuessed, char* word, int* gameOver);
+
