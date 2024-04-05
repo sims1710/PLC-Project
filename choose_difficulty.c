@@ -57,10 +57,14 @@ void choose_difficulty(game_level *game_levels) {
     game_levels->chosenDiff.word_len = rletter + 4;
 }
 
-/*for easy mode: first 12 words to be guessed are 4 letters and the 8 words to be guessed are 5 letters
-for medium mode: first 8 words are 4 letters, 6 words next are 5 letters and 6 words next are 6 letters
-for hard mode: first 6 words are 5 letters, next 6 words are 6 letters and next 8 words are 7 letters
-help me implement the function*/
+/*  this function is to update the level that the player is currently in based on the difficulty mode and determine the sequence of words to be guessed
+    for easy mode: first 12 words to be guessed are 4 letters and the 8 words to be guessed are 5 letters
+    for medium mode: first 8 words are 4 letters, 6 words next are 5 letters and 6 words next are 6 letters
+    for hard mode: first 6 words are 5 letters, next 6 words are 6 letters and next 8 words are 7 letters
+
+    @param game_levels: is the game_level structure which stores the current level and difficulty
+    @return nothing because the function is only updating the current level 
+*/
 void update_game_level(game_level *game_levels) {
     /*Increase current_level*/
     game_levels->current_level++;

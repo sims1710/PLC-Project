@@ -32,6 +32,9 @@ typedef struct
 /*void choose_difficulty(chosen_difficulty *file_set);*/
 void choose_difficulty(game_level *game_levels);
 
+/*update the game levels based on the difficulty mode*/
+void update_game_level(game_level *game_levels);
+
 /* Return a selected word, function input is filename */
 char *get_word(chosen_difficulty *filename);
 
@@ -66,7 +69,7 @@ void time_attack_mode(char *chosen_word, char *hidden_word, char *guessed_letter
 void main_menu();
 int validateChoice(int start, int end);
 void enter_player_name(char *name);
-int main1(); // Temporary Function
+/*int main1();*/
 
 /* Keep track of score */
 void score_tracker(int *score, int *lives);
