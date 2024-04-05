@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "all_functions.h"
-#include <Windows.h>
+/*#include <Windows.h>*/
 
 /*
 current game states:

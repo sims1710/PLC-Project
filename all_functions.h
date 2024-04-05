@@ -111,6 +111,10 @@ void clear_screen();
 
 void clear_stdin();
 
+/*I move these 2 here because it was used in the main_menu function 
+int validateChoice(int start, int end);
+void enter_player_name(char *name);
+
 */
 
 /* Game functions
@@ -141,7 +145,7 @@ time_t end_time(time_t start);
 
 */
 
-/* Menu functions
+/*Game mode functions
 
 void time_attack_mode(char *chosen_word, char *hidden_word, char *guessed_letters, int *lives, int word_len, int *scores);
 
@@ -149,11 +153,16 @@ void multiplayer_mode();
 
 void endless_mode();
 
+*/
+
+/* Menu functions
+
 void updateLeaderboard(int score, int mode);
 void addToLeaderboard(const char *name, int score, int mode);
 void bubbleSortLeaderboard();
 void generateLeaderboardHTML();
 
+/*these functions are used in the main_menu function, so now I put it in ui.c files*?
 int validateChoice(int start, int end);
 void enter_player_name(char *name);
 
