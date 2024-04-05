@@ -45,7 +45,7 @@ int* random_number(char* chosen_word, int word_len){
            player_points: is an integer pointer to keep track of how many points that the players have
     @return an integer which is the random integer retreived from the function random_number and will be used as a hint for the player (hint for a letter in the word)
  */
-int suggest_hint(char* chosen_word, char *guessed_letters, GameLevels *game_levels, int* hints_given, int* player_points){
+int suggest_hint(char* chosen_word, char *guessed_letters, game_level *game_levels, int* hints_given, int* player_points){
     int i, hint;
     int* random_integers;
     int word_len;
