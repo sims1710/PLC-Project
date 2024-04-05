@@ -50,6 +50,14 @@ int main(int argc, char *argv[])
     /*linking the hint which is a number to the letter*/
     linking_hint = link_number();
 
+    /*when the player wins a game of a level*/
+    add_new_word();
+
     /*update game level when player succeed to win the previous level*/
+    update_game_level(game_levels);
+
+    /*freeing the allocated memory*/
+    free(guessed_letters);
+    free(hidden_word);
 
 }
