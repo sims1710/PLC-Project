@@ -29,6 +29,17 @@ typedef struct
     chosen_difficulty chosenDiff;
 } game_level;
 
+typedef enum {
+    NOCHEAT,
+    CHEAT
+} Cheats;
+
+typedef struct {
+    Cheats current;
+    char* hintsCheatCode;
+    char * livesCheatCode;
+} CheatsFSM;
+
 /*void choose_difficulty(chosen_difficulty *file_set);*/
 void choose_difficulty(game_level *game_levels);
 

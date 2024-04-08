@@ -2,6 +2,8 @@
 #include <string.h>
 #include <stdio.h>
 #include "all_functions.h"
+#include <time.h>
+
 /* Steps
 1a. Get input from player
 1b. Check if input has not already been guessed and is valid.
@@ -12,11 +14,46 @@
 
 /* guessed letter is a malloc of 26 char */
 
+/* Initialize the FSM with the target letter, as in Task 2. */
+void initCheatFSM(CheatsFSM *cheatFsm, char* hintCheat, char* liveCheat) {
+    cheatFsm->current = NOCHEAT;
+    cheatFsm->hintsCheatCode = hintCheat;
+    cheatFsm->livesCheatCode = liveCheat;
+}
+
+void processCheatChoice(CheatsFSM *cheatFsm, char * input, char * chosen_word, int * lives) {
+    switch(cheatFsm->current){
+    	case NOCHEAT:
+            if(input == cheatFsm->hintsCheatCode){
+                cheatFsm->current = CHEAT;
+                printf("%s", chosen_word);
+                Sleep(3);
+            }
+            else if(input == cheatFsm->livesCheatCode){
+                cheatFsm->current = CHEAT;
+                lives = MAX_LIVES;
+            }
+            cheatFsm->current = NOCHEAT;
+            break;
+	}	
+}
+
 void player_input(char *chosen_word, char *hidden_word, char *guessed_letters, int *lives, int word_len, int *score)
 {
     char input_letter;
     int valid, match, i;
+    char * hintCheat, liveCheat, full_input;
+    CheatsFSM cheatFsm;
     valid = 0;
+
+
+    hintCheat = "HINTSALL";
+    liveCheat = "LIVEFULL";
+    fgets(full_input, sizeof(char) * 10, stdin);
+    initCheatFSM(&cheatFsm, hintCheat, liveCheat);
+    processCheatChoice(&cheatFsm, full_input, chosen_word, lives);
+
+
     while (valid == 0)
     {
         /* Get single char as user input */
@@ -75,3 +112,7 @@ void player_input(char *chosen_word, char *hidden_word, char *guessed_letters, i
     /* TODO: Add input into guessed letters */
     guessed_letters[input_letter - 'a'] = input_letter;
 }
+
+// void cheats(){
+//     fgets(input, sizeof(input), stdin);
+// }
