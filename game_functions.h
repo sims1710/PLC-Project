@@ -1,5 +1,4 @@
 #include <time.h>
-#include "menu_functions.h"
 
 /*TODO: where does the fixed values were used?*/
 /* Fixed Values */
@@ -47,5 +46,5 @@ void score_tracker(int *score, int *lives);
 
 void add_new_word(void);
 
-void clear_stdin(void);
+/*void clear_stdin(void);*/
 

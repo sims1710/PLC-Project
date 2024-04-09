@@ -118,10 +118,6 @@ void main_menu();
 
 void display_hangman(char *hidden_word, int *lives, int word_len);
 
-void clear_screen();
-
-void clear_stdin();
-
 /*I move these 2 here because it was used in the main_menu function 
 int validateChoice(int start, int end);
 void enter_player_name(char *name);
@@ -146,14 +142,6 @@ void score_tracker(int *score, int *lives);
 
 void add_new_word();
 
-void save_game_state(int lives, int score, char *lettersGuessed, char *word, int gameOver);
-
-void load_game_state(int *lives, int *score, char *lettersGuessed, char *word, int *gameOver);
-
-time_t start_time();
-
-time_t end_time(time_t start);
-
 */
 
 /*Game mode functions
@@ -176,7 +164,21 @@ void generateLeaderboardHTML();
 /*these functions are used in the main_menu function, so now I put it in ui.c files*?
 int validateChoice(int start, int end);
 void enter_player_name(char *name);
+*/
 
+/*clear functions
+void clear_screen(void)
+void clear_stdin(void)
+*/
 
+/*game_states 
+void save_game_state(int lives, int score, char *lettersGuessed, char *word, int gameOver);
 
+void load_game_state(int *lives, int *score, char *lettersGuessed, char *word, int *gameOver);
+*/
+
+/*utility function
+time_t start_time();
+
+time_t end_time(time_t start);
 */
