@@ -1,3 +1,10 @@
+/* Code to open the HTML File */
+#ifdef _WIN32
+#include <windows.h>
+#elif __APPLE__
+#include <stdlib.h>
+#endif
+
 void displayRules();
 
 void main_menu();
