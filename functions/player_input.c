@@ -26,8 +26,7 @@ void processCheatChoice(CheatsFSM *cheatFsm, char * input, char * chosen_word, i
     	case NOCHEAT:
             if(input == cheatFsm->hintsCheatCode){
                 cheatFsm->current = CHEAT;
-                printf("%s", chosen_word);
-                Sleep(3);
+                printf("%s", chosen_word);                
             }
             else if(input == cheatFsm->livesCheatCode){
                 cheatFsm->current = CHEAT;
@@ -52,7 +51,6 @@ void player_input(char *chosen_word, char *hidden_word, char *guessed_letters, i
     fgets(full_input, sizeof(char) * 10, stdin);
     initCheatFSM(&cheatFsm, hintCheat, liveCheat);
     processCheatChoice(&cheatFsm, full_input, chosen_word, lives);
-
 
     while (valid == 0)
     {
