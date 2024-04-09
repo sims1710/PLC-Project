@@ -1,23 +1,6 @@
 #include <stdio.h>
 #include "ui.h"
 
-/* Enumerations for menu choices and difficulty levels */
-typedef enum {
-    NEW_GAME = 1,
-    SAVED_GAME = 2,
-    MULTIPLAYER = 3,
-    LEADERBOARD = 4,
-    ATTACK = 5,
-    ENDLESS = 6,
-    GAMERULE = 7,
-} Choice;
-
-typedef enum {
-    EASY = 1,
-    MEDIUM = 2,
-    HARD = 3
-} Difficulty;
-
 /* Code empties console screen when called */
 void clear_screen()
 {
@@ -73,7 +56,7 @@ void enter_player_name(char *name) {
 }
 
 /* Main menu function */
-void main_menu(){
+int main_menu(game_level *game_levels){
     int choice, choice2;
     char name[100];
 
@@ -182,6 +165,7 @@ void main_menu(){
 
         case MEDIUM:
             printf("    You have selected Medium.\n");
+            game_levels->difficulty = MEDIUM;
             printf("    Good luck!\n");
             enter_player_name(name);
             printf("\n");

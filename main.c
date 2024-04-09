@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
         linking_hint = 0;
 
         /*display the main menu*/
-        main_menu(int currentState, game_level *game_levels);
+        currentState = main_menu(game_level *game_levels);
 
         /*display the game rules*/
         display_rules();
