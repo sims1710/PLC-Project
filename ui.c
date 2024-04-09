@@ -263,6 +263,15 @@ void main_menu(){
     case GAMERULE:
         printf("    You have selected Game Rules.\n");
         printf("    Loading Game Rules...\n");
+
+        // Open the generated HTML file in the default web browser
+        #ifdef _WIN32
+        // Open the HTML file using the default web browser on Windows
+            ShellExecute(NULL, "open", "how_to_play.html", NULL, NULL, SW_SHOWNORMAL);
+        #elif __APPLE__
+            // Open the HTML file using the default web browser on macOS
+                system("open how_to_play.html");
+        #endif
         break;
 
     default:
@@ -292,7 +301,7 @@ void display_rules() {
     fprintf(file, "            background-image: url('/images/background.png') !important;\n");
     fprintf(file, "            font-family: Arial, sans-serif;\n");
     fprintf(file, "            background-size: cover;\n");
-    fprintf(file, "            background-size: 99%; /* Adjust the percentages as needed */\n");
+    fprintf(file, "            background-size: 99%%; /* Adjust the percentages as needed */\n");
     fprintf(file, "        }\n");
     fprintf(file, "\n");
     fprintf(file, "        .Introduction,\n");
@@ -306,7 +315,7 @@ void display_rules() {
     fprintf(file, "            padding: 10px;\n");
     fprintf(file, "            text-align: center;\n");
     fprintf(file, "            color: #ffffff;\n");
-    fprintf(file, "            width: 60%;\n");
+    fprintf(file, "            width: 60%%;\n");
     fprintf(file, "            margin-bottom: 10px;\n");
     fprintf(file, "        }\n");
     fprintf(file, "        .General_Rules {\n");
@@ -314,7 +323,7 @@ void display_rules() {
     fprintf(file, "            padding: 10px;\n");
     fprintf(file, "            text-align: center;\n");
     fprintf(file, "            color: #ffffff;\n");
-    fprintf(file, "            width: 60%;\n");
+    fprintf(file, "            width: 60%%;\n");
     fprintf(file, "            margin-bottom: 10px;\n");
     fprintf(file, "        }\n");
     fprintf(file, "\n");
@@ -324,14 +333,14 @@ void display_rules() {
     fprintf(file, "            padding: 10px;\n");
     fprintf(file, "            text-align: center;\n");
     fprintf(file, "            color: #ffffff;\n");
-    fprintf(file, "            width: 75%;\n");
+    fprintf(file, "            width: 75%%;\n");
     fprintf(file, "        }\n");
     fprintf(file, "\n");
     fprintf(file, "        h1 {\n");
     fprintf(file, "            text-align: center;\n");
     fprintf(file, "            color: #ffffff;\n");
     fprintf(file, "            background-color: #000000;\n");
-    fprintf(file, "            width: 61.5%;\n");
+    fprintf(file, "            width: 62%%;\n");
     fprintf(file, "            padding-top: 20px;\n");
     fprintf(file, "            padding-bottom: 20px;\n");
     fprintf(file, "            margin-left: 270px !important;\n");
@@ -339,11 +348,11 @@ void display_rules() {
     fprintf(file, "        }\n");
     fprintf(file, "\n");
     fprintf(file, "        @keyframes changeColor {\n");
-    fprintf(file, "            0% { color: red; }\n");
-    fprintf(file, "            25% { color: green; }\n");
-    fprintf(file, "            50% { color: blue; }\n");
-    fprintf(file, "            75% { color: yellow; }\n");
-    fprintf(file, "            100% { color: orange; }\n");
+    fprintf(file, "            0%% { color: red; }\n");
+    fprintf(file, "            25%% { color: green; }\n");
+    fprintf(file, "            50%% { color: blue; }\n");
+    fprintf(file, "            75%% { color: yellow; }\n");
+    fprintf(file, "            100%% { color: orange; }\n");
     fprintf(file, "        }\n");
     fprintf(file, "\n");
     fprintf(file, "        /* Style the buttons that are used to open and close the accordion panel */\n");
@@ -352,7 +361,7 @@ void display_rules() {
     fprintf(file, "            color: white;\n");
     fprintf(file, "            cursor: pointer;\n");
     fprintf(file, "            padding: 18px;\n");
-    fprintf(file, "            width: 61.35%;\n");
+    fprintf(file, "            width: 61.35%%;\n");
     fprintf(file, "            text-align: left;\n");
     fprintf(file, "            border: none;\n");
     fprintf(file, "            outline: none;\n");
@@ -375,7 +384,7 @@ void display_rules() {
     fprintf(file, "            max-height: 0;\n");
     fprintf(file, "            overflow: hidden;\n");
     fprintf(file, "            transition: max-height 0.2s ease-out;\n");
-    fprintf(file, "            width: 58.8%;\n");
+    fprintf(file, "            width: 58.8%%;\n");
     fprintf(file, "            margin-left: 274px !important;\n");
     fprintf(file, "        }\n");
     fprintf(file, "\n");
@@ -412,7 +421,7 @@ void display_rules() {
     fprintf(file, "\n");
     fprintf(file, "        <div class=\"General_Rules\">\n");
     fprintf(file, "           <h2>General Rule</h2> \n");
-    fprintf(file, "           <p>This section covers the general rules applicable to the different modes of the game. Here they are: <br> <br> <br> 1. For every word you are trying to solve, you have 7 chances (7 lives). If you fail to solve the word after the 7 chances, the game terminates. <br><br> 2. You can either: guess a letter once at a time or try guessing the word all at once. <br><br> 3. You will get hints that will guide you to solving the word. <br><br> 4. You can exit and save your game at any point using the letter 'E'. <br><br> 5. They are 6 modes that you can choose to explore: Easy, Medium, Hard, Time Attack, Endless and Multiplayer. More details about them below! <br><br> 6. For all the modes, if you beat them, you get to input your own word to be solved. The word length should be greater than 3 letters. <br><br> 7. You also get revealed a cheat code randomly upon winning any mode, which will ease your playing experience.</p>\n");
+    fprintf(file, "           <p>This section covers the general rules applicable to the different modes of the game. Here they are: <br> <br> <br> 1. For every word you are trying to solve, you have 8 chances (8 lives). If you fail to solve the word after the 8 chances, the game terminates. <br><br> 2. You can either: guess a letter once at a time or try guessing the word all at once. <br><br> 3. You will get hints that will guide you to solving the word. <br><br> 4. You can exit and save your game at any point using the number 0. <br><br> 5. They are 6 modes that you can choose to explore: Easy, Medium, Hard, Time Attack, Endless and Multiplayer. More details about them below! <br><br> 6. For all the modes, if you beat them, you get to input your own word to be solved. The word length should be greater than 3 letters. <br><br> 7. You also get revealed a cheat code randomly upon winning any mode, which will ease your playing experience.</p>\n");
     fprintf(file, "        </div>\n");
     fprintf(file, "\n");
     fprintf(file, "        <button class=\"accordion\">Easy Mode</button>\n");
@@ -432,17 +441,17 @@ void display_rules() {
     fprintf(file, "\n");
     fprintf(file, "        <button class=\"accordion\">Time Attack Mode</button>\n");
     fprintf(file, "        <div class=\"panel\">\n");
-    fprintf(file, "            <p>In the time attack, you get to experience the countdown difficulty of Hard Mode and try to solve one word within 4 minutes. The word can be of any length between 4 to 7 letters. The 7 lives rule is applicable. If you manage to solve the game in 360 seconds (6 min), you win the round.</p>\n");
+    fprintf(file, "            <p>In the time attack, you get to play with words of lengths 4-7 and try to guess the words within xx seconds.(TBC)</p>\n");
     fprintf(file, "        </div>\n");
     fprintf(file, "\n");
     fprintf(file, "        <button class=\"accordion\">Endless Mode</button>\n");
     fprintf(file, "        <div class=\"panel\">\n");
-    fprintf(file, "            <p>There are unlimited tries and levels! You get to play words inputted by winners of other modes and play around without any constraints.</p>\n");
+    fprintf(file, "            <p>There are unlimited tries and levels! You get to play wordds inputted by winners of other modes and play around without any constraints.</p>\n");
     fprintf(file, "        </div>\n");
     fprintf(file, "\n");
     fprintf(file, "        <button class=\"accordion\">Multiplayer Mode</button>\n");
     fprintf(file, "        <div class=\"panel\">\n");
-    fprintf(file, "            <p>You get to play 20 levels consisting with words of word length 4-6 with a friend! You each have 7 lives and get to guess the word. If Player 1 fails to guess on the first try, for example, Player 2 gets to play.</p>\n");
+    fprintf(file, "            <p>You get to play 20 levels consisting with words of word length 4-6 with a friend! You each have 8 lives and get to guess the word. If Player 1 fails to guess on the first try, for example, Player 2 gets to play.</p>\n");
     fprintf(file, "        </div>\n");
     fprintf(file, "\n");
     fprintf(file, "        <div class=\"Have_Fun\">Hope you have a fun time!</div>\n");
@@ -465,7 +474,6 @@ void display_rules() {
     fprintf(file, "    </script>\n");
     fprintf(file, "</body>\n");
     fprintf(file, "</html>\n");
-
 
     fclose(file); /*Close the file*/
 
