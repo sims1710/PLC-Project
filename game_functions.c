@@ -496,6 +496,7 @@ int main(int argc, char *argv[])
 
     game_levels->current_level = 1;
     choose_difficulty(game_levels);
+    clear_stdin();
     word_len = game_levels->chosenDiff.word_len; /*maybe no need word_len in choosenDiff*/
 
     game_over = 0;
