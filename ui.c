@@ -478,11 +478,14 @@ void display_rules() {
     fclose(file); /*Close the file*/
     
     #ifdef _WIN32
-    /* Open the HTML file using the default web browser on Windows */
-        ShellExecute(NULL, "open", "leaderboard.html", NULL, NULL, SW_SHOWNORMAL);
+        /* Open the HTML file using the default web browser on Windows */
+        ShellExecute(NULL, "open", "how_to_play.html", NULL, NULL, SW_SHOWNORMAL);
     #elif __APPLE__
-    /* Open the HTML file using the default web browser on macOS */
-        system("open leaderboard.html");
+        /* Open the HTML file using the default web browser on macOS */
+        system("open how_to_play.html");
+    #elif __linux__
+        /* Open the HTML file using the default web browser on Linux */
+        system("xdg-open how_to_play.html");
     #endif
 }
 
