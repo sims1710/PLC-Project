@@ -264,13 +264,13 @@ void main_menu(){
         printf("    You have selected Game Rules.\n");
         printf("    Loading Game Rules...\n");
 
-        // Open the generated HTML file in the default web browser
+        /* Open the generated HTML file in the default web browser */
         #ifdef _WIN32
-        // Open the HTML file using the default web browser on Windows
+        /* Open the HTML file using the default web browser on Windows  */
             ShellExecute(NULL, "open", "how_to_play.html", NULL, NULL, SW_SHOWNORMAL);
         #elif __APPLE__
-            // Open the HTML file using the default web browser on macOS
-                system("open how_to_play.html");
+        /* Open the HTML file using the default web browser on macOS  */
+             system("open how_to_play.html");
         #endif
         break;
 
@@ -476,9 +476,14 @@ void display_rules() {
     fprintf(file, "</html>\n");
 
     fclose(file); /*Close the file*/
-
-    /*Open the generated HTML file in the default web browser*/
-    system("xdg-open how_to_play.html"); /*For Linux-based systems*/
+    
+    #ifdef _WIN32
+    /* Open the HTML file using the default web browser on Windows */
+        ShellExecute(NULL, "open", "leaderboard.html", NULL, NULL, SW_SHOWNORMAL);
+    #elif __APPLE__
+    /* Open the HTML file using the default web browser on macOS */
+        system("open leaderboard.html");
+    #endif
 }
 
 /* Print out the hangman screen on console */
