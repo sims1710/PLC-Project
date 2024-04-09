@@ -71,6 +71,12 @@ void main_menu(){
     char name[100];
     switch (currentState)
     {
+    case SAVED_GAME:
+        currentState = SAVED_GAME;
+        printf("    You have selected Saved Game.\n");
+        printf("    Loading saved game...\n");
+        break;
+        
     case MAIN_MENU:
         printf(
             " \n"
@@ -261,11 +267,6 @@ void main_menu(){
         default:
             break;
         }   
-        break;
-    case SAVED_GAME:
-        currentState = SAVED_GAME;
-        printf("    You have selected Saved Game.\n");
-        printf("    Loading saved game...\n");
         break;
 
     case MULTIPLAYER:
