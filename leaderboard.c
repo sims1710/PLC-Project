@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include "menu_functions.h"
+#include "leaderboard.h"
 
 /* Define a struct for leaderboard entries */
 typedef struct {
