@@ -165,6 +165,7 @@ int main_menu(game_level *game_levels){
 
         case MEDIUM:
             printf("    You have selected Medium.\n");
+            game_levels->difficulty = MEDIUM;
             printf("    Good luck!\n");
             enter_player_name(name);
             printf("\n");
