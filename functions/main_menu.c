@@ -71,12 +71,6 @@ void main_menu(){
     char name[100];
     switch (currentState)
     {
-    case SAVED_GAME:
-        currentState = SAVED_GAME;
-        printf("    You have selected Saved Game.\n");
-        printf("    Loading saved game...\n");
-        break;
-        
     case MAIN_MENU:
         printf(
             " \n"
@@ -268,41 +262,46 @@ void main_menu(){
             break;
         }   
         break;
+    case SAVED_GAME:
+
+        printf("    You have selected Saved Game.\n");
+        printf("    Loading saved game...\n");
+        break;
 
     case MULTIPLAYER:
-        currentState = MULTIPLAYER;
+
         printf("    You have selected Multiplayer.\n");
         printf("    Loading multiplayer mode...\n");
 
         break;
     
     case LEADERBOARD:
-        currentState = LEADERBOARD;
+
         printf("    You have selected Leaderboard.\n");
         printf("    Loading leaderboard...\n");
         // updateLeaderboard(0);
         break;
 
     case ATTACK:
-        currentState = ATTACK;
+
         printf("    You have selected Time Attack Mode.\n");
         printf("    Loading Time Attack Mode...\n");
         break;
 
     case ENDLESS:
-        currentState = ENDLESS;
+
         printf("    You have selected Endless Mode.\n");
         printf("    Loading Endless Mode...\n");
         break;
 
     case GAMERULE:
-        currentState = GAMERULE;
+  
         printf("    You have selected Game Rules.\n");
         printf("    Loading Game Rules...\n");
         break;
     
     case END:
-        currentState = END;
+
         exit(0);
         break;
 
