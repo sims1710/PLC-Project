@@ -6,7 +6,7 @@
 #define ALPHABET_COUNT 26
 #define MAX_ENTRIES 100
 #define MAX_NAME_LENGTH 50
-#define EXIT_CHAR 'E'
+#define EXIT_CHAR 0
 #define MAX_LEADERBOARD_ENTRIES 10
 #define MAX_GUESSES 8
 #define MAX_WORD_LENGTH 100
@@ -38,13 +38,9 @@ void player_input(char *chosen_word, char *hidden_word, char *guessed_letters, i
 
 int *link_number(void);
 
-int *random_number(char *chosen_word, int word_len);
-
 int suggest_hint(char* chosen_word, char *guessed_letters, game_level *game_levels, int* hints_given, int* player_points);
 
 void score_tracker(int *score, int *lives);
 
 void add_new_word(void);
-
-/*void clear_stdin(void);*/
 

@@ -186,6 +186,7 @@ void player_input(char *chosen_word, char *hidden_word, char *guessed_letters, i
     valid = 0;
     while (valid == 0)
     {
+    
         /* Get single char as user input */
         input_letter = fgetc(stdin);
         /* clear stdin */
@@ -299,7 +300,6 @@ int *link_number(void)
 {
     int letter_index, tracker_count, number, i;
     int tracker[26];
-    /* MUST FREE */
     int *output = (int *)malloc(sizeof(int) * ALPHABET_COUNT);
     tracker_count = 0;
     letter_index = 0;
@@ -311,43 +311,17 @@ int *link_number(void)
         {
             if (number == tracker[i])
             {
-                /* if match, rand again */
+            
                 continue;
             }
         }
-        /* no match, assign number */
+        
         tracker[letter_index] = number;
         output[letter_index] = number + 1;
         letter_index++;
         tracker_count++;
     }
     return output;
-}
-
-/* This function will generate random numbers for the chosen word where it will be used as a hint
-   for each letter of the word, they will have distinct integer from 1 to 26, for example, h will be associated with 13
-   but when the word contains same letter, the same letter will have the same integer
-
-   @param chosen_word: is a string which is the word that the player will need to guess
-          word_len: is an Integer to keep track of the word's length
-   @return an array of integer, each integer is associated to each letter in the word, the length of the array is equal to the word length
-*/
-int* random_number(char* chosen_word, int word_len){
-    int i, index;
-    int letter_numbers[26] = {0};
-    int* numbers_for_words = (int*)malloc(sizeof(int)*word_len);
-
-    /*using time as the seed to generate random integer everytime*/
-    srand((unsigned int)time(NULL));
-    for(i=0; chosen_word[i]!= '\0'; i++){
-        /*checking if no number has been generated for the particular letter */
-        index = chosen_word[i] - 'a';
-        if(letter_numbers[index] == 0){
-            letter_numbers[index] = rand() % 26 + 1;
-        }
-        numbers_for_words[i] = letter_numbers[index];
-    }
-    return numbers_for_words;
 }
 
  /* suggest_hint function is to allow players to use 2 hints to guess the letter
@@ -366,47 +340,46 @@ int* random_number(char* chosen_word, int word_len){
     @return an integer which is the random integer retreived from the function random_number and will be used as a hint for the player (hint for a letter in the word)
  */
 int suggest_hint(char* chosen_word, char *guessed_letters, game_level *game_levels, int* hints_given, int* player_points){
-    int i, hint, hint_cost;
+    int i, hint_cost, letter_index;
+    char current_letter;
     int* random_integers;
     int word_len;
 
-    hint = 0;
-
     /*Determine the cost of the second hint used based on the difficulty level*/
-    hint_cost = game_levels->difficulty == 3 ? 2 : 1;
+    hint_cost = (game_levels->difficulty == 3) ? 2 : 1;
     /*Getting the length of the word*/
     word_len = game_levels->chosenDiff.word_len;
 
-    /*Getting an array of random integers according to the chosen_word*/
-    random_integers = random_number(chosen_word, word_len);
+    /*Getting an array of random integers according to the alphabets*/
+    random_integers = link_number();
 
     /*Check if hint is available */
     if(*hints_given >= 2){
         printf("No more hints available.\n");
-        return 0; 
+        return -1; 
     }
 
     /*Check if this is the second hint and if the player has enough points*/
     if(*hints_given == 1 && *player_points < hint_cost){
         printf("Not enough points for a hint.\n");
-        return 0; 
+        return -1;
     }
 
-    /*Deduct the point for using the hint*/
-    if(*hints_given == 1){
-        *player_points -= hint_cost;
-    }
+    /*Find a letter in the word that hasn't been guessed yet and return its associated random number*/
+    for (i = 0; i < word_len; i++) {
+        current_letter = chosen_word[i];
+        if (!strchr(guessed_letters, chosen_word[i])) {
+            letter_index = current_letter - 'a';
 
-    /*Provide the hint*/
-    for(i = 0; i < word_len; i++){
-        if(strchr(guessed_letters, chosen_word[i]) == NULL){
-            hint = random_integers[i];
-            break; 
+            (*hints_given)++; 
+            printf("Hint provided is %d and the character of the hint letter is %c\n", random_integers[letter_index], current_letter);
+
+            return random_integers[letter_index]; 
         }
     }
 
-    (*hints_given)++; 
-    return hint;
+    free(random_integers); 
+    return 0; 
 }
 
 /*keeping track of the players score*/
@@ -468,6 +441,10 @@ int main(int argc, char *argv[]){
     game_level *game_levels = (game_level*)malloc(sizeof(game_level));
     int word_len, game_over, lives, scores, roundOver;
     char guessed_letters[26] = {0};
+    int hints_given = 0;
+    int player_points = 0;
+    int want_hint = 0;
+    int hint_result = 0;
 
     game_levels->current_level = 1;
     choose_difficulty(game_levels);
@@ -478,6 +455,10 @@ int main(int argc, char *argv[]){
     scores = 0;
     roundOver = 0;
     hidden_word = (char*)malloc(sizeof(char)*word_len+1);
+    memset(hidden_word, '_', word_len);
+    hidden_word[word_len] = '\0'; 
+
+    memset(guessed_letters, 0, sizeof(guessed_letters));
 
     while(!game_over && (game_levels->current_level <= 20)){
         update_game_level(game_levels);
@@ -487,19 +468,27 @@ int main(int argc, char *argv[]){
             exit(EXIT_FAILURE);
         }
     
-
         while (!roundOver && lives > 0) {
-                printf("\nCurrent word to guess: %s\n", hidden_word);
-                player_input(chosen_word, hidden_word, guessed_letters, &lives, word_len, &scores);
-            
-                if (strcmp(hidden_word, chosen_word) == 0) {
-                    printf("Congratulations! You've guessed the word: %s\n", chosen_word);
-                    scores += lives; 
-                    roundOver = 1;
-                }
-                
-                printf("Your score: %d, Lives remaining: %d\n", scores, lives);
+            printf("\nCurrent word to guess: %s\n", hidden_word);
+            printf("Do you want a hint? (0 for no, 1 for yes): ");
+            scanf("%d", &want_hint);
+            if (want_hint) {
+                hint_result = suggest_hint(chosen_word, guessed_letters, game_levels, &hints_given, &player_points);
+                printf("Hint: One of the letters is: %d\n", hint_result); 
             }
+            clear_stdin();
+            player_input(chosen_word, hidden_word, guessed_letters, &lives, word_len, &scores);
+        
+            if (strcmp(hidden_word, chosen_word) == 0) {
+                printf("Congratulations! You've guessed the word: %s\n", chosen_word);
+                scores += lives; 
+                roundOver = 1;
+            }
+            
+            printf("Your score: %d, Lives remaining: %d\n", scores, lives);
+        }
+
+        score_tracker(&scores, &lives);
 
         if (lives <= 0) {
             printf("Game over! You've run out of lives.\n");
@@ -515,6 +504,9 @@ int main(int argc, char *argv[]){
 
         while (getchar() != '\n');
     }
+
+    free(game_levels);
+
     return 0;
     
 }
