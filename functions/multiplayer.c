@@ -12,12 +12,14 @@ int main() {
     char *chosen_word;
     Player player1, player2;
     int level = 1;
+    int word_len;
 
     // Initialize players
     enter_player_name(player1.name);
     strcpy(player2.name, "Player 2");  // Default name for player 2
     player1.lives = player2.lives = MAX_GUESSES;
     player1.score = player2.score = 0;
+    word_len = strlen(chosen_word);
 
     // Main game loop
     while (level <= 20) {
@@ -38,7 +40,7 @@ int main() {
             printf("\n%s's turn\n\n", player1.name);
             printf("Hidden Word: %s\n", hidden_word);
             printf("Guessed Letters: %s\n", guessed_letters);
-            player_input(chosen_word, guessed_letters, &player1.lives, &player1.score);
+            player_input(chosen_word, hidden_word, guessed_letters,  &player1.lives, word_len ,&player1.score);
             if (strcmp(hidden_word, chosen_word) == 0) {
                 printf("\nCongratulations, %s! You guessed the word.\n", player1.name);
                 score_tracker(&player1.score, &player1.lives);
@@ -50,7 +52,7 @@ int main() {
             printf("\n%s's turn\n\n", player2.name);
             printf("Hidden Word: %s\n", hidden_word);
             printf("Guessed Letters: %s\n", guessed_letters);
-            player_input(chosen_word, guessed_letters, &player2.lives, &player2.score);
+            player_input(chosen_word, hidden_word, guessed_letters,  &player2.lives, word_len ,&player2.score);
             if (strcmp(hidden_word, chosen_word) == 0) {
                 printf("\nCongratulations, %s! You guessed the word.\n", player2.name);
                 score_tracker(&player2.score, &player2.lives);

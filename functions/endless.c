@@ -46,7 +46,7 @@ void endless_mode()
         {
             printf("Word: %s\n", hidden_word);
             printf("Guessed Letters: %s\n", guessed_letters);
-            player_input(chosen_word, guessed_letters, &lives, &score);
+            player_input(chosen_word, hidden_word, guessed_letters,  &lives, word_len ,&score);
 
             /*  Check if player has guessed word */ 
             if (strcmp(chosen_word, hidden_word) == 0)
