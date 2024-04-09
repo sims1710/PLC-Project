@@ -4,7 +4,8 @@
 #include "all_functions.h"
 
 /* Enumerations for menu choices and difficulty levels */
-typedef enum {
+typedef enum
+{
     NEW_GAME = 1,
     SAVED_GAME = 2,
     MULTIPLAYER = 3,
@@ -16,7 +17,8 @@ typedef enum {
     END = 0
 } Choice;
 
-typedef enum {
+typedef enum
+{
     EASY = 1,
     MEDIUM = 2,
     HARD = 3
@@ -25,32 +27,31 @@ typedef enum {
 int main(int argc, char *argv[])
 {
     char *chosen_word, *guessed_letters, *hidden_word;
-    int *lives, *score, *hints_given, *linking_hint;
+    int *lives, *score, *hints_given, *linking_hint, *currentState;
     int word_len, i, hint, continue_game;
     chosen_difficulty *file_set;
     game_level *game_levels;
 
-    // Global variables for state and user input
-    int currentState = MAIN_MENU;
-    int userInput;
-
+    currentState = MAIN_MENU;
     continue_game = 1;
 
     /*allocate memory for game_levels with size of game_level structure*/
-    game_levels = (game_level*)malloc(sizeof(game_level));
-    if (!game_levels) {     /*checking if the memory allocation successful or not*/
+    game_levels = (game_level *)malloc(sizeof(game_level));
+    if (!game_levels)
+    { /*checking if the memory allocation successful or not*/
         printf("Failed to allocate memory for game levels.\n");
-        return 1; 
+        return 1;
     }
 
-    while(continue_game){
-        lives = 7;
+    while (continue_game)
+    {
+        lives = MAX_LIVES;
         score = 0;
         hints_given = 0;
         linking_hint = 0;
 
         /*display the main menu*/
-        currentState = main_menu(game_level *game_levels);
+        main_menu(currentState, game_levels);
 
         /*display the game rules*/
         display_rules();
@@ -65,10 +66,11 @@ int main(int argc, char *argv[])
         word_len = game_levels->chosenDiff.word_len;
 
         /*allocating memory for guessed letters and hidden word*/
-        guessed_letters = (char*)malloc(sizeof(char)*26);
-        hidden_word = (char*)malloc(sizeof(char)*word_len);
+        guessed_letters = (char *)malloc(sizeof(char) * 26);
+        hidden_word = (char *)malloc(sizeof(char) * word_len);
         /*check if the memory allocation failed*/
-        if (!guessed_letters || !hidden_word) {
+        if (!guessed_letters || !hidden_word)
+        {
             printf("Failed to allocate memory.\n");
             break;
         }
@@ -95,11 +97,9 @@ int main(int argc, char *argv[])
 
         /*update game level when player succeed to win the previous level*/
         update_game_level(game_levels);
-
     }
-    
+
     /*freeing the allocated memory*/
     free(guessed_letters);
     free(hidden_word);
-
 }

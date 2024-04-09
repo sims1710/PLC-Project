@@ -55,16 +55,16 @@ void choose_difficulty(game_level *game_levels) {
     /*Assign the filename based on the random letter count*/
     switch (rletter) {
         case 0:
-            game_levels->chosenDiff.filename = "4_letter_words.txt";
+            game_levels->chosenDiff.filename = "./letter_textfiles/4letter.txt";
             break;
         case 1:
-            game_levels->chosenDiff.filename = "5_letter_words.txt";
+            game_levels->chosenDiff.filename = "./letter_textfiles/5letter.txt";
             break;
         case 2:
-            game_levels->chosenDiff.filename = "6_letter_words.txt";
+            game_levels->chosenDiff.filename = "./letter_textfiles/6letter.txt";
             break;
         case 3:
-            game_levels->chosenDiff.filename = "7_letter_words.txt";
+            game_levels->chosenDiff.filename = "./letter_textfiles/7letter.txt";
             break;
     }
     game_levels->chosenDiff.word_len = rletter + 4;
@@ -89,34 +89,34 @@ void update_game_level(game_level *game_levels) {
     switch (game_levels->difficulty) {
         case 1: /*Easy*/
             if (level <= 12) {
-                game_levels->chosenDiff.filename = "4_letter_words.txt";
+                game_levels->chosenDiff.filename = "./letter_textfiles/4letter.txt";
                 game_levels->chosenDiff.word_len = 4;
             } else {
-                game_levels->chosenDiff.filename = "5_letter_words.txt";
+                game_levels->chosenDiff.filename = "./letter_textfiles/5letter.txt";
                 game_levels->chosenDiff.word_len = 5;
             }
             break;
         case 2: /*Medium*/
             if (level <= 8) {
-                game_levels->chosenDiff.filename = "4_letter_words.txt";
+                game_levels->chosenDiff.filename = "./letter_textfiles/4letter.txt";
                 game_levels->chosenDiff.word_len = 4;
             } else if (level <= 14) {
-                game_levels->chosenDiff.filename = "5_letter_words.txt";
+                game_levels->chosenDiff.filename = "./letter_textfiles/5letter.txt";
                 game_levels->chosenDiff.word_len = 5;
             } else {
-                game_levels->chosenDiff.filename = "6_letter_words.txt";
+                game_levels->chosenDiff.filename = "./letter_textfiles/6letter.txt";
                 game_levels->chosenDiff.word_len = 6;
             }
             break;
         case 3: /*Hard*/
             if (level <= 6) {
-                game_levels->chosenDiff.filename = "5_letter_words.txt";
+                game_levels->chosenDiff.filename = "./letter_textfiles/5letter.txt";
                 game_levels->chosenDiff.word_len = 5;
             } else if (level <= 12) {
-                game_levels->chosenDiff.filename = "6_letter_words.txt";
+                game_levels->chosenDiff.filename = "./letter_textfiles/6letter.txt";
                 game_levels->chosenDiff.word_len = 6;
             } else {
-                game_levels->chosenDiff.filename = "7_letter_words.txt";
+                game_levels->chosenDiff.filename = "./letter_textfiles/7letter.txt";
                 game_levels->chosenDiff.word_len = 7;
             }
             break;
@@ -130,12 +130,24 @@ char *get_word(chosen_difficulty *file_set)
 {
     FILE *fptr;
     int index, iterate;
-    char *word_count = NULL;
-    char *buffer = NULL;
-    char *chosen_word = NULL;
+    char *word_count = (char*)malloc(sizeof(char)*100); /*temporary allocation*/
+    char *buffer = (char*)malloc(sizeof(char)*100);
+    char *chosen_word = (char*)malloc(sizeof(char)*(file_set->word_len));
+
+    if (!word_count || !buffer || !chosen_word) {
+        fprintf(stderr, "Memory allocation failed\n");
+        free(word_count);
+        free(buffer);
+        free(chosen_word);
+        return NULL;
+    }
 
     /* Open file */
     fptr = fopen(file_set->filename, "r");
+    if (fptr == NULL) {
+        fprintf(stderr, "Failed to open file %s\n", file_set->filename);
+        return NULL; 
+    }
     /* Get number of words from first line, shift pointer to first word */
     fgets(word_count, 100, fptr);
     /* Change random seed using time function */
@@ -154,6 +166,8 @@ char *get_word(chosen_difficulty *file_set)
         iterate++;
     }
     fclose(fptr);
+    free(word_count);
+    free(buffer);
     return chosen_word;
 }
 
@@ -465,7 +479,7 @@ int main(int argc, char *argv[]){
     roundOver = 0;
     hidden_word = (char*)malloc(sizeof(char)*word_len+1);
 
-    while(!game_over){
+    while(!game_over && (game_levels->current_level <= 20)){
         update_game_level(game_levels);
         chosen_word = get_word(&game_levels->chosenDiff);
         if (chosen_word == NULL) {
@@ -490,6 +504,10 @@ int main(int argc, char *argv[]){
         if (lives <= 0) {
             printf("Game over! You've run out of lives.\n");
             game_over = 1; 
+        }
+
+        if (game_levels->current_level > 20) {
+            printf("Congratulations! You have completed all levels.\n");
         }
 
         free(chosen_word);
