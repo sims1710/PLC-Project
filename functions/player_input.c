@@ -52,7 +52,6 @@ void player_input(char *chosen_word, char *hidden_word, char *guessed_letters, i
     initCheatFSM(&cheatFsm, hintCheat, liveCheat);
     processCheatChoice(&cheatFsm, full_input, chosen_word, lives);
 
-
     while (valid == 0)
     {
         /* Get single char as user input */
