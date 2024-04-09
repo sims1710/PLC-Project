@@ -46,7 +46,6 @@ void load_game_state(int* lives, int* score, char* lettersGuessed, char* word, c
             fscanf(file, "letters_guessed: %s\n", lettersGuessed);
             fscanf(file, "word: %s\n", word);
             fscanf(file, "difficulty: %s\n", difficulty);
-            fscanf(file, "time: %d\n", time);
             fscanf(file, "hints_given: %d\n", hints_given);
 
         }

@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
 
         if (*currentState == SAVED_GAME)
         {
-            load_game_state(lives, score, guessed_letters, chosen_word);
+            load_game_state(lives, score, guessed_letters, chosen_word, file_set, hints_given);
             initialised = 1;
         }
 
