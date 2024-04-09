@@ -26,8 +26,7 @@ void processCheatChoice(CheatsFSM *cheatFsm, char * input, char * chosen_word, i
     	case NOCHEAT:
             if(input == cheatFsm->hintsCheatCode){
                 cheatFsm->current = CHEAT;
-                printf("%s", chosen_word);
-                Sleep(3);
+                printf("%s", chosen_word);                
             }
             else if(input == cheatFsm->livesCheatCode){
                 cheatFsm->current = CHEAT;
