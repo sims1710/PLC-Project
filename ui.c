@@ -247,7 +247,17 @@ void main_menu(){
     case LEADERBOARD:
         printf("    You have selected Leaderboard.\n");
         printf("    Loading leaderboard...\n");
-        /* updateLeaderboard(0);*/
+
+        #ifdef _WIN32
+            /* Open the HTML file using the default web browser on Windows */
+            ShellExecute(NULL, "open", "leaderboard.html", NULL, NULL, SW_SHOWNORMAL);
+        #elif __APPLE__
+            /* Open the HTML file using the default web browser on macOS */
+            system("open leaderboard.html");
+        #elif __linux__
+            /* Open the HTML file using the default web browser on Linux */
+            system("xdg-open leaderboard.html");
+        #endif
         break;
 
     case ATTACK:
@@ -264,13 +274,15 @@ void main_menu(){
         printf("    You have selected Game Rules.\n");
         printf("    Loading Game Rules...\n");
 
-        /* Open the generated HTML file in the default web browser */
         #ifdef _WIN32
-        /* Open the HTML file using the default web browser on Windows  */
+            /* Open the HTML file using the default web browser on Windows */
             ShellExecute(NULL, "open", "how_to_play.html", NULL, NULL, SW_SHOWNORMAL);
         #elif __APPLE__
-        /* Open the HTML file using the default web browser on macOS  */
-             system("open how_to_play.html");
+            /* Open the HTML file using the default web browser on macOS */
+            system("open how_to_play.html");
+        #elif __linux__
+            /* Open the HTML file using the default web browser on Linux */
+            system("xdg-open how_to_play.html");
         #endif
         break;
 
@@ -476,17 +488,6 @@ void display_rules() {
     fprintf(file, "</html>\n");
 
     fclose(file); /*Close the file*/
-    
-    #ifdef _WIN32
-        /* Open the HTML file using the default web browser on Windows */
-        ShellExecute(NULL, "open", "how_to_play.html", NULL, NULL, SW_SHOWNORMAL);
-    #elif __APPLE__
-        /* Open the HTML file using the default web browser on macOS */
-        system("open how_to_play.html");
-    #elif __linux__
-        /* Open the HTML file using the default web browser on Linux */
-        system("xdg-open how_to_play.html");
-    #endif
 }
 
 /* Print out the hangman screen on console */
