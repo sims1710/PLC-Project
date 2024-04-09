@@ -373,7 +373,8 @@ int *link_number(void)
     @return an integer which is the random integer retreived from the function random_number and will be used as a hint for the player (hint for a letter in the word)
  */
 int suggest_hint(char* chosen_word, char *guessed_letters, game_level *game_levels, int* hints_given, int* player_points){
-    int i, hint, hint_cost;
+    int i, hint_cost, letter_index;
+    char current_letter;
     int* random_integers;
     int word_len;
 
