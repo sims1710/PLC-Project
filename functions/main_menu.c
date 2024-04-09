@@ -9,6 +9,8 @@ typedef enum {
     ATTACK = 5,
     ENDLESS = 6,
     GAMERULE = 7,
+    MAIN_MENU = 8,
+    END = 0
 } Choice;
 
 typedef enum {
@@ -16,6 +18,10 @@ typedef enum {
     MEDIUM = 2,
     HARD = 3
 } Difficulty;
+
+// Global variables for state and user input
+int currentState = MAIN_MENU;
+int userInput = 0;
 
 /* Function to validate user input within a specified range */
 int validateChoice(int start, int end) {
@@ -63,55 +69,87 @@ void enter_player_name(char *name) {
 void main_menu(){
     int choice, choice2;
     char name[100];
-
-    printf(
-        " \n"
-        "    █     █░▓█████  ██▓     ▄████▄   ▒█████   ███▄ ▄███▓▓█████    ▄▄▄█████▓ ▒█████     ▄▄▄█████▓ ██░ ██ ▓█████ \n"
-        "    ▓█░ █ ░█░▓█   ▀ ▓██▒    ▒██▀ ▀█  ▒██▒  ██▒▓██▒▀█▀ ██▒▓█   ▀    ▓  ██▒ ▓▒▒██▒  ██▒   ▓  ██▒ ▓▒▓██░ ██▒▓█   ▀ \n"
-        "    ▒█░ █ ░█ ▒███   ▒██░    ▒▓█    ▄ ▒██░  ██▒▓██    ▓██░▒███      ▒ ▓██░ ▒░▒██░  ██▒   ▒ ▓██░ ▒░▒██▀▀██░▒███   \n"
-        "    ░█░ █ ░█ ▒▓█  ▄ ▒██░    ▒▓▓▄ ▄██▒▒██   ██░▒██    ▒██ ▒▓█  ▄    ░ ▓██▓ ░ ▒██   ██░   ░ ▓██▓ ░ ░▓█ ░██ ▒▓█  ▄  \n"
-        "    ░░██▒██▓ ░▒████▒░██████▒▒ ▓███▀ ░░ ████▓▒░▒██▒   ░██▒░▒████▒     ▒██▒ ░ ░ ████▓▒░     ▒██▒ ░ ░▓█▒░██▓░▒████▒  \n"
-        "    ░ ▓░▒ ▒  ░░ ▒░ ░░ ▒░▓  ░░ ░▒ ▒  ░░ ▒░▒░▒░ ░ ▒░   ░  ░░░ ▒░ ░     ▒ ░░   ░ ▒░▒░▒░      ▒ ░░    ▒ ░░▒░▒░░ ▒░ ░  \n"
-        "    ▒ ░ ░   ░ ░  ░░ ░ ▒  ░  ░  ▒     ░ ▒ ▒░ ░  ░      ░ ░ ░  ░       ░      ░ ▒ ▒░        ░     ▒ ░▒░ ░ ░ ░  ░   \n"
-        "    ░   ░     ░     ░ ░   ░        ░ ░ ░ ▒  ░      ░      ░        ░      ░ ░ ░ ▒       ░       ░  ░░ ░   ░      \n"
-        "        ░       ░  ░    ░  ░░ ░          ░ ░         ░      ░  ░                ░ ░               ░  ░  ░   ░  ░   \n"
-        "                            ░                                                                                      \n"
-        "    ██░ ██  ▄▄▄       ███▄    █   ▄████  ███▄ ▄███▓ ▄▄▄       ███▄    █      ▄████  ▄▄▄       ███▄ ▄███▓▓█████    \n"
-        "    ▓██░ ██▒▒████▄     ██ ▀█   █  ██▒ ▀█▒▓██▒▀█▀ ██▒▒████▄     ██ ▀█   █     ██▒ ▀█▒▒████▄    ▓██▒▀█▀ ██▒▓█   ▀    \n"
-        "    ▒██▀▀██░▒██  ▀█▄  ▓██  ▀█ ██▒▒██░▄▄▄░▓██    ▓██░▒██  ▀█▄  ▓██  ▀█ ██▒   ▒██░▄▄▄░▒██  ▀█▄  ▓██    ▓██░▒███      \n"
-        "    ░▓█ ░██ ░██▄▄▄▄██ ▓██▒  ▐▌██▒░▓█  ██▓▒██    ▒██ ░██▄▄▄▄██ ▓██▒  ▐▌██▒   ░▓█  ██▓░██▄▄▄▄██ ▒██    ▒██ ▒▓█  ▄    \n"
-        "    ░▓█▒░██▓ ▓█   ▓██▒▒██░   ▓██░░▒▓███▀▒▒██▒   ░██▒ ▓█   ▓██▒▒██░   ▓██░   ░▒▓███▀▒ ▓█   ▓██▒▒██▒   ░██▒░▒████▒   \n"
-        "    ▒ ░░▒░▒ ▒▒   ▓▒█░░ ▒░   ▒ ▒  ░▒   ▒ ░ ▒░   ░  ░ ▒▒   ▓▒█░░ ▒░   ▒ ▒     ░▒   ▒  ▒▒   ▓▒█░░ ▒░   ░  ░░░ ▒░ ░   \n"
-        "    ▒ ░▒░ ░  ▒   ▒▒ ░░ ░░   ░ ▒░  ░   ░ ░  ░      ░  ▒   ▒▒ ░░ ░░   ░ ▒░     ░   ░   ▒   ▒▒ ░░  ░      ░ ░ ░  ░   \n"
-        "    ░  ░░ ░  ░   ▒      ░   ░ ░ ░ ░   ░ ░      ░     ░   ▒      ░   ░ ░    ░ ░   ░   ░   ▒   ░      ░      ░      \n"
-        "    ░  ░  ░      ░  ░         ░       ░        ░         ░  ░         ░          ░       ░  ░       ░      ░  ░   \n"
-        "                                                                                                                     \n"
-    );
-    printf("                   ┌────────────┐     ┌────────────┐     ┌─────────────┐     ┌─────────────┐\n");
-    printf("                   │  New Game  │     │ Saved Game │     │ Multiplayer │     │ Leaderboard │\n");
-    printf("                   └────────────┘     └────────────┘     └─────────────┘     └─────────────┘\n");
-    printf("                             ┌────────────┐     ┌────────────┐     ┌─────────────┐          \n");
-    printf("                             │Time Attack │     │   Endless  │     │  Game Rules │          \n");
-    printf("                             └────────────┘     └────────────┘     └─────────────┘          \n");
-    printf("\n");
-
-    printf("\n");
-    printf("    Please select an option (by inputing 1\\2\\3\\4\\5\\6\\7): \n");
-    printf("    1. New Game\n");
-    printf("    2. Saved Game\n");
-    printf("    3. Multiplayer\n");
-    printf("    4. Leaderboard\n");
-    printf("    5. Time Attack Mode\n");
-    printf("    6. Endless Mode\n");
-    printf("    7. Game Rules\n");
-    printf("\n");
-    
-    choice = validateChoice(1, 7); // Validate the main menu choice
-
-    printf("\n");
-
-    switch (choice)
+    switch (currentState)
     {
+    case MAIN_MENU:
+        printf(
+            " \n"
+            "    █     █░▓█████  ██▓     ▄████▄   ▒█████   ███▄ ▄███▓▓█████    ▄▄▄█████▓ ▒█████     ▄▄▄█████▓ ██░ ██ ▓█████ \n"
+            "    ▓█░ █ ░█░▓█   ▀ ▓██▒    ▒██▀ ▀█  ▒██▒  ██▒▓██▒▀█▀ ██▒▓█   ▀    ▓  ██▒ ▓▒▒██▒  ██▒   ▓  ██▒ ▓▒▓██░ ██▒▓█   ▀ \n"
+            "    ▒█░ █ ░█ ▒███   ▒██░    ▒▓█    ▄ ▒██░  ██▒▓██    ▓██░▒███      ▒ ▓██░ ▒░▒██░  ██▒   ▒ ▓██░ ▒░▒██▀▀██░▒███   \n"
+            "    ░█░ █ ░█ ▒▓█  ▄ ▒██░    ▒▓▓▄ ▄██▒▒██   ██░▒██    ▒██ ▒▓█  ▄    ░ ▓██▓ ░ ▒██   ██░   ░ ▓██▓ ░ ░▓█ ░██ ▒▓█  ▄  \n"
+            "    ░░██▒██▓ ░▒████▒░██████▒▒ ▓███▀ ░░ ████▓▒░▒██▒   ░██▒░▒████▒     ▒██▒ ░ ░ ████▓▒░     ▒██▒ ░ ░▓█▒░██▓░▒████▒  \n"
+            "    ░ ▓░▒ ▒  ░░ ▒░ ░░ ▒░▓  ░░ ░▒ ▒  ░░ ▒░▒░▒░ ░ ▒░   ░  ░░░ ▒░ ░     ▒ ░░   ░ ▒░▒░▒░      ▒ ░░    ▒ ░░▒░▒░░ ▒░ ░  \n"
+            "    ▒ ░ ░   ░ ░  ░░ ░ ▒  ░  ░  ▒     ░ ▒ ▒░ ░  ░      ░ ░ ░  ░       ░      ░ ▒ ▒░        ░     ▒ ░▒░ ░ ░ ░  ░   \n"
+            "    ░   ░     ░     ░ ░   ░        ░ ░ ░ ▒  ░      ░      ░        ░      ░ ░ ░ ▒       ░       ░  ░░ ░   ░      \n"
+            "        ░       ░  ░    ░  ░░ ░          ░ ░         ░      ░  ░                ░ ░               ░  ░  ░   ░  ░   \n"
+            "                            ░                                                                                      \n"
+            "    ██░ ██  ▄▄▄       ███▄    █   ▄████  ███▄ ▄███▓ ▄▄▄       ███▄    █      ▄████  ▄▄▄       ███▄ ▄███▓▓█████    \n"
+            "    ▓██░ ██▒▒████▄     ██ ▀█   █  ██▒ ▀█▒▓██▒▀█▀ ██▒▒████▄     ██ ▀█   █     ██▒ ▀█▒▒████▄    ▓██▒▀█▀ ██▒▓█   ▀    \n"
+            "    ▒██▀▀██░▒██  ▀█▄  ▓██  ▀█ ██▒▒██░▄▄▄░▓██    ▓██░▒██  ▀█▄  ▓██  ▀█ ██▒   ▒██░▄▄▄░▒██  ▀█▄  ▓██    ▓██░▒███      \n"
+            "    ░▓█ ░██ ░██▄▄▄▄██ ▓██▒  ▐▌██▒░▓█  ██▓▒██    ▒██ ░██▄▄▄▄██ ▓██▒  ▐▌██▒   ░▓█  ██▓░██▄▄▄▄██ ▒██    ▒██ ▒▓█  ▄    \n"
+            "    ░▓█▒░██▓ ▓█   ▓██▒▒██░   ▓██░░▒▓███▀▒▒██▒   ░██▒ ▓█   ▓██▒▒██░   ▓██░   ░▒▓███▀▒ ▓█   ▓██▒▒██▒   ░██▒░▒████▒   \n"
+            "    ▒ ░░▒░▒ ▒▒   ▓▒█░░ ▒░   ▒ ▒  ░▒   ▒ ░ ▒░   ░  ░ ▒▒   ▓▒█░░ ▒░   ▒ ▒     ░▒   ▒  ▒▒   ▓▒█░░ ▒░   ░  ░░░ ▒░ ░   \n"
+            "    ▒ ░▒░ ░  ▒   ▒▒ ░░ ░░   ░ ▒░  ░   ░ ░  ░      ░  ▒   ▒▒ ░░ ░░   ░ ▒░     ░   ░   ▒   ▒▒ ░░  ░      ░ ░ ░  ░   \n"
+            "    ░  ░░ ░  ░   ▒      ░   ░ ░ ░ ░   ░ ░      ░     ░   ▒      ░   ░ ░    ░ ░   ░   ░   ▒   ░      ░      ░      \n"
+            "    ░  ░  ░      ░  ░         ░       ░        ░         ░  ░         ░          ░       ░  ░       ░      ░  ░   \n"
+            "                                                                                                                     \n"
+        );
+        printf("                   ┌────────────┐     ┌────────────┐     ┌─────────────┐     ┌─────────────┐\n");
+        printf("                   │  New Game  │     │ Saved Game │     │ Multiplayer │     │ Leaderboard │\n");
+        printf("                   └────────────┘     └────────────┘     └─────────────┘     └─────────────┘\n");
+        printf("                             ┌────────────┐     ┌────────────┐     ┌─────────────┐          \n");
+        printf("                             │Time Attack │     │   Endless  │     │  Game Rules │          \n");
+        printf("                             └────────────┘     └────────────┘     └─────────────┘          \n");
+        printf("\n");
+
+        printf("\n");
+        printf("    Please select an option (by inputing 1\\2\\3\\4\\5\\6\\7\\0): \n");
+        printf("    1. New Game\n");
+        printf("    2. Saved Game\n");
+        printf("    3. Multiplayer\n");
+        printf("    4. Leaderboard\n");
+        printf("    5. Time Attack Mode\n");
+        printf("    6. Endless Mode\n");
+        printf("    7. Game Rules\n");
+        printf("    Enter the number 0 if you want to exit\n");
+        printf("\n");
+        
+        choice = validateChoice(0, 7); // Validate the main menu choice
+
+        printf("\n");
+    
+        switch (choice)
+        {
+            case NEW_GAME:
+                currentState = NEW_GAME;
+                break;
+            case SAVED_GAME:
+                currentState = SAVED_GAME;
+                break;
+            case MULTIPLAYER:
+                currentState = MULTIPLAYER;
+                break;
+            case LEADERBOARD:
+                currentState = LEADERBOARD;
+                break;
+            case ATTACK:
+                currentState = ATTACK;
+                break;
+            case ENDLESS:
+                currentState = ENDLESS;
+                break;
+            case GAMERULE:
+                currentState = GAMERULE;
+                break;
+            case END:
+                currentState = END;
+                break;
+            default:
+                break;
+        }
+        break;
+    
     case NEW_GAME:
         printf("   *************************************************************************************************************\n");
         printf("\n");
@@ -142,6 +180,7 @@ void main_menu(){
         switch (choice2)
         {
         case EASY:
+            currentState = EASY;
             printf("    You have selected Easy.\n");
             printf("    Good luck!\n");
             enter_player_name(name);
@@ -168,6 +207,7 @@ void main_menu(){
             break;
 
         case MEDIUM:
+            currentState = MEDIUM;
             printf("    You have selected Medium.\n");
             printf("    Good luck!\n");
             enter_player_name(name);
@@ -194,6 +234,7 @@ void main_menu(){
             break;
 
         case HARD:
+            currentState = HARD;
             printf("    You have selected Hard.\n");
             printf("    Good luck!\n");
             enter_player_name(name);
@@ -222,34 +263,46 @@ void main_menu(){
         }   
         break;
     case SAVED_GAME:
+        currentState = SAVED_GAME;
         printf("    You have selected Saved Game.\n");
         printf("    Loading saved game...\n");
         break;
 
     case MULTIPLAYER:
+        currentState = MULTIPLAYER;
         printf("    You have selected Multiplayer.\n");
         printf("    Loading multiplayer mode...\n");
+
         break;
     
     case LEADERBOARD:
+        currentState = LEADERBOARD;
         printf("    You have selected Leaderboard.\n");
         printf("    Loading leaderboard...\n");
         // updateLeaderboard(0);
         break;
 
     case ATTACK:
+        currentState = ATTACK;
         printf("    You have selected Time Attack Mode.\n");
         printf("    Loading Time Attack Mode...\n");
         break;
 
     case ENDLESS:
+        currentState = ENDLESS;
         printf("    You have selected Endless Mode.\n");
         printf("    Loading Endless Mode...\n");
         break;
 
     case GAMERULE:
+        currentState = GAMERULE;
         printf("    You have selected Game Rules.\n");
         printf("    Loading Game Rules...\n");
+        break;
+    
+    case END:
+        currentState = END;
+        exit(0);
         break;
 
     default:
@@ -257,7 +310,11 @@ void main_menu(){
     }
 }
 
-/*int main(){
-    main_menu();
-    return 0;
-}*/
+// int main(){
+    
+//     while (currentState != END) {
+//         main_menu();
+//     }
+
+//     return 0;
+// }
