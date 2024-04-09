@@ -11,22 +11,27 @@ word: list of chars
 gameOver: if 1, do not scan other game state, else scan other game state
 */
 
-void save_game_state(int lives, int score, char* lettersGuessed, char* word, int gameOver) {
+void save_game_state(int lives, int score, char* lettersGuessed, char* word, int gameOver, char * difficulty, time_t start) {
     FILE* file = fopen("input.txt", "w");
+    time_t time;
     if (file == NULL) {
         printf("Error opening file!\n");
     }
+
+    time =  end_time(start);
 
     fprintf(file, "game_over: %d\n", gameOver);
     fprintf(file, "lives: %d\n", lives);
     fprintf(file, "score: %d\n", score);
     fprintf(file, "letters_guessed: %s\n", lettersGuessed);
     fprintf(file, "word: %s\n", word);
-    
+    fprintf(file, "level: %s\n", difficulty);
+    fprintf(file, "time: %d\n", time);
+
     fclose(file);
 }
 
-void load_game_state(int* lives, int* score, char* lettersGuessed, char* word, int* gameOver) {
+void load_game_state(int* lives, int* score, char* lettersGuessed, char* word, int* gameOver, char * difficulty, time_t time) {
     int i;
 
     FILE* file = fopen("input.txt", "r");
@@ -49,6 +54,9 @@ void load_game_state(int* lives, int* score, char* lettersGuessed, char* word, i
             fscanf(file, "score: %d\n", score);
             fscanf(file, "letters_guessed: %s\n", lettersGuessed);
             fscanf(file, "word: %s\n", word);
+            fscanf(file, "difficulty: %s\n", difficulty);
+            fscanf(file, "time: %d\n", time);
+
             i = 0;
             while(*word != '\0'){
                 i++;
@@ -61,7 +69,7 @@ void load_game_state(int* lives, int* score, char* lettersGuessed, char* word, i
         /* new game*/
         else{
             printf("No saved game found!\n");
-            Sleep(1);
+            Sleep(2);
             clear_screen();
             main_menu();
         }
