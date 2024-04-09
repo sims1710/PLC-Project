@@ -1,3 +1,10 @@
+/* Code to open the HTML File */
+#ifdef _WIN32
+#include <windows.h>
+#elif __APPLE__
+#include <stdlib.h>
+#endif
+
 #define MAX_LIVES 7
 #define ALPHABET_COUNT 26
 #define MAX_ENTRIES 100
