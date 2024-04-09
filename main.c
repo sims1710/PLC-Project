@@ -28,12 +28,13 @@ int main(int argc, char *argv[])
 {
     char *chosen_word, *guessed_letters, *hidden_word;
     int *lives, *score, *hints_given, *linking_hint, *currentState;
-    int word_len, i, hint, continue_game;
+    int word_len, i, hint, continue_game, initialised;
     chosen_difficulty *file_set;
     game_level *game_levels;
 
     currentState = MAIN_MENU;
     continue_game = 1;
+    initialised = 0;
 
     /*allocate memory for game_levels with size of game_level structure*/
     game_levels = (game_level *)malloc(sizeof(game_level));
@@ -53,8 +54,39 @@ int main(int argc, char *argv[])
         /*display the main menu*/
         main_menu(currentState, game_levels);
 
-        /*display the game rules*/
-        display_rules();
+        if (*currentState == SAVED_GAME)
+        {
+            load_game_state(lives, score, guessed_letters, chosen_word);
+            initialised = 1;
+        }
+
+        switch (*currentState)
+        {
+        case NEW_GAME:
+            /* code */
+            break;
+        case MULTIPLAYER:
+            /* code */
+            break;
+        case LEADERBOARD:
+            /* code */
+            break;
+        case ATTACK:
+            /* code */
+            break;
+        case ENDLESS:
+            /* code */
+            break;
+        case GAMERULE:
+            /*display the game rules*/
+            display_rules();
+            break;
+        case END:
+            exit(0);
+            break;
+        default:
+            break;
+        }
 
         /*player to choose the difficulty of the game*/
         choose_difficulty(game_levels);
