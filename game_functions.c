@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <time.h>
 #include "game_functions.h"
+#include "menu_functions.h"
+#include "clear_functions.h"
 
 typedef enum{
     START,
@@ -12,14 +14,126 @@ typedef enum{
     END
 }State;
 
+void choose_difficulty(game_level *game_levels) {
+    char difficulty;
+    int rletter, valid;
+
+    printf("The following difficulties are available: \nEasy: 4-5 letter words \nMedium: 4-6 letter words \nHard: 5-7 letter words \n");
+    printf("Please choose a difficulty. \n - 1: Easy \n - 2: Medium\n - 3: Hard\n");
+    
+    valid = 0;
+    while (valid == 0) {
+        difficulty = fgetc(stdin);
+        if (difficulty > '0' && difficulty < '4') {
+            valid = 1;
+        } else {
+            printf("Error: user input is not 1, 2, or 3. Please try again.\n");
+        }
+    }
+    /*Clear input stream here for cleanliness*/
+    clear_stdin();
+
+    /*Change random's seed using time function*/
+    srand(time(NULL));
+
+    /*Store the chosen difficulty in the GameLevels struct*/
+    game_levels->difficulty = difficulty - '0';
+
+    /*Calculate the word length based on difficulty chosen*/
+    switch (game_levels->difficulty) {
+        case 1:
+            rletter = rand() % 2;
+            break;
+        case 2:
+            rletter = rand() % 3;
+            break;
+        case 3:
+            rletter = (rand() % 3) + 1;
+            break;
+    }
+
+    /*Assign the filename based on the random letter count*/
+    switch (rletter) {
+        case 0:
+            game_levels->chosenDiff.filename = "4_letter_words.txt";
+            break;
+        case 1:
+            game_levels->chosenDiff.filename = "5_letter_words.txt";
+            break;
+        case 2:
+            game_levels->chosenDiff.filename = "6_letter_words.txt";
+            break;
+        case 3:
+            game_levels->chosenDiff.filename = "7_letter_words.txt";
+            break;
+    }
+    game_levels->chosenDiff.word_len = rletter + 4;
+}
+
+/*  this function is to update the level that the player is currently in based on the difficulty mode and determine the sequence of words to be guessed
+    for easy mode: first 12 words to be guessed are 4 letters and the 8 words to be guessed are 5 letters
+    for medium mode: first 8 words are 4 letters, 6 words next are 5 letters and 6 words next are 6 letters
+    for hard mode: first 6 words are 5 letters, next 6 words are 6 letters and next 8 words are 7 letters
+
+    @param game_levels: is the game_level structure which stores the current level and difficulty
+    @return nothing because the function is only updating the current level 
+*/
+void update_game_level(game_level *game_levels) {
+    int level;
+
+    /*Increase current_level*/
+    game_levels->current_level++;
+
+    /*Determine the word length based on the current level and difficulty*/
+    level = game_levels->current_level;
+    switch (game_levels->difficulty) {
+        case 1: /*Easy*/
+            if (level <= 12) {
+                game_levels->chosenDiff.filename = "4_letter_words.txt";
+                game_levels->chosenDiff.word_len = 4;
+            } else {
+                game_levels->chosenDiff.filename = "5_letter_words.txt";
+                game_levels->chosenDiff.word_len = 5;
+            }
+            break;
+        case 2: /*Medium*/
+            if (level <= 8) {
+                game_levels->chosenDiff.filename = "4_letter_words.txt";
+                game_levels->chosenDiff.word_len = 4;
+            } else if (level <= 14) {
+                game_levels->chosenDiff.filename = "5_letter_words.txt";
+                game_levels->chosenDiff.word_len = 5;
+            } else {
+                game_levels->chosenDiff.filename = "6_letter_words.txt";
+                game_levels->chosenDiff.word_len = 6;
+            }
+            break;
+        case 3: /*Hard*/
+            if (level <= 6) {
+                game_levels->chosenDiff.filename = "5_letter_words.txt";
+                game_levels->chosenDiff.word_len = 5;
+            } else if (level <= 12) {
+                game_levels->chosenDiff.filename = "6_letter_words.txt";
+                game_levels->chosenDiff.word_len = 6;
+            } else {
+                game_levels->chosenDiff.filename = "7_letter_words.txt";
+                game_levels->chosenDiff.word_len = 7;
+            }
+            break;
+        default:
+            printf("Invalid difficulty level\n");
+    }
+}
+
 /* Retrieve word from file */
 char *get_word(chosen_difficulty *file_set)
 {
     FILE *fptr;
-    char *word_count;
-    char *buffer;
-    char *chosen_word;
     int index, iterate;
+    char *word_count = NULL;
+    char *buffer = NULL;
+    char *chosen_word = NULL;
+
     /* Open file */
     fptr = fopen(file_set->filename, "r");
     /* Get number of words from first line, shift pointer to first word */
@@ -39,7 +153,7 @@ char *get_word(chosen_difficulty *file_set)
         }
         iterate++;
     }
-    fclose(file_set->filename);
+    fclose(fptr);
     return chosen_word;
 }
 
@@ -72,7 +186,7 @@ void player_input(char *chosen_word, char *hidden_word, char *guessed_letters, i
         {
             valid = 1;
             i = 0;
-            while (guessed_letters != '\0')
+            while (guessed_letters[i] != '\0')
             {
                 if (input_letter == guessed_letters[i])
                 {
@@ -94,7 +208,7 @@ void player_input(char *chosen_word, char *hidden_word, char *guessed_letters, i
         {
             match = 1;
             update_hidden_word(hidden_word, chosen_word, input_letter);
-            (*score)++; // Increment score for correct guess
+            (*score)++; /* Increment score for correct guess*/
         }
     }
     /* Response to match */
@@ -102,7 +216,7 @@ void player_input(char *chosen_word, char *hidden_word, char *guessed_letters, i
     {
     case 0:
         /* No match, minus lives */
-        lives = *lives - 1;
+        *lives = *lives - 1;
         break;
     case 1:
         /* Match found, no action */
@@ -167,7 +281,7 @@ void update_hidden_word(char *hidden_word, char *chosen_word, char input_letter)
 }
 
 /* for the hints implementation, link numbers to letters */
-int *link_number()
+int *link_number(void)
 {
     int letter_index, tracker_count, number, i;
     int tracker[26];
@@ -238,12 +352,14 @@ int* random_number(char* chosen_word, int word_len){
     @return an integer which is the random integer retreived from the function random_number and will be used as a hint for the player (hint for a letter in the word)
  */
 int suggest_hint(char* chosen_word, char *guessed_letters, game_level *game_levels, int* hints_given, int* player_points){
-    int i, hint;
+    int i, hint, hint_cost;
     int* random_integers;
     int word_len;
 
+    hint = 0;
+
     /*Determine the cost of the second hint used based on the difficulty level*/
-    const int hint_cost = game_levels->difficulty == 3 ? 2 : 1;
+    hint_cost = game_levels->difficulty == 3 ? 2 : 1;
     /*Getting the length of the word*/
     word_len = game_levels->chosenDiff.word_len;
 
@@ -285,21 +401,20 @@ void score_tracker(int *score, int *lives) {
 
     if (*lives == 0) {
         printf("You have run out of lives! Your score is %d\n", *score);
-        leaderboard(*score);
         challenges_completed = 0; /* Reset challenges completed */ 
     } else {
         printf("Your score is %d\n", *score);
         challenges_completed++;
         if (challenges_completed >= 20) {
             printf("Congratulations! You have completed 20 challenges.\n");
-            leaderboard(*score);  /* Display leaderboard after completing 20 challenges */ 
+            generateLeaderboardHTML();  /* Display leaderboard after completing 20 challenges */ 
             challenges_completed = 0; /* Reset challenges completed */ 
         }
     }
 }
 
 /* Function to add a new word upon winning */ 
-void add_new_word()
+void add_new_word(void)
 {
     FILE *fp;
     char new_word[MAX_NAME_LENGTH];
@@ -334,89 +449,54 @@ void add_new_word()
     fclose(fp);
 }
 
-/*
-current game states:
-lives: 0-7
-score: positive int
-lettersGuessed: list of chars
-word: list of chars
-gameOver: if 1, do not scan other game state, else scan other game state
-*/
+int main(int argc, char *argv[]){
+    char *chosen_word, *hidden_word;
+    game_level *game_levels = (game_level*)malloc(sizeof(game_level));
+    int word_len, game_over, lives, scores, roundOver;
+    char guessed_letters[26] = {0};
 
-void save_game_state(int lives, int score, char* lettersGuessed, char* word, int gameOver) {
-    FILE* file = fopen("input.txt", "w");
-    if (file == NULL) {
-        printf("Error opening file!\n");
-    }
+    game_levels->current_level = 1;
+    choose_difficulty(game_levels);
+    word_len = game_levels->chosenDiff.word_len; /*maybe no need word_len in choosenDiff*/
 
-    fprintf(file, "game_over: %d\n", gameOver);
-    fprintf(file, "lives: %d\n", lives);
-    fprintf(file, "score: %d\n", score);
-    fprintf(file, "letters_guessed: %s\n", lettersGuessed);
-    fprintf(file, "word: %s\n", word);
+    game_over = 0;
+    lives = 7;
+    scores = 0;
+    roundOver = 0;
+    hidden_word = (char*)malloc(sizeof(char)*word_len+1);
+
+    while(!game_over){
+        update_game_level(game_levels);
+        chosen_word = get_word(&game_levels->chosenDiff);
+        if (chosen_word == NULL) {
+            printf("Failed to load the word. Exiting...\n");
+            exit(EXIT_FAILURE);
+        }
     
-    fclose(file);
-}
 
-void load_game_state(int* lives, int* score, char* lettersGuessed, char* word, int* gameOver) {
-    int i;
-
-    FILE* file = fopen("input.txt", "r");
-
-    if (file == NULL) {
-        printf("No saved game found!\n");
-        Sleep(1);
-        /* calls the start of a new game */
-        clear_screen();
-        main_menu();
-    }
-    else{
-
-        fscanf(file, "game_over: %d\n", gameOver);
-
-        /* reload the game into the main gameplay function */
-        if (*gameOver != 1){
-            printf("Saved game found! Loading...\n");
-            fscanf(file, "lives: %d\n", lives);
-            fscanf(file, "score: %d\n", score);
-            fscanf(file, "letters_guessed: %s\n", lettersGuessed);
-            fscanf(file, "word: %s\n", word);
-            i = 0;
-            while(*word != '\0'){
-                i++;
+        while (!roundOver && lives > 0) {
+                printf("\nCurrent word to guess: %s\n", hidden_word);
+                player_input(chosen_word, hidden_word, guessed_letters, &lives, word_len, &scores);
+            
+                if (strcmp(hidden_word, chosen_word) == 0) {
+                    printf("Congratulations! You've guessed the word: %s\n", chosen_word);
+                    scores += lives; 
+                    roundOver = 1;
+                }
+                
+                printf("Your score: %d, Lives remaining: %d\n", scores, lives);
             }
-            /* main gameplay function */
-            Sleep(2);
-            clear_screen();
-            display_hangman(word, lives, i);
+
+        if (lives <= 0) {
+            printf("Game over! You've run out of lives.\n");
+            game_over = 1; 
         }
-        /* new game*/
-        else{
-            printf("No saved game found!\n");
-            Sleep(1);
-            clear_screen();
-            main_menu();
-        }
-        
+
+        free(chosen_word);
+        free(hidden_word);
+
+        while (getchar() != '\n');
     }
-
-    fclose(file);
+    return 0;
+    
 }
-
-/* starts time record */
-time_t start_time(){
-    time_t start;
-    start=clock();
-    return start;
-}
-
-/* stops time and calculates in seconds */
-time_t end_time(time_t start){
-    time_t stop;
-    time_t difference;
-
-    stop=clock();
-    difference =(stop-start)/CLOCKS_PER_SEC;
-    return difference;
-}
-

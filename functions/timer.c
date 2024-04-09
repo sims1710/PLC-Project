@@ -19,5 +19,3 @@ time_t end_time(time_t start){
     return difference;
 }
 
-
-

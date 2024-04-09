@@ -1,6 +1,6 @@
 #include <stdio.h>
+#include <string.h>
 #include "menu_functions.h"
-
 
 /* Define a struct for leaderboard entries */
 typedef struct {
@@ -26,7 +26,7 @@ void addToLeaderboard(const char *name, int score, int mode) {
 }
 
 /* Function to sort the leaderboard using bubble sort */
-void bubbleSortLeaderboard() {
+void bubbleSortLeaderboard(void) {
     int i, j;
     LeaderboardEntry temp;
 
@@ -42,7 +42,9 @@ void bubbleSortLeaderboard() {
 }
 
 /* Function to generate HTML for the leaderboard */
-void generateLeaderboardHTML() {
+void generateLeaderboardHTML(void) {
+    int i, mode, count;
+    const char *modeName;
     FILE *fp = fopen("leaderboard.html", "w");
     if (fp == NULL) {
         perror("Error opening file");
@@ -146,8 +148,7 @@ void generateLeaderboardHTML() {
     fprintf(fp, "<div style='display: flex; flex-direction: column; align-items: center;'>\n");
 
     /* Generate table for each mode */ 
-    for (int mode = 1; mode <= 3; mode++) {
-        const char *modeName;
+    for (mode = 1; mode <= 3; mode++) {
         switch (mode) {
             case 1:
                 modeName = "Easy";
@@ -169,8 +170,8 @@ void generateLeaderboardHTML() {
         fprintf(fp, "<table>\n");
         fprintf(fp, "<tr><th>RANK</th><th>NAME</th><th>SCORE</th></tr>\n");
 
-        int count = 0;
-        for (int i = 0; i < numEntries && count < 10; i++) {
+        count = 0;
+        for (i = 0; i < numEntries && count < 10; i++) {
             if (leaderboard[i].mode == mode) {
                 fprintf(fp, "<tr><td>%d</td><td>%s</td><td>%d</td></tr>\n",
                         count + 1, leaderboard[i].name, leaderboard[i].score);
@@ -203,5 +204,3 @@ void updateLeaderboard(int score, int mode) {
     bubbleSortLeaderboard();
     generateLeaderboardHTML();
 }
-
-

@@ -1,4 +1,5 @@
 #include <time.h>
+#include "menu_functions.h"
 
 /*TODO: where does the fixed values were used?*/
 /* Fixed Values */
@@ -36,20 +37,15 @@ void update_hidden_word(char *hidden_word, char *chosen_word, char input_letter)
 
 void player_input(char *chosen_word, char *hidden_word, char *guessed_letters, int *lives, int word_len, int *score);
 
-int *link_number();
+int *link_number(void);
 
 int *random_number(char *chosen_word, int word_len);
 
-int suggest_hint(char *chosen_word, int word_len, int *numbers_hint, int difficulty, int *hints_given, int *player_points);
+int suggest_hint(char* chosen_word, char *guessed_letters, game_level *game_levels, int* hints_given, int* player_points);
 
 void score_tracker(int *score, int *lives);
 
-void add_new_word();
+void add_new_word(void);
 
-void save_game_state(int lives, int score, char *lettersGuessed, char *word, int gameOver);
+void clear_stdin(void);
 
-void load_game_state(int *lives, int *score, char *lettersGuessed, char *word, int *gameOver);
-
-time_t start_time();
-
-time_t end_time(time_t start);

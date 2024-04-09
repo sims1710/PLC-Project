@@ -9,8 +9,8 @@
 
 void updateLeaderboard(int score, int mode);
 void addToLeaderboard(const char *name, int score, int mode);
-void bubbleSortLeaderboard();
-void generateLeaderboardHTML();
+void bubbleSortLeaderboard(void);
+void generateLeaderboardHTML(void);
 
 int validateChoice(int start, int end);
 void enter_player_name(char *name);
