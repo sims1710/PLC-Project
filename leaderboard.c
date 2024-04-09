@@ -26,7 +26,7 @@ void addToLeaderboard(const char *name, int score, int mode) {
 }
 
 /* Function to sort the leaderboard using bubble sort */
-void bubbleSortLeaderboard(void) {
+void bubbleSortLeaderboard() {
     int i, j;
     LeaderboardEntry temp;
 
@@ -42,9 +42,11 @@ void bubbleSortLeaderboard(void) {
 }
 
 /* Function to generate HTML for the leaderboard */
-void generateLeaderboardHTML(void) {
-    int i, mode, count;
-    const char *modeName;
+void generateLeaderboardHTML() {
+    int count = 0;
+    int i;
+    int mode;
+
     FILE *fp = fopen("leaderboard.html", "w");
     if (fp == NULL) {
         perror("Error opening file");
@@ -56,10 +58,10 @@ void generateLeaderboardHTML(void) {
     fprintf(fp, "<html>\n");
     fprintf(fp, "<head>\n");
     fprintf(fp, "<title>Leaderboard</title>\n");
-    fprintf(fp, "<link rel=\"icon\" href=\"/images/hangman.webp\" type=\"image/png\">\n");
+    fprintf(fp, "<link rel=\"icon\" href=\"hangman.webp\" type=\"image/webp\">\n");
     fprintf(fp, "<style>\n");
     fprintf(fp, "body {\n");
-    fprintf(fp, "    background-image: url('/images/background.png') !important;\n");
+    fprintf(fp, "    background-image: url('/background.png') !important;\n");
     fprintf(fp, "    font-family: Arial, sans-serif;\n");
     fprintf(fp, "    background-size: cover;\n");
     fprintf(fp, "    background-size: 80%%; /* Adjust the percentages as needed */\n");
@@ -149,6 +151,7 @@ void generateLeaderboardHTML(void) {
 
     /* Generate table for each mode */ 
     for (mode = 1; mode <= 3; mode++) {
+        const char *modeName;
         switch (mode) {
             case 1:
                 modeName = "Easy";
@@ -170,7 +173,7 @@ void generateLeaderboardHTML(void) {
         fprintf(fp, "<table>\n");
         fprintf(fp, "<tr><th>RANK</th><th>NAME</th><th>SCORE</th></tr>\n");
 
-        count = 0;
+        
         for (i = 0; i < numEntries && count < 10; i++) {
             if (leaderboard[i].mode == mode) {
                 fprintf(fp, "<tr><td>%d</td><td>%s</td><td>%d</td></tr>\n",
@@ -204,3 +207,21 @@ void updateLeaderboard(int score, int mode) {
     bubbleSortLeaderboard();
     generateLeaderboardHTML();
 }
+
+// int main() {
+//     updateLeaderboard(100, 1); /* Example call to updateLeaderboard function with a score of 0 */
+//     updateLeaderboard(80, 1); 
+//     updateLeaderboard(90, 1); 
+//     updateLeaderboard(10, 2); 
+//     updateLeaderboard(56, 2);
+//     updateLeaderboard(30, 2);
+//     /* Open the generated HTML file in the default web browser */
+//     #ifdef _WIN32
+//         /* Open the HTML file using the default web browser on Windows */
+//         ShellExecute(NULL, "open", "leaderboard.html", NULL, NULL, SW_SHOWNORMAL);
+//     #elif __APPLE__
+//         /* Open the HTML file using the default web browser on macOS */
+//         system("open leaderboard.html");;
+//     #endif
+//     return 0;
+// }
