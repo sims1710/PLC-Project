@@ -9,6 +9,8 @@ typedef enum {
     ATTACK = 5,
     ENDLESS = 6,
     GAMERULE = 7,
+    MAIN_MENU = 8,
+    END = 0
 } Choice;
 
 typedef enum {
