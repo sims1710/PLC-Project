@@ -3,6 +3,25 @@
 #include <stdlib.h>
 #include "all_functions.h"
 
+/* Enumerations for menu choices and difficulty levels */
+typedef enum {
+    NEW_GAME = 1,
+    SAVED_GAME = 2,
+    MULTIPLAYER = 3,
+    LEADERBOARD = 4,
+    ATTACK = 5,
+    ENDLESS = 6,
+    GAMERULE = 7,
+    MAIN_MENU = 8,
+    END = 0
+} Choice;
+
+typedef enum {
+    EASY = 1,
+    MEDIUM = 2,
+    HARD = 3
+} Difficulty;
+
 int main(int argc, char *argv[])
 {
     char *chosen_word, *guessed_letters, *hidden_word;
@@ -10,6 +29,10 @@ int main(int argc, char *argv[])
     int word_len, i, hint, continue_game;
     chosen_difficulty *file_set;
     game_level *game_levels;
+
+    // Global variables for state and user input
+    int currentState = MAIN_MENU;
+    int userInput;
 
     continue_game = 1;
 
