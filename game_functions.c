@@ -471,9 +471,9 @@ void add_new_word(void)
 
         /* Check if word is valid */
         word_len = strlen(new_word);
-        if (word_len < 4 || word_len > 7)
+        if (word_len > 3)
         {
-            printf("Word must be between 4 and 7 characters long\n");
+            printf("Word must be a minimum of 3 characters long!\n");
         }
     } while (word_len < 4 || word_len > 7);
 
