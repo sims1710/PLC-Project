@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "ui.h"
 #include "clear_functions.h"
+#include "game_functions.h"
 
 typedef enum
 {
@@ -143,7 +144,11 @@ void main_menu(int current_state, game_level *game_levels)
         printf("    3. Hard\n");
         printf("\n");
 
-        choice2 = validateChoice(1, 3); /*Validate the difficulty choice*/
+        choose_difficulty(game_levels);
+
+        /*choice2 = validateChoice(1, 3);*/ /*Validate the difficulty choice*/
+        choice2 = game_levels->difficulty;
+
         switch (choice2)
         {
         case EASY:
@@ -414,7 +419,14 @@ void display_rules(void) {
     fprintf(file, "\n");
     fprintf(file, "        <div class=\"General_Rules\">\n");
     fprintf(file, "           <h2>General Rule</h2> \n");
-    fprintf(file, "           <p>This section covers the general rules applicable to the different modes of the game. Here they are: <br> <br> <br> 1. For every word you are trying to solve, you have 8 chances (8 lives). If you fail to solve the word after the 8 chances, the game terminates. <br><br> 2. You can either: guess a letter once at a time or try guessing the word all at once. <br><br> 3. You will get hints that will guide you to solving the word. <br><br> 4. You can exit and save your game at any point using the number 0. <br><br> 5. They are 6 modes that you can choose to explore: Easy, Medium, Hard, Time Attack, Endless and Multiplayer. More details about them below! <br><br> 6. For all the modes, if you beat them, you get to input your own word to be solved. The word length should be greater than 3 letters. <br><br> 7. You also get revealed a cheat code randomly upon winning any mode, which will ease your playing experience.</p>\n");
+    fprintf(file, "           <p>This section covers the general rules applicable to the different modes of the game. Here they are: <br> <br> <br> ");
+    fprintf(file, "1. For every word you are trying to solve, you have 8 chances (8 lives). If you fail to solve the word after the 8 chances, the game terminates. <br><br> ");
+    fprintf(file, "2. You can either: guess a letter once at a time or try guessing the word all at once. <br><br> ");
+    fprintf(file, "3. You will get hints that will guide you to solving the word. <br><br> ");
+    fprintf(file, "4. You can exit and save your game at any point using the number 0. <br><br> ");
+    fprintf(file, "5. They are 6 modes that you can choose to explore: Easy, Medium, Hard, Time Attack, Endless and Multiplayer. More details about them below! <br><br> ");
+    fprintf(file, "6. For all the modes, if you beat them, you get to input your own word to be solved. The word length should be greater than 3 letters. <br><br> ");
+    fprintf(file, "7. You also get revealed a cheat code randomly upon winning any mode, which will ease your playing experience.</p>\n");
     fprintf(file, "        </div>\n");
     fprintf(file, "\n");
     fprintf(file, "        <button class=\"accordion\">Easy Mode</button>\n");
@@ -601,8 +613,8 @@ void display_hangman(char *hidden_word, int *lives, int word_len)
 #########################################
 # Score:                                #
 #                                +---+  #
-#    Hint: _  _  _               |   |  #
-#          __ __ __              O   |  #
+#    Hint: _  _                  |   |  #
+#          __ __                 O   |  #
 #                               /|\  |  #
 #    _  _  _  _  _  _  _         |   |  #
 #    __ __ __ __ __ __ __       / \  |  #
@@ -613,17 +625,41 @@ void display_hangman(char *hidden_word, int *lives, int word_len)
 */
 
 int main(int argc, char *argv[]){
-    int currentState;
-    game_level *game_levels;
-
-    currentState = MAIN_MENU;
-
-    game_levels = (game_level*)malloc(sizeof(game_level));
+    char *hidden_word;
+    int word_len;
+    game_level *game_levels = (game_level*)malloc(sizeof(game_level));
     game_levels->current_level = 1;
+    choose_difficulty(game_levels);
+    word_len = game_levels->chosenDiff.word_len;
+    hidden_word = (char*)malloc(sizeof(char)*word_len+1);
+    /*int currentState;*/
+    /*int word_len, actual_lives;
+    char *hidden_word;
+    int *lives = &actual_lives;
+    game_level *game_levels = (game_level*)malloc(sizeof(game_level));
+    game_levels->current_level = 1;
+    choose_difficulty(game_levels);
+    word_len = game_levels->chosenDiff.word_len;
+    hidden_word = (char*)malloc(sizeof(char)*word_len+1);
 
-    while (currentState != END) {
+    *lives = 7;*/
+
+    /*currentState = MAIN_MENU;*/
+
+
+    /*while (currentState != END) {
         main_menu(currentState, game_levels);
-    }
+    }*/
+
+    /*display_hangman(hidden_word, lives, word_len);
+
+    clear_screen();
+
+    free(game_levels);
+    free(hidden_word);*/
+
+    display_hangman_initial(hidden_word, word_len);
+    free(hidden_word);
 
     return 0;
 }

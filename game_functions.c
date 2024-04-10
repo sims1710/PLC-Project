@@ -370,13 +370,13 @@ int *link_number(void)
            game_levels: is a pointer to the struct GameLevels
            hints_given: is an array of integer to check how many hints that the player had used
            player_points: is an integer pointer to keep track of how many points that the players have
-    @return an integer which is the random integer retreived from the function random_number and will be used as a hint for the player (hint for a letter in the word)
+    
  */
-int suggest_hint(char* chosen_word, char *guessed_letters, game_level *game_levels, int* hints_given, int* player_points){
+void suggest_hint(char* chosen_word, char *guessed_letters, game_level *game_levels, int* hints_given, int* player_points, int* hint_integer, char* hint_char){
     int i, hint_cost, letter_index;
     char current_letter;
     int* random_integers;
-    int word_len;
+    int word_len, letter_found = 0;
 
     /*Determine the cost of the second hint used based on the difficulty level*/
     hint_cost = (game_levels->difficulty == 3) ? 2 : 1;
@@ -390,14 +390,14 @@ int suggest_hint(char* chosen_word, char *guessed_letters, game_level *game_leve
     if (*hints_given >= 2)
     {
         printf("No more hints available.\n");
-        return -1;
+        return;
     }
 
     /*Check if this is the second hint and if the player has enough points*/
     if (*hints_given == 1 && *player_points < hint_cost)
     {
         printf("Not enough points for a hint.\n");
-        return -1; 
+        return;
     }
 
     /*Deduct the point for using the hint*/
@@ -406,20 +406,26 @@ int suggest_hint(char* chosen_word, char *guessed_letters, game_level *game_leve
     }
 
     /*Find a letter in the word that hasn't been guessed yet and return its associated random number*/
-    for (i = 0; i < word_len; i++) {
+    for (i = 0; i < word_len && !letter_found; i++) {
         current_letter = chosen_word[i];
         if (!strchr(guessed_letters, chosen_word[i])) {
             letter_index = current_letter - 'a';
 
+            if(hint_integer[0] == -1){
+                hint_integer[0] = random_integers[letter_index];
+                hint_char[0] = current_letter;
+            } else {
+                hint_integer[1] = random_integers[letter_index];
+                hint_char[1] = current_letter;
+            }
+
             (*hints_given)++; 
             printf("Hint provided is %d and the character of the hint letter is %c\n", random_integers[letter_index], current_letter);
-
-            return random_integers[letter_index]; 
+            letter_found = 1; 
         }
     }
 
     free(random_integers); 
-    return 0; 
 }
 
 /*keeping track of the players score*/
@@ -445,16 +451,22 @@ void score_tracker(int *score, int *lives)
     }
 }
 
-/*int main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
-    char *chosen_word, *hidden_word;
+    char *chosen_word, *hidden_word, *hint_char;
     game_level *game_levels = (game_level *)malloc(sizeof(game_level));
     int word_len, game_over, lives, scores, roundOver;
+    int *hint_integer;
     char guessed_letters[26] = {0};
     int hints_given = 0;
     int player_points = 0;
     int want_hint = 0;
-    int hint_result = 0;
+
+    /*hints given in each game are 2 hints*/
+    hint_char = (char*)malloc(sizeof(char)*3); /*size is 3, extra 1 is for the null terminating*/
+    hint_integer = (int*)malloc(sizeof(int)*2);
+    hint_integer[0] = -1;
+    hint_integer[1] = -1;
 
     game_levels->current_level = 1;
     choose_difficulty(game_levels);
@@ -488,8 +500,7 @@ void score_tracker(int *score, int *lives)
             printf("Do you want a hint? (0 for no, 1 for yes): ");
             scanf("%d", &want_hint);
             if (want_hint) {
-                hint_result = suggest_hint(chosen_word, guessed_letters, game_levels, &hints_given, &player_points);
-                printf("Hint: One of the letters is: %d\n", hint_result); 
+                suggest_hint(chosen_word, guessed_letters, game_levels, &hints_given, &player_points, hint_integer, hint_char);
             }
             clear_stdin();
             
@@ -522,9 +533,10 @@ void score_tracker(int *score, int *lives)
 
         while (getchar() != '\n');
     }
-
+    free(hint_char);
+    free(hint_integer);
     free(game_levels);
 
     return 0;
 }
-*/
+

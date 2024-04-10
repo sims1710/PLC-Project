@@ -17,7 +17,6 @@
 #define MAX_GUESSES 8
 #define MAX_WORD_LENGTH 100
 
-
 /* Enumerations for menu choices and difficulty levels */
 typedef enum
 {
@@ -42,10 +41,10 @@ typedef enum
 int main(int argc, char *argv[])
 {
     char *chosen_word, *guessed_letters, *hidden_word, *name;
-    int *lives, *score, *hints_given, *linking_hint, *currentState, *hint_result; /*current_state not an integer?*/
-    int word_len, i, hint, continue_game, initialised, want_hint, game_over;
+    int difficulty, lives_address, score_address, hint_address, word_len, i, hint, continue_game, initialised, want_hint, game_over, currentState;
+    int *lives = &lives_address, *score = &score_address, *hints_given = &hint_address, *linking_hint, *hint_result;
     game_level *game_levels;
-
+    
     currentState = MAIN_MENU;
     continue_game = 1;
     initialised = 0;
@@ -60,9 +59,9 @@ int main(int argc, char *argv[])
 
     while (continue_game)
     {
-        lives = MAX_LIVES;
-        score = 0;
-        hints_given = 0;
+        *lives = MAX_LIVES;
+        *score = 0;
+        *hints_given = 0;
         linking_hint = 0;  
         hint_result = 0; 
         want_hint = 0;
@@ -71,42 +70,45 @@ int main(int argc, char *argv[])
         /*display the main menu*/
         main_menu(currentState, game_levels);
 
-        /*set the current game levels as 1, the first level*/
-        game_levels->current_level = 1;
-
-        /*player to choose the difficulty of the game*/
-        choose_difficulty(game_levels);
-        clear_stdin();
-
-        /*extracting the word length from the game_level structure*/
-        word_len = game_levels->chosenDiff.word_len;
-
-        /*allocating memory for guessed letters and hidden word*/
-        guessed_letters = (char *)malloc(sizeof(char) * 26);
-        hidden_word = (char *)malloc(sizeof(char) * word_len+1);
-        /*check if the memory allocation failed*/
-        if (!guessed_letters || !hidden_word)
-        {
-            printf("Failed to allocate memory.\n");
-            break;
+        if (currentState == SAVED_GAME)
+        {   
+            difficulty = game_levels->difficulty;
+            load_game_state(lives, score, guessed_letters, chosen_word, difficulty, hints_given); 
+            initialised = 1;
         }
-        /*NEED TO DO MEMSET OR NOT?*/
-        memset(hidden_word, '_', word_len);
-        hidden_word[word_len] = '\0'; 
 
-        memset(guessed_letters, 0, sizeof(guessed_letters));
+        switch (currentState)
+        {
+        case NEW_GAME:
+            main_menu(currentState, game_levels);
+            /*set the current game levels as 1, the first level*/
+            game_levels->current_level = 1;
+            while(!game_over && (game_levels->current_level <= 20)){
+                update_game_level(game_levels);
+                chosen_word = get_word(&game_levels->chosenDiff);
+                if (chosen_word == NULL)
+                {
+                    printf("Failed to load the word. Exiting...\n");
+                    exit(EXIT_FAILURE);
+                }
 
-        while(!game_over && (game_levels->current_level <= 20)){
-            update_game_level(game_levels);
-            /*getting the word for the players to guess*/
-            chosen_word = get_word(&game_levels->chosenDiff);
-            if (chosen_word == NULL)
-            {
-                printf("Failed to load the word. Exiting...\n");
-                exit(EXIT_FAILURE);
-            }
+                /*extracting the word length from the game_level structure*/
+                word_len = game_levels->chosenDiff.word_len;
 
-            while(lives>0){
+                /*allocating memory for guessed letters and hidden word*/
+                guessed_letters = (char *)malloc(sizeof(char) * 26);
+                hidden_word = (char *)malloc(sizeof(char) * word_len+1);
+                /*check if the memory allocation failed*/
+                if (!guessed_letters || !hidden_word)
+                {
+                    printf("Failed to allocate memory.\n");
+                    break;
+                }
+            
+                /*display the initial hangman*/
+                display_hangman(hidden_word, lives,word_len);
+
+                while(lives>0){
                 printf("\nCurrent word to guess: %s\n", hidden_word);
                 printf("Do you want a hint? (0 for no, 1 for yes): ");
                 scanf("%d", &want_hint);
@@ -120,14 +122,13 @@ int main(int argc, char *argv[])
                 /*processing the player input when they are playing the hangman*/
                 player_input(chosen_word, hidden_word, guessed_letters, &lives, word_len, &score);
 
-                /*display hangman everytime here?*/
+                /*displaying hangman for every input given by player*/
                 display_hangman(hidden_word, lives, word_len);
-                
-                /*what happen if they manage to guess the word? just print a congrulations message?*/
+
+                /*if managed to guess correctly*/
                 if (strcmp(hidden_word, chosen_word) == 0) {
                     printf("Congratulations! You've guessed the word: %s\n", chosen_word);
                 }
-
             }
             score_tracker(&score, &lives);
 
@@ -143,22 +144,12 @@ int main(int argc, char *argv[])
 
             free(chosen_word);
             free(hidden_word);
+            free(game_levels);
 
             while (getchar() != '\n');
         }
-
-
-        if (*currentState == SAVED_GAME)
-        {
-            load_game_state(lives, score, guessed_letters, chosen_word, file_set, hints_given);
-            initialised = 1;
-        }
-
-        switch (*currentState)
-        {
-        case NEW_GAME:
-            /* code */
-            break;
+            
+        break;
         case MULTIPLAYER:
             /* code */
             break;
@@ -182,15 +173,7 @@ int main(int argc, char *argv[])
             currentState = MAIN_MENU;
             break;
         }
-
-        /*when the player wins a game of a level*/
-        add_new_word();
     }
-
-    /*freeing the allocated memory*/
-    free(guessed_letters);
-    free(hidden_word);
-    free(game_levels);
 
     return 0;
 }

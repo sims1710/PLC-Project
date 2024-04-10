@@ -1,3 +1,4 @@
+#pragma once
 typedef struct {
     char* filename;
     int word_len;
