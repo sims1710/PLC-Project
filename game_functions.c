@@ -448,11 +448,11 @@ void update_hidden_word(char *hidden_word, char *chosen_word, char input_letter)
 }
 
 /* for the hints implementation, link numbers to letters */
-int *link_number(void)
+void link_number(int *random_int)
 {
     int letter_index, tracker_count, number, i;
     int tracker[26];
-    int *output = (int *)malloc(sizeof(int) * ALPHABET_COUNT);
+    int *random_int = (int *)realloc(random_int, sizeof(int) * ALPHABET_COUNT);
     tracker_count = 0;
     letter_index = 0;
     int valid;
@@ -461,23 +461,26 @@ int *link_number(void)
         valid = 1;
         srand(time(NULL));
         number = rand() % 26;
-        for (i = 0; i < tracker_count; i++)
+        if (tracker_count != 0)
         {
-            if (number == tracker[i])
+            for (i = 0; i < tracker_count; i++)
             {
-                valid = 0;
+                if (number == tracker[i])
+                {
+                    valid = 0;
+                    break;
+                }
+            }
+            if (valid == 0)
+            {
+                continue;
             }
         }
-        if (valid == 0)
-        {
-            continue;
-        }
         tracker[letter_index] = number;
-        output[letter_index] = number + 1;
+        random_int[letter_index] = number + 1;
         letter_index++;
         tracker_count++;
     }
-    return output;
 }
 
 /* suggest_hint function is to allow players to use 2 hints to guess the letter
@@ -495,11 +498,10 @@ int *link_number(void)
           player_points: is an integer pointer to keep track of how many points that the players have
 
 */
-void suggest_hint(char *chosen_word, char *guessed_letters, game_level *game_levels, int *hints_given, int *player_points, int *hint_integer, char *hint_char)
+void suggest_hint(char *chosen_word, char *guessed_letters, game_level *game_levels, int *hints_given, int *player_points, int *hint_integer, char *hint_char, int *random_int)
 {
     int i, hint_cost, letter_index;
     char current_letter;
-    int *random_integers;
     int word_len, letter_found = 0;
 
     /*Determine the cost of the second hint used based on the difficulty level*/
@@ -508,7 +510,7 @@ void suggest_hint(char *chosen_word, char *guessed_letters, game_level *game_lev
     word_len = game_levels->chosenDiff.word_len;
 
     /*Getting an array of random integers according to the alphabets*/
-    random_integers = link_number();
+    link_number(random_int);
 
     /*Check if hint is available */
     if (*hints_given >= 2)
@@ -540,12 +542,12 @@ void suggest_hint(char *chosen_word, char *guessed_letters, game_level *game_lev
 
             if (hint_integer[0] == -1)
             {
-                hint_integer[0] = random_integers[letter_index];
+                hint_integer[0] = random_int[letter_index];
                 hint_char[0] = current_letter;
             }
             else
             {
-                hint_integer[1] = random_integers[letter_index];
+                hint_integer[1] = random_int[letter_index];
                 hint_char[1] = current_letter;
             }
 
@@ -554,8 +556,6 @@ void suggest_hint(char *chosen_word, char *guessed_letters, game_level *game_lev
             letter_found = 1;
         }
     }
-
-    free(random_integers);
 }
 
 /*keeping track of the players score*/
