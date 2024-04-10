@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <string.h>
-#include <stdlib.h>
 #include "leaderboard.h"
 
 /* For opening the HTML files */
@@ -216,7 +215,7 @@ void displayLeaderboard(void) {
     #elif __APPLE__
         /* Open the HTML file using the default web browser on macOS */
         system("open leaderboard.html");
-    #elif __linux__
+    #else
         /* Open the HTML file using the default web browser on Linux */
         system("xdg-open leaderboard.html");
     #endif

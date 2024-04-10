@@ -72,12 +72,13 @@ int main(int argc, char *argv[])
         game_over = 0;
 
         /*display the main menu*/
-        main_menu(currentState, game_levels);
+        main_menu(*currentState, game_levels);
 
         if (*currentState == SAVED_GAME)
         {
             difficulty = game_levels->difficulty;
-            load_game_state(lives, score, guessed_letters, chosen_word, difficulty, hints_given);
+            load_game_state(lives, score, guessed_letters, chosen_word, &difficulty, hints_given);
+            // initialised = 1;
         }
 
         switch (*currentState)
@@ -114,33 +115,26 @@ int main(int argc, char *argv[])
                 while (*lives > 0)
                 {
                     printf("\nCurrent word to guess: %s\n", hidden_word);
-                    printf("Do you want a hint? (0 for no, 1 for yes): \n");
-                    want_hint = fgetc(stdin);
-                    clear_stdin();
-
-                    if (want_hint == 49)
+                    printf("Do you want a hint? (0 for no, 1 for yes): ");
+                    scanf("%d", &want_hint);
+                    if (want_hint)
                     {
                         suggest_hint(chosen_word, guessed_letters, game_levels, hints_given, score, hint_integer, hint_char);
                     }
-                    printf("Please input your guess!\n");
+                    clear_stdin();
 
-                    if (*lives <= 0)
+                    /*processing the player input when they are playing the hangman*/
+                    player_input(chosen_word, hidden_word, guessed_letters, lives, word_len, score);
+                    score_tracker(score, lives);
+
+                    /*displaying hangman for every input given by player*/
+                    display_hangman(chosen_word, hidden_word, lives, word_len, hint_char, hint_integer, hints_given, score);
+
+                    /*if managed to guess correctly*/
+                    if (strcmp(hidden_word, chosen_word) == 0)
                     {
-                        printf("Game over! You've run out of lives.\n");
-                        game_over = 1;
+                        printf("Congratulations! You've guessed the word: %s\n", chosen_word);
                     }
-
-                    if (game_levels->current_level > 20)
-                    {
-                        printf("Congratulations! You have completed all levels.\n");
-                    }
-
-                    free(chosen_word);
-                    free(hidden_word);
-                    free(game_levels);
-
-                    while (getchar() != '\n')
-                        ;
                 }
 
                 if (*lives <= 0)
@@ -157,9 +151,6 @@ int main(int argc, char *argv[])
                 free(chosen_word);
                 free(hidden_word);
                 free(game_levels);
-                free(hint_char);
-                free(hint_integer);
-                free(guessed_letters);
 
                 while (getchar() != '\n')
                     ;
@@ -170,7 +161,6 @@ int main(int argc, char *argv[])
             multiplayer_mode();
             break;
         case LEADERBOARD:
-            generateLeaderboardHTML();
             displayLeaderboard();
             break;
         case ATTACK:

@@ -669,9 +669,8 @@ void display_hangman(char *chosen_word, char *hidden_word, int *lives, int word_
                 base = 10;
                 for (i = base; i < window_width - 10; i++)
                 {
-                    printf(" ");
+                    printf("=======  #");
                 }
-                printf("=======  #");
                 break;
             case 10:
                 /* Second to last format */
