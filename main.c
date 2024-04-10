@@ -72,12 +72,13 @@ int main(int argc, char *argv[])
         game_over = 0;
 
         /*display the main menu*/
-        main_menu(currentState, game_levels);
+        main_menu(*currentState, game_levels);
 
         if (*currentState == SAVED_GAME)
         {   
             difficulty = game_levels->difficulty;
-            load_game_state(lives, score, guessed_letters, chosen_word, difficulty, hints_given); 
+            load_game_state(lives, score, guessed_letters, chosen_word, &difficulty, hints_given); 
+            // initialised = 1;
         }
 
         switch (*currentState)
@@ -114,13 +115,13 @@ int main(int argc, char *argv[])
                 while(*lives>0){
                 printf("\nCurrent word to guess: %s\n", hidden_word);
                 printf("Do you want a hint? (0 for no, 1 for yes): \n");
-                clear_stdin();
                 want_hint = fgetc(stdin);
+                clear_stdin();
                 
-                printf("Please input your guess!\n");
                 if (want_hint == 49) {
                     suggest_hint(chosen_word, guessed_letters, game_levels, hints_given, score, hint_integer, hint_char);
                 }
+                printf("Please input your guess!\n");
 
                 clear_stdin();
                 /*processing the player input when they are playing the hangman*/
@@ -153,9 +154,6 @@ int main(int argc, char *argv[])
             free(chosen_word);
             free(hidden_word);
             free(game_levels);
-            free(hint_char);
-            free(hint_integer);
-            free(guessed_letters);
 
             while (getchar() != '\n');
         }
@@ -165,7 +163,6 @@ int main(int argc, char *argv[])
             multiplayer_mode();
             break;
         case LEADERBOARD:
-            generateLeaderboardHTML();
             displayLeaderboard();
             break;
         case ATTACK:
