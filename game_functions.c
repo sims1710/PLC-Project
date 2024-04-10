@@ -15,15 +15,17 @@ typedef enum
     END
 } State;
 
-typedef enum {
+typedef enum
+{
     NOCHEAT,
     CHEAT
 } Cheats;
 
-typedef struct {
+typedef struct
+{
     Cheats current;
-    char* hintsCheatCode;
-    char * livesCheatCode;
+    char *hintsCheatCode;
+    char *livesCheatCode;
 } CheatsFSM;
 
 void choose_difficulty(game_level *game_levels)
@@ -207,66 +209,82 @@ char *get_word(chosen_difficulty *file_set)
     return chosen_word;
 }
 
-void initCheatFSM(CheatsFSM *cheatFsm, char* hintCheat, char* liveCheat) {
+void initCheatFSM(CheatsFSM *cheatFsm, char *hintCheat, char *liveCheat)
+{
     cheatFsm->current = NOCHEAT;
     cheatFsm->hintsCheatCode = hintCheat;
     cheatFsm->livesCheatCode = liveCheat;
 }
 
-void processCheatChoice(CheatsFSM *cheatFsm, char * input, char * chosen_word, int * lives) {
+void processCheatChoice(CheatsFSM *cheatFsm, char *input, char *chosen_word, int *lives)
+{
     int cheat1, cheat2, i;
-    switch(cheatFsm->current){
-    	case NOCHEAT:
-            cheat1 = 1;
-            cheat2 = 1;
-            for(i=0; i< 8; i++){
-                if (cheat1){
-                    if(input[i] != cheatFsm->hintsCheatCode[i]){
-                        cheat1 = 0;
-                    }
-                }
-                if (cheat2){
-                    if(input[i] != cheatFsm->livesCheatCode[i]){
-                        cheat2 = 0;
-                    }
+    switch (cheatFsm->current)
+    {
+    case NOCHEAT:
+        cheat1 = 1;
+        cheat2 = 1;
+        for (i = 0; i < 8; i++)
+        {
+            if (cheat1)
+            {
+                if (input[i] != cheatFsm->hintsCheatCode[i])
+                {
+                    cheat1 = 0;
                 }
             }
-            if(cheat1){
-                cheatFsm->current = CHEAT;
-                printf("%s", chosen_word);                
-            }
-            else if(cheat2){
-                cheatFsm->current = CHEAT;
-                *lives = 7;
-            }
-    
-            break;
-        case CHEAT:
-            cheat1 = 1;
-            cheat2 = 1;
-            for(i=0; i< 8; i++){
-                if (cheat1){
-                    if(input[i] != cheatFsm->hintsCheatCode[i]){
-                        cheat1 = 0;
-                    }
-                }
-                if (cheat2){
-                    if(input[i] != cheatFsm->livesCheatCode[i]){
-                        cheat2 = 0;
-                    }
+            if (cheat2)
+            {
+                if (input[i] != cheatFsm->livesCheatCode[i])
+                {
+                    cheat2 = 0;
                 }
             }
-            if(cheat1){
-                cheatFsm->current = CHEAT;
-                printf("%s", chosen_word);                
-            }
-            else if(cheat2){
-                cheatFsm->current = CHEAT;
-                *lives = 7;
-            }
-            break;
-	}	
+        }
+        if (cheat1)
+        {
+            cheatFsm->current = CHEAT;
+            printf("%s", chosen_word);
+        }
+        else if (cheat2)
+        {
+            cheatFsm->current = CHEAT;
+            *lives = 7;
+        }
 
+        break;
+    case CHEAT:
+        cheat1 = 1;
+        cheat2 = 1;
+        for (i = 0; i < 8; i++)
+        {
+            if (cheat1)
+            {
+                if (input[i] != cheatFsm->hintsCheatCode[i])
+                {
+                    cheat1 = 0;
+                }
+            }
+            if (cheat2)
+            {
+                if (input[i] != cheatFsm->livesCheatCode[i])
+                {
+                    cheat2 = 0;
+                }
+            }
+        }
+        if (cheat1)
+        {
+            cheatFsm->current = CHEAT;
+            printf("%s", chosen_word);
+        }
+        else if (cheat2)
+        {
+            cheatFsm->current = CHEAT;
+            *lives = 7;
+        }
+        break;
+    }
 }
 
 /* Track guesses and lives, check player input. This function is run in main in a while loop with lives */
@@ -287,29 +305,31 @@ void player_input(char *chosen_word, char *hidden_word, char *guessed_letters, i
     char liveCheat[8] = "LIVEFULL";
     CheatsFSM cheatFsm;
     valid = 0;
-    full_input = (char*) malloc(sizeof(char) * 11);
+    full_input = (char *)malloc(sizeof(char) * 11);
     initCheatFSM(&cheatFsm, hintCheat, liveCheat);
 
     while (valid == 0)
     {
         length_of_stdin = 0;
-        
+
         fgets(full_input, sizeof(char) * 9, stdin);
         clear_stdin();
-        
+
         /* Get single char as user input */
-        for(i=0; full_input[i] != '\0'; i++){
+        for (i = 0; full_input[i] != '\0'; i++)
+        {
             length_of_stdin++;
         }
 
-        if(length_of_stdin == 8){
+        if (length_of_stdin == 8)
+        {
             processCheatChoice(&cheatFsm, full_input, chosen_word, lives);
-            if(cheatFsm.current== CHEAT){ 
+            if (cheatFsm.current == CHEAT)
+            {
                 printf("Guess a letter!\n");
                 continue;
-            }          
+            }
         }
-
 
         input_letter = full_input[0];
         /* Case converter */
@@ -435,19 +455,23 @@ int *link_number(void)
     int *output = (int *)malloc(sizeof(int) * ALPHABET_COUNT);
     tracker_count = 0;
     letter_index = 0;
+    int valid;
     while (tracker_count < 26)
     {
+        valid = 1;
         srand(time(NULL));
         number = rand() % 26;
         for (i = 0; i < tracker_count; i++)
         {
             if (number == tracker[i])
             {
-            
-                continue;
+                valid = 0;
             }
         }
-        
+        if (valid == 0)
+        {
+            continue;
+        }
         tracker[letter_index] = number;
         output[letter_index] = number + 1;
         letter_index++;
@@ -456,25 +480,26 @@ int *link_number(void)
     return output;
 }
 
- /* suggest_hint function is to allow players to use 2 hints to guess the letter
-    the hints rules are as follows:
-        1. First hint used doesn't require points (no point will be deducted from the player)
-        2. The second hint require points to be deducted which depends on the player's game difficulty
-           The cost of the hint are as follows:
-                - easy and medium: 1 point
-                - hard: 2 points
-    
-    @param chosen_word: is a string which is the word that the player will need to guess
-           guessed_letters: is an array of character of the letters that had been guessed by the player
-           game_levels: is a pointer to the struct GameLevels
-           hints_given: is an array of integer to check how many hints that the player had used
-           player_points: is an integer pointer to keep track of how many points that the players have
-    
- */
-void suggest_hint(char* chosen_word, char *guessed_letters, game_level *game_levels, int* hints_given, int* player_points, int* hint_integer, char* hint_char){
+/* suggest_hint function is to allow players to use 2 hints to guess the letter
+   the hints rules are as follows:
+       1. First hint used doesn't require points (no point will be deducted from the player)
+       2. The second hint require points to be deducted which depends on the player's game difficulty
+          The cost of the hint are as follows:
+               - easy and medium: 1 point
+               - hard: 2 points
+
+   @param chosen_word: is a string which is the word that the player will need to guess
+          guessed_letters: is an array of character of the letters that had been guessed by the player
+          game_levels: is a pointer to the struct GameLevels
+          hints_given: is an array of integer to check how many hints that the player had used
+          player_points: is an integer pointer to keep track of how many points that the players have
+
+*/
+void suggest_hint(char *chosen_word, char *guessed_letters, game_level *game_levels, int *hints_given, int *player_points, int *hint_integer, char *hint_char)
+{
     int i, hint_cost, letter_index;
     char current_letter;
-    int* random_integers;
+    int *random_integers;
     int word_len, letter_found = 0;
 
     /*Determine the cost of the second hint used based on the difficulty level*/
@@ -500,31 +525,37 @@ void suggest_hint(char* chosen_word, char *guessed_letters, game_level *game_lev
     }
 
     /*Deduct the point for using the hint*/
-    if(*hints_given == 1){
+    if (*hints_given == 1)
+    {
         *player_points -= hint_cost;
     }
 
     /*Find a letter in the word that hasn't been guessed yet and return its associated random number*/
-    for (i = 0; i < word_len && !letter_found; i++) {
+    for (i = 0; i < word_len && !letter_found; i++)
+    {
         current_letter = chosen_word[i];
-        if (!strchr(guessed_letters, chosen_word[i])) {
+        if (!strchr(guessed_letters, chosen_word[i]))
+        {
             letter_index = current_letter - 'a';
 
-            if(hint_integer[0] == -1){
+            if (hint_integer[0] == -1)
+            {
                 hint_integer[0] = random_integers[letter_index];
                 hint_char[0] = current_letter;
-            } else {
+            }
+            else
+            {
                 hint_integer[1] = random_integers[letter_index];
                 hint_char[1] = current_letter;
             }
 
-            (*hints_given)++; 
+            (*hints_given)++;
             printf("Hint provided is %d and the character of the hint letter is %c\n", random_integers[letter_index], current_letter);
-            letter_found = 1; 
+            letter_found = 1;
         }
     }
 
-    free(random_integers); 
+    free(random_integers);
 }
 
 /*keeping track of the players score*/
@@ -561,8 +592,8 @@ void score_tracker(int *score, int *lives)
     int player_points = 0;
     int want_hint = 0;
 
-    
-    hint_char = (char*)malloc(sizeof(char)*3); 
+
+    hint_char = (char*)malloc(sizeof(char)*3);
     hint_integer = (int*)malloc(sizeof(int)*2);
     hint_integer[0] = -1;
     hint_integer[1] = -1;
@@ -578,7 +609,7 @@ void score_tracker(int *score, int *lives)
 //     roundOver = 0;
 //     hidden_word = (char*)malloc(sizeof(char)*word_len+1);
 //     memset(hidden_word, '_', word_len);
-//     hidden_word[word_len] = '\0'; 
+//     hidden_word[word_len] = '\0';
 
 //     memset(guessed_letters, 0, sizeof(guessed_letters));
 
@@ -592,30 +623,30 @@ void score_tracker(int *score, int *lives)
 //             printf("Failed to load the word. Exiting...\n");
 //             exit(EXIT_FAILURE);
 //         }
-    
+
 //         printf("a");
 //         while (!roundOver && lives > 0) {
 //             printf("\nCurrent word to guess: %s\n", hidden_word);
 //             printf("Do you want a hint? (0 for no, 1 for yes): ");
-            
+
 //             want_hint = fgetc(stdin);
 //             clear_stdin();
-            
+
 //             printf("b, %d", want_hint);
 //             if (want_hint == 49) {
 //                 suggest_hint(chosen_word, guessed_letters, game_levels, &hints_given, &player_points, hint_integer, hint_char);
 //             }
-            
-            
+
+
 //             printf("\nCurrent word to guess: %s\n", hidden_word);
 //             player_input(chosen_word, hidden_word, guessed_letters, &lives, word_len, &scores);
-        
+
 //             if (strcmp(hidden_word, chosen_word) == 0) {
 //                 printf("Congratulations! You've guessed the word: %s\n", chosen_word);
-//                 scores += lives; 
+//                 scores += lives;
 //                 roundOver = 1;
 //             }
-                
+
 //             printf("Your score: %d, Lives remaining: %d\n", scores, lives);
 //             }
 
@@ -642,4 +673,3 @@ void score_tracker(int *score, int *lives)
 
     return 0;
 }*/
-
