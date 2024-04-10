@@ -1,7 +1,7 @@
 #define MAX_NAME_LENGTH 50
 #define EXIT_CHAR '0'
 #define MAX_WORD_LENGTH 100
-#define MAX_GUESSES 7
+#define MAX_GUESSES 8
 
 void time_attack_mode(char *chosen_word, char *hidden_word, char *guessed_letters, int *lives, int word_len, int *scores);
 
