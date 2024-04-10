@@ -2,6 +2,13 @@
 #include <string.h>
 #include "leaderboard.h"
 
+/* For opening the HTML files */
+#ifdef _WIN32
+    #include <windows.h>
+#elif __APPLE__
+#elif __linux__
+#endif
+
 /* Define a struct for leaderboard entries */
 typedef struct {
     char name[MAX_NAME_LENGTH];

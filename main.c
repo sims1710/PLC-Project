@@ -76,8 +76,8 @@ int main(int argc, char *argv[])
         if (*currentState == SAVED_GAME)
         {   
             difficulty = game_levels->difficulty;
-            load_game_state(lives, score, guessed_letters, chosen_word, difficulty, hints_given); 
-            /*initialised = 1;*/
+            load_game_state(lives, score, guessed_letters, chosen_word, &difficulty, hints_given); 
+            // initialised = 1;
         }
 
         switch (*currentState)

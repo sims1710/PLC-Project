@@ -104,8 +104,8 @@ void multiplayer_mode();
 void add_new_word();
 
 /* Save and resume function */
-void save_game_state(int* lives, int* score, char* lettersGuessed, char* word, char * difficulty, int * hints_given);
-void load_game_state(int* lives, int* score, char* lettersGuessed, char* word, char * difficulty, int * hints_given);
+void save_game_state(int* lives, int* score, char* lettersGuessed, char* word, int * difficulty, int * hints_given);
+void load_game_state(int* lives, int* score, char* lettersGuessed, char* word, int * difficulty, int * hints_given);
 
 /* timer functions */
 time_t start_time();
