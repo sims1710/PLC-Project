@@ -120,7 +120,7 @@ int main(int argc, char *argv[])
 
                     if (want_hint == 49)
                     {
-                        suggest_hint(chosen_word, guessed_letters, game_levels, hints_given, score, hint_integer, hint_char);
+                        suggest_hint(chosen_word, guessed_letters, game_levels, hints_given, score, hint_integer, hint_char, random_int);
                     }
                     printf("Please input your guess!\n");
 
