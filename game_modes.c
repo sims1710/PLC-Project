@@ -90,7 +90,7 @@ void add_new_word(void)
         {
             printf("Word must be a minimum of 3 characters long!\n");
         }
-    } while (word_len < 4 || word_len > 7);
+    } while (word_len > 3);
 
     /* Write word to file */
     fprintf(fp, "%s\n", new_word);
@@ -224,7 +224,7 @@ void multiplayer_mode() {
         turn = (turn == 1) ? 2 : 1;
     }
 
-    if (player1.lives <= 0) {
+    if (player2.lives <= 0) {
         printf("\n%s is out of lives. Game Over!\n", player1.name);
     }
 
