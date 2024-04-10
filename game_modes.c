@@ -190,17 +190,16 @@ void enter_player_name(char name[]) {
 void multiplayer_mode() {
     char guessed_letters[MAX_WORD_LENGTH] = "";
     char hidden_word[MAX_WORD_LENGTH];
-    char *chosen_word;
+    char chosen_word[MAX_WORD_LENGTH];
     Player player1, player2;
     int turn = 1;
 
     enter_player_name(player1.name);
-    enter_player_name(player2.name);
+    strcpy(player2.name, "Player 2");
     player1.lives = player2.lives = MAX_GUESSES;
     player1.score = player2.score = 0;
 
-    chosen_word = get_word_multi("6letter.txt"); // Get word from file
-    printf("This is the chosen word: %s\n", chosen_word);
+    get_word(2); /* Medium Level */
 
     strcpy(guessed_letters, "");
 
@@ -228,10 +227,6 @@ void multiplayer_mode() {
     printf("\nFinal Scores:\n");
     printf("%s's Score: %d\n", player1.name, player1.score);
     printf("%s's Score: %d\n", player2.name, player2.score);
-
-    if (chosen_word != NULL) {
-        free(chosen_word);
-    }
 }
 
 /*TODO: for modes, need to create their own word.txt and then select any word from there, don't use the choose_difficulty functions*/
