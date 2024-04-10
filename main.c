@@ -160,7 +160,7 @@ int main(int argc, char *argv[])
             time_attack_mode(chosen_word, hidden_word, guessed_letters, lives, word_len, scores);
             break;
         case ENDLESS:
-            endless_mode()
+            endless_mode();
             break;
         case GAMERULE:
             /*display the game rules*/

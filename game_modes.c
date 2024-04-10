@@ -254,9 +254,10 @@ void multiplayer_mode(void) {
     
     time_attack_mode(chosen_word, hidden_word, guessed_letters, lives, word_len, scores);
     
-    printf("\nSwitching to Endless Mode Test...\n");*/
+    printf("\nSwitching to Endless Mode Test...\n");
+    endless_mode();
 
-    /*printf("\nSwitching to Endless Mode Test...\n");
+    printf("\nSwitching to Endless Mode Test...\n");
     multiplayer_mode();
 
     free(chosen_word);
@@ -265,6 +266,7 @@ void multiplayer_mode(void) {
     free(hidden_word);
     free(game_levels);
     return 0;
+
 
 }*/
 
