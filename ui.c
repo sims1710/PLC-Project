@@ -614,7 +614,7 @@ void display_hangman(char *chosen_word, char *hidden_word, int *lives, int word_
                 printf("#   ");
                 for (i = 0; i < word_len; i++)
                 {
-                    printf("%c  ", hidden_word[i]);
+                    printf("%c  ", chosen_word[i]);
                 }
                 base = 4 + (word_len * 3);
                 for (i = base; i < window_width - 8; i++)

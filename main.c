@@ -128,9 +128,10 @@ int main(int argc, char *argv[])
 
                 /*displaying hangman for every input given by player*/
                 display_hangman(chosen_word, hidden_word, lives, word_len, hint_char, hint_integer, hints_given, score);
+                clear_stdin();
 
                 score_tracker(score, lives);
-                
+
                 if (strcmp(hidden_word, chosen_word) == 0){
                     printf("Congratulations! You move on to the next word");
                     game_over = 1;
