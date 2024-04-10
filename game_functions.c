@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "game_functions.h"
-#include "menu_functions.h"
+#include "leaderboard.h"
 #include "clear_functions.h"
 
 typedef enum
@@ -445,7 +445,7 @@ void score_tracker(int *score, int *lives)
     }
 }
 
-int main(int argc, char *argv[])
+/*int main(int argc, char *argv[])
 {
     char *chosen_word, *hidden_word;
     game_level *game_levels = (game_level *)malloc(sizeof(game_level));
@@ -459,7 +459,7 @@ int main(int argc, char *argv[])
     game_levels->current_level = 1;
     choose_difficulty(game_levels);
     clear_stdin();
-    word_len = game_levels->chosenDiff.word_len; /*maybe no need word_len in choosenDiff*/
+    word_len = game_levels->chosenDiff.word_len;
 
     game_over = 0;
     lives = 7;
@@ -527,3 +527,4 @@ int main(int argc, char *argv[])
 
     return 0;
 }
+*/

@@ -26,7 +26,7 @@ void addToLeaderboard(const char *name, int score, int mode) {
 }
 
 /* Function to sort the leaderboard using bubble sort */
-void bubbleSortLeaderboard() {
+void bubbleSortLeaderboard(void) {
     int i, j;
     LeaderboardEntry temp;
 
@@ -42,7 +42,7 @@ void bubbleSortLeaderboard() {
 }
 
 /* Function to generate HTML for the leaderboard */
-void generateLeaderboardHTML() {
+void generateLeaderboardHTML(void) {
     int count = 0;
     int i;
     int mode;
@@ -207,21 +207,3 @@ void updateLeaderboard(int score, int mode) {
     bubbleSortLeaderboard();
     generateLeaderboardHTML();
 }
-
-// int main() {
-//     updateLeaderboard(100, 1); /* Example call to updateLeaderboard function with a score of 0 */
-//     updateLeaderboard(80, 1); 
-//     updateLeaderboard(90, 1); 
-//     updateLeaderboard(10, 2); 
-//     updateLeaderboard(56, 2);
-//     updateLeaderboard(30, 2);
-//     /* Open the generated HTML file in the default web browser */
-//     #ifdef _WIN32
-//         /* Open the HTML file using the default web browser on Windows */
-//         ShellExecute(NULL, "open", "leaderboard.html", NULL, NULL, SW_SHOWNORMAL);
-//     #elif __APPLE__
-//         /* Open the HTML file using the default web browser on macOS */
-//         system("open leaderboard.html");;
-//     #endif
-//     return 0;
-// }

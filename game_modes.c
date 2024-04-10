@@ -3,6 +3,8 @@
 #include <time.h>
 #include <string.h>
 #include "game_modes.h"
+#include "game_functions.h"
+#include "clear_functions.h"
 
 /*multiplayer function is not added yet*/
 
@@ -18,26 +20,27 @@
                scores: pointer to the scores of the player
     @return nothing is returned as this is a time attack mode, it will keep on looping while the time and lives is not 0*/
 void time_attack_mode(char *chosen_word, char *hidden_word, char *guessed_letters, int *lives, int word_len, int *scores){
-    int i;
-    time_t start_time, current_time, time_left;
+    time_t start_time, current_time;
     /*4 minutes (360 seconds) for the player to guess the word in this time attack mode*/
-    time_t fixed_time_limits = 360;
+    int time_left, fixed_time_limits = 360;
 
     /*Record start time*/
-    time(&start_time); 
+    start_time = time(NULL);
 
-    while (lives > 0) {
+    while (*lives > 0) {
         printf("Guess the word: %s\n", hidden_word);
-        player_input(chosen_word, hidden_word, guessed_letters, &lives, word_len, scores);
+        player_input(chosen_word, hidden_word, guessed_letters, lives, word_len, scores);
+        clear_stdin();
 
         /*Check current time*/
-        time(&current_time); 
+        current_time = time(NULL);
         /*Calculate the time the player has left*/
-        time_left = fixed_time_limits - difftime(current_time, start_time);
+        time_left = fixed_time_limits - (int)difftime(current_time, start_time);
 
         /*Checking if the player time exceed the game time, if it exceeds, Time's up*/
         if(time_left > 0) {
-            printf("You still have %s time left!", ctime(&time_left));
+            printf("You still have %d seconds left!\n", time_left);
+            clear_stdin();
         } else {
             /*Printing out the remaining time left for the player*/
             printf("Time's up! You didn't guess the word in time.\n");
@@ -52,7 +55,7 @@ void time_attack_mode(char *chosen_word, char *hidden_word, char *guessed_letter
     }
 
     /*Checking if player has enough lives to play with*/
-    if (lives <= 0) {
+    if (*lives <= 0) {
         printf("Out of lives! The word was: %s\n", chosen_word);
     }
 }
@@ -62,7 +65,7 @@ void add_new_word(void)
 {
     FILE *fp;
     char new_word[MAX_NAME_LENGTH];
-    char filename[] = "words.txt";
+    char filename[] = "./letter_textfiles/7letter.txt";
     int word_len;
 
     /* Open file in append mode */
@@ -96,19 +99,22 @@ void add_new_word(void)
 }
 
 /* Function to play Endless Mode - Misses positioning */ 
-void endless_mode()
+void endless_mode(void)
 {
     FILE *fp;
-    char filename[] = "words.txt";
+    char filename[] = "./letter_textfiles/7letter.txt";
     char *chosen_word;
     char hidden_word[MAX_NAME_LENGTH];
     char guessed_letters[MAX_NAME_LENGTH];
     int lives = 0;
     int score = 0;
-    int word_len;
+    int word_len = 0;
     char input_letter;
     int i = 0;
     int guessed = 0;
+
+    input_letter = '\0';
+    chosen_word = (char*)malloc(sizeof(char)*word_len);
 
     /*  Open file in read mode */ 
     fp = fopen(filename, "r");
@@ -141,7 +147,7 @@ void endless_mode()
         {
             printf("Word: %s\n", hidden_word);
             printf("Guessed Letters: %s\n", guessed_letters);
-            player_input(chosen_word, guessed_letters, &lives, &score);
+            player_input(chosen_word, hidden_word, guessed_letters, &lives, word_len, &score);
 
             /*  Check if player has guessed word */ 
             if (strcmp(chosen_word, hidden_word) == 0)
@@ -167,5 +173,46 @@ void endless_mode()
     fclose(fp);
 }
 
+/*TODO: for modes, need to create their own word.txt and then select any word from there, don't use the choose_difficulty functions*/
 
+int main(int argc, char *argv[]){
+    char *hidden_word, *guessed_letters, *chosen_word;
+    int word_len = 0, i, actualLives;
+    int *lives = &actualLives, *scores;
+
+    game_level *game_levels = (game_level *)malloc(sizeof(game_level));
+    game_levels->current_level = 1;
+    choose_difficulty(game_levels);
+    clear_stdin();
+    word_len = game_levels->chosenDiff.word_len;
+
+    chosen_word = get_word(&game_levels->chosenDiff);
+
+    guessed_letters = (char *)malloc(sizeof(char) * 26);
+    hidden_word = (char *)malloc(sizeof(char) * word_len+1);
+
+    *lives = 7; 
+    scores = 0;
+    
+    for ( i = 0; i < word_len; i++) {
+        hidden_word[i] = '_';
+    }
+    hidden_word[word_len] = '\0'; 
+    
+    printf("Starting Time Attack Mode Test...\n");
+    
+    time_attack_mode(chosen_word, hidden_word, guessed_letters, lives, word_len, scores);
+    
+    printf("\nSwitching to Endless Mode Test...\n");
+    /*endless_mode();*/
+
+    free(chosen_word);
+
+    free(guessed_letters);
+    free(hidden_word);
+    free(game_levels);
+    return 0;
+
+
+}
 
