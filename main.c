@@ -157,7 +157,7 @@ int main(int argc, char *argv[])
             displayLeaderboard();
             break;
         case ATTACK:
-            time_attack_mode(chosen_word, hidden_word, guessed_letters, lives, word_len, scores);
+            time_attack_mode(chosen_word, hidden_word, guessed_letters, lives, word_len, score);
             break;
         case ENDLESS:
             endless_mode();
