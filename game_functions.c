@@ -162,13 +162,13 @@ void update_game_level(game_level *game_levels)
 }
 
 /* Retrieve word from file */
-char *get_word(chosen_difficulty *file_set)
+void get_word(chosen_difficulty *file_set, char* chosen_word)
 {
     FILE *fptr;
     int index, iterate;
     char *word_count = (char *)malloc(sizeof(char) * 100); /*temporary allocation*/
     char *buffer = (char *)malloc(sizeof(char) * 100);
-    char *chosen_word = (char *)malloc(sizeof(char) * (file_set->word_len));
+    chosen_word = (char *)realloc(chosen_word, sizeof(char) * ((file_set->word_len)+1));
 
     if (!word_count || !buffer || !chosen_word)
     {
@@ -176,7 +176,7 @@ char *get_word(chosen_difficulty *file_set)
         free(word_count);
         free(buffer);
         free(chosen_word);
-        return NULL;
+
     }
 
     /* Open file */
@@ -184,7 +184,6 @@ char *get_word(chosen_difficulty *file_set)
     if (fptr == NULL)
     {
         fprintf(stderr, "Failed to open file %s\n", file_set->filename);
-        return NULL;
     }
     /* Get number of words from first line, shift pointer to first word */
     fgets(word_count, 100, fptr);
@@ -206,7 +205,6 @@ char *get_word(chosen_difficulty *file_set)
     fclose(fptr);
     free(word_count);
     free(buffer);
-    return chosen_word;
 }
 
 void initCheatFSM(CheatsFSM *cheatFsm, char *hintCheat, char *liveCheat)
@@ -299,24 +297,25 @@ void player_input(char *chosen_word, char *hidden_word, char *guessed_letters, i
 {
     char input_letter;
     int valid, match, i;
-    char *full_input;
+    /*char full_input;
     int length_of_stdin = 0;
     char hintCheat[8] = "HINTSALL";
     char liveCheat[8] = "LIVEFULL";
-    CheatsFSM cheatFsm;
+    CheatsFSM cheatFsm; */
     valid = 0;
-    full_input = (char *)malloc(sizeof(char) * 11);
-    initCheatFSM(&cheatFsm, hintCheat, liveCheat);
+    /*full_input = (char *)malloc(sizeof(char) * 11);
+    initCheatFSM(&cheatFsm, hintCheat, liveCheat);*/
 
     while (valid == 0)
     {
-        length_of_stdin = 0;
+        /*length_of_stdin = 0;*/
 
-        fgets(full_input, sizeof(char) * 9, stdin);
-        clear_stdin();
+        /*fgets(full_input, sizeof(char) * 9, stdin); */
+        input_letter = fgetc(stdin);
+        
 
-        /* Get single char as user input */
-        for (i = 0; full_input[i] != '\0'; i++)
+    
+        /* for (i = 0; full_input[i] != '\0'; i++)
         {
             length_of_stdin++;
         }
@@ -330,8 +329,11 @@ void player_input(char *chosen_word, char *hidden_word, char *guessed_letters, i
                 continue;
             }
         }
+        else if(!(length_of_stdin < 8)){
+            clear_stdin();
+        }
 
-        input_letter = full_input[0];
+        input_letter = full_input[0]; */
         /* Case converter */
         if (input_letter >= 'A' && input_letter <= 'Z')
         {
@@ -358,7 +360,7 @@ void player_input(char *chosen_word, char *hidden_word, char *guessed_letters, i
         }
     }
 
-    free(full_input);
+    /*free(full_input);*/
 
     /* Check if letter in word and act on it */
     match = 0;
@@ -448,11 +450,11 @@ void update_hidden_word(char *hidden_word, char *chosen_word, char input_letter)
 }
 
 /* for the hints implementation, link numbers to letters */
-int *link_number(void)
+void link_number(int* hint_integer)
 {
     int letter_index, tracker_count, number, i, valid;
     int tracker[26];
-    int *output = (int *)malloc(sizeof(int) * ALPHABET_COUNT);
+    hint_integer = (int *)realloc(hint_integer, sizeof(int) * ALPHABET_COUNT);
     tracker_count = 0;
     letter_index = 0;
     while (tracker_count < 26)
@@ -472,11 +474,11 @@ int *link_number(void)
             continue;
         }
         tracker[letter_index] = number;
-        output[letter_index] = number + 1;
+        hint_integer[letter_index] = number + 1;
         letter_index++;
         tracker_count++;
+        printf("number: %d /n", number);
     }
-    return output;
 }
 
 /* suggest_hint function is to allow players to use 2 hints to guess the letter
@@ -496,9 +498,8 @@ int *link_number(void)
 */
 void suggest_hint(char *chosen_word, char *guessed_letters, game_level *game_levels, int *hints_given, int *player_points, int *hint_integer, char *hint_char)
 {
-    int i, hint_cost, letter_index;
+    int i, hint_cost;
     char current_letter;
-    int *random_integers;
     int word_len, letter_found = 0;
 
     /*Determine the cost of the second hint used based on the difficulty level*/
@@ -507,7 +508,7 @@ void suggest_hint(char *chosen_word, char *guessed_letters, game_level *game_lev
     word_len = game_levels->chosenDiff.word_len;
 
     /*Getting an array of random integers according to the alphabets*/
-    random_integers = link_number();
+    /*link_number(hint_integer);*/
 
     /*Check if hint is available */
     if (*hints_given >= 2)
@@ -535,26 +536,23 @@ void suggest_hint(char *chosen_word, char *guessed_letters, game_level *game_lev
         current_letter = chosen_word[i];
         if (!strchr(guessed_letters, chosen_word[i]))
         {
-            letter_index = current_letter - 'a';
+            /*letter_index = current_letter - 'a';*/
 
-            if (hint_integer[0] == -1)
+            if (hint_char[0] == '_')
             {
-                hint_integer[0] = random_integers[letter_index];
                 hint_char[0] = current_letter;
             }
             else
-            {
-                hint_integer[1] = random_integers[letter_index];
+            {   
                 hint_char[1] = current_letter;
             }
 
             (*hints_given)++;
-            printf("Hint provided is %d and the character of the hint letter is %c\n", random_integers[letter_index], current_letter);
+            printf("Hint provided is %d and the character of the hint letter is %c\n", hint_integer[i], current_letter);
             letter_found = 1;
         }
     }
 
-    free(random_integers);
 }
 
 /*keeping track of the players score*/

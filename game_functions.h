@@ -6,13 +6,13 @@ void choose_difficulty(game_level *game_levels);
 
 void update_game_level(game_level *game_levels);
 
-char *get_word(chosen_difficulty *filename);
+void get_word(chosen_difficulty *filename, char* chosen_word);
 
 void update_hidden_word(char *hidden_word, char *chosen_word, char input_letter);
 
 void player_input(char *chosen_word, char *hidden_word, char *guessed_letters, int *lives, int word_len, int *score);
 
-int *link_number(void);
+void link_number(int* hint_integer);
 
 void suggest_hint(char* chosen_word, char *guessed_letters, game_level *game_levels, int* hints_given, int* player_points, int* hint_integer, char* hint_char);
 
