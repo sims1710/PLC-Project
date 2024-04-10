@@ -500,7 +500,7 @@ void display_rules(void) {
 /* Print out the hangman screen on console */
 void display_hangman(char *chosen_word, char *hidden_word, int *lives, int word_len, char *hint_letter, int *hint_code, int *hints_given, int *score)
 {
-    int window_width, window_height, row, colomn;
+    int window_width, window_height, row, colomn, i, base;
     window_width = 41;
     window_height = 12;
     /* Clear terminal */
@@ -524,9 +524,8 @@ void display_hangman(char *chosen_word, char *hidden_word, int *lives, int word_
             case 1:
                 /* Score */
                 printf("# Score: %03d", *score);
-                int base = 12;
+                base = 12;
                 /* TODO: print out score value and  give len of score*/
-                int i;
                 for (i = base; i < window_width - 1; i++)
                 {
                     printf(" ");
@@ -535,8 +534,7 @@ void display_hangman(char *chosen_word, char *hidden_word, int *lives, int word_
                 break;
             case 2:
                 printf("#");
-                int base = 1;
-                int i;
+                base = 1;
                 for (i = base; i < window_width - 8; i++)
                 {
                     printf(" ");
@@ -561,8 +559,7 @@ void display_hangman(char *chosen_word, char *hidden_word, int *lives, int word_
                     printf("You shouldn't see this");
                     break;
                 }
-                int base = 16;
-                int i;
+                base = 16;
                 for (i = base; i < window_width - 8; i++)
                 {
                     printf(" ");
@@ -573,8 +570,7 @@ void display_hangman(char *chosen_word, char *hidden_word, int *lives, int word_
                 /* Head + Hint code*/
                 printf("           ");
                 printf("%02d %02d", hint_code[hint_letter[0] - 'a'], hint_code[hint_letter[1] - 'a']);
-                int base = 16;
-                int i;
+                base = 16;
                 for (i = base; i < window_width - 8; i++)
                 {
                     printf(" ");
@@ -591,7 +587,7 @@ void display_hangman(char *chosen_word, char *hidden_word, int *lives, int word_
             case 5:
                 /* Upper */
                 printf("#");
-                int base = 1;
+                base = 1;
                 for (i = base; i < window_width - 9; i++)
                 {
                     printf(" ");
@@ -616,12 +612,11 @@ void display_hangman(char *chosen_word, char *hidden_word, int *lives, int word_
             case 6:
                 /* Middle  + Hidden Word */
                 printf("#   ");
-                int i;
                 for (i = 0; i < word_len; i++)
                 {
                     printf("%c  ", hidden_word[i]);
                 }
-                int base = 4 + (word_len * 3);
+                base = 4 + (word_len * 3);
                 for (i = base; i < window_width - 8; i++)
                 {
                     printf(" ");
@@ -638,12 +633,11 @@ void display_hangman(char *chosen_word, char *hidden_word, int *lives, int word_
             case 7:
                 /* Legs  + Number Code*/
                 printf("#   ");
-                int i;
                 for (i = 0; i < word_len; i++)
                 {
                     printf("%02d ", hint_code[chosen_word[i] - 'a']);
                 }
-                int base = 4 + (word_len * 3);
+                base = 4 + (word_len * 3);
                 for (i = base; i < window_width - 9; i++)
                 {
                     printf(" ");
@@ -663,8 +657,7 @@ void display_hangman(char *chosen_word, char *hidden_word, int *lives, int word_
                 break;
             case 8:
                 printf("#");
-                int base = 1;
-                int i;
+                base = 1;
                 for (i = base; i < window_width - 4; i++)
                 {
                     printf(" ");
@@ -673,7 +666,7 @@ void display_hangman(char *chosen_word, char *hidden_word, int *lives, int word_
                 break;
             case 9:
                 printf("# Lives: %d", *lives);
-                int base = 10;
+                base = 10;
                 for (i = base; i < window_width - 10; i++)
                 {
                     printf("=======  #");

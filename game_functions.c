@@ -551,21 +551,27 @@ void score_tracker(int *score, int *lives)
     }
 }
 
-// int main(int argc, char *argv[])
-// {
-//     char *chosen_word, *hidden_word, *hint_char;
-//     game_level *game_levels = (game_level *)malloc(sizeof(game_level));
-//     int word_len, game_over, lives, scores, roundOver;
-//     int *hint_integer;
-//     char guessed_letters[26] = {0};
-//     int hints_given = 0;
-//     int player_points = 0;
-//     int want_hint;
-//     int hint_result = 0;
+/*int main(int argc, char *argv[])
+{
+    char *chosen_word, *hidden_word, *hint_char;
+    game_level *game_levels = (game_level *)malloc(sizeof(game_level));
+    int word_len, game_over, lives, scores, roundOver;
+    int *hint_integer;
+    char guessed_letters[26] = {0};
+    int hints_given = 0;
+    int player_points = 0;
+    int want_hint = 0;
 
-//     game_levels->current_level = 1;
-//     choose_difficulty(game_levels);
-//     word_len = game_levels->chosenDiff.word_len;
+    
+    hint_char = (char*)malloc(sizeof(char)*3); 
+    hint_integer = (int*)malloc(sizeof(int)*2);
+    hint_integer[0] = -1;
+    hint_integer[1] = -1;
+
+    game_levels->current_level = 1;
+    choose_difficulty(game_levels);
+    clear_stdin();
+    word_len = game_levels->chosenDiff.word_len;
 
 //     game_over = 0;
 //     lives = 7;
@@ -635,6 +641,6 @@ void score_tracker(int *score, int *lives)
 //     free(hint_integer);
 //     free(game_levels);
 
-//     return 0;
-// }
+    return 0;
+}*/
 
