@@ -1,7 +1,7 @@
 /* Print out the hangman screen on console */
 #include "all_functions.h"
 
-void display_hangman(char *hidden_word, int *lives, int word_len)
+void display_hangman(char *chosen_word, char *hidden_word, int *lives, int word_len, char *hint_letter, int *hint_code, int hints_given, int *score)
 {
     int window_width, window_height, row, colomn;
     window_width = 41;
@@ -26,78 +26,180 @@ void display_hangman(char *hidden_word, int *lives, int word_len)
             {
             case 1:
                 /* Score */
-                printf("# Score:");
-                int base = 8;
+                printf("# Score: %03d", *score);
+                int base = 12;
                 /* TODO: print out score value and  give len of score*/
-                int score_len;
                 int i;
-                for (i = base + score_len; i < window_width - 1; i++)
+                for (i = base; i < window_width - 1; i++)
                 {
                     printf(" ");
                 }
                 printf("#");
                 break;
             case 2:
-                printf("#                                +---+  #");
+                printf("#");
+                int base = 1;
+                int i;
+                for (i = base; i < window_width - 8; i++)
+                {
+                    printf(" ");
+                }
+                printf("+---+  #");
                 break;
             case 3:
                 /* Hint */
-                int hint_len;
                 printf("#    Hint: ");
+                // int base = 11;
+                switch (hints_given)
+                {
+                case 0:
+                    printf("_  _ ");
+                    break;
+                case 1:
+                    printf("%c  _ ", hint_letter[0]);
+                    break;
+                case 2:
+                    printf("%c  %c ", hint_letter[0], hint_letter[1]);
+                    break;
+                default:
+                    printf("You shouldn't see this");
+                    break;
+                }
+                int base = 16;
+                int i;
+                for (i = base; i < window_width - 8; i++)
+                {
+                    printf(" ");
+                }
+                printf("|   |  #");
                 break;
             case 4:
                 /* Head + Hint code*/
-                break;
-            case 5:
-                /* Upper */
-                if (*lives <= 3)
+                printf("           ");
+                // int base = 11;
+                switch (hints_given)
                 {
-                    printf("#                               /|\\  |  #");
+                case 0:
+                    printf("__ __");
+                    break;
+                case 1:
+                    printf("%02d __", hint_code[hint_letter[0] - 'a']);
+                    break;
+                case 2:
+                    printf("%02d %02d", hint_code[hint_letter[0] - 'a'], hint_code[hint_letter[1] - 'a']);
+                    break;
+                default:
+                    printf("You shouldn't see this");
+                    break;
                 }
-                else if (*lives == 4)
+                int base = 16;
+                int i;
+                for (i = base; i < window_width - 8; i++)
                 {
-                    printf("#                               /|   |  #");
+                    printf(" ");
                 }
-                else if (*lives == 5)
+                if (*lives == MAX_LIVES)
                 {
-                    printf("#                                |   |  #");
+                    printf("    |  #");
                 }
                 else
                 {
-                    printf("#                                    |  #");
+                    printf("O   |  #");
+                }
+                break;
+            case 5:
+                /* Upper */
+                printf("#");
+                int base = 1;
+                for (i = base; i < window_width - 9; i++)
+                {
+                    printf(" ");
+                }
+                if (*lives <= 3)
+                {
+                    printf("/|\\  |  #");
+                }
+                else if (*lives == 4)
+                {
+                    printf("/|   |  #");
+                }
+                else if (*lives == 5)
+                {
+                    printf(" |   |  #");
+                }
+                else
+                {
+                    printf("     |  #");
                 }
                 break;
             case 6:
                 /* Middle  + Hidden Word */
+                printf("#   ");
+                // int base = 4;
+                // char *hidden_word must contain underscores
+                int i;
+                for (i = 0; i < word_len; i++)
+                {
+                    printf("%c  ", hidden_word[i]);
+                }
+                int base = 4 + (word_len * 3);
+                for (i = base; i < window_width - 8; i++)
+                {
+                    printf(" ");
+                }
                 if (*lives > 2)
                 {
-                    /* no middle */
+                    printf("    |  #");
                 }
                 else
                 {
-                    /* have middle */
+                    printf("|   |  #");
                 }
                 break;
             case 7:
                 /* Legs  + Number Code*/
+                printf("#   ");
+                // int base = 4;
+                int i;
+                for (i = 0; i < word_len; i++)
+                {
+                    printf("%02d ", hint_code[chosen_word[i] - 'a']);
+                }
+                int base = 4 + (word_len * 3);
+                for (i = base; i < window_width - 9; i++)
+                {
+                    printf(" ");
+                }
                 if (*lives == 0)
                 {
-                    printf("#                               / \\  |  #");
+                    printf("/ \\  |  #");
                 }
                 else if (*lives == 1)
                 {
-                    printf("#                               /    |  #");
+                    printf("/    |  #");
                 }
                 else
                 {
-                    printf("#                                    |  #");
+                    printf("     |  #");
                 }
                 break;
             case 8:
-                printf("#                                    |  #");
+                printf("#");
+                int base = 1;
+                int i;
+                for (i = base; i < window_width - 4; i++)
+                {
+                    printf(" ");
+                }
+                printf("|  #");
                 break;
             case 9:
-                printf("# Lives: %d                     =======  #", *lives);
+                printf("# Lives: %d", *lives);
+                int base = 10;
+                for (i = base; i < window_width - 10; i++)
+                {
+                    printf("=======  #");
+                }
                 break;
             case 10:
                 /* Second to last format */
@@ -126,10 +228,10 @@ void display_hangman(char *hidden_word, int *lives, int word_len)
 /* Formatting */
 /*
 #########################################
-# Score:                                #
+# Score: 000                            #
 #                                +---+  #
-#    Hint: _  _  _               |   |  #
-#          __ __ __              O   |  #
+#    Hint: _  _                  |   |  #
+#          __ __                 O   |  #
 #                               /|\  |  #
 #    _  _  _  _  _  _  _         |   |  #
 #    __ __ __ __ __ __ __       / \  |  #
