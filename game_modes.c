@@ -235,46 +235,46 @@ void multiplayer_mode() {
 
 /*TODO: for modes, need to create their own word.txt and then select any word from there, don't use the choose_difficulty functions*/
 
-int main(int argc, char *argv[]){
-    char *hidden_word, *guessed_letters, *chosen_word;
-    int word_len = 0, i, actualLives;
-    int *lives = &actualLives;
+// int main(int argc, char *argv[]){
+//     char *hidden_word, *guessed_letters, *chosen_word;
+//     int word_len = 0, i, actualLives;
+//     int *lives = &actualLives;
 
-    game_level *game_levels = (game_level *)malloc(sizeof(game_level));
-    game_levels->current_level = 1;
-    choose_difficulty(game_levels);
-    clear_stdin();
-    word_len = game_levels->chosenDiff.word_len;
+//     game_level *game_levels = (game_level *)malloc(sizeof(game_level));
+//     game_levels->current_level = 1;
+//     choose_difficulty(game_levels);
+//     clear_stdin();
+//     word_len = game_levels->chosenDiff.word_len;
 
-    chosen_word = get_word(&game_levels->chosenDiff);
+//     chosen_word = get_word(&game_levels->chosenDiff);
 
-    guessed_letters = (char *)malloc(sizeof(char) * 26);
-    hidden_word = (char *)malloc(sizeof(char) * word_len+1);
+//     guessed_letters = (char *)malloc(sizeof(char) * 26);
+//     hidden_word = (char *)malloc(sizeof(char) * word_len+1);
 
-    *lives = 7; 
+//     *lives = 7; 
     
-    for ( i = 0; i < word_len; i++) {
-        hidden_word[i] = '_';
-    }
-    hidden_word[word_len] = '\0'; 
+//     for ( i = 0; i < word_len; i++) {
+//         hidden_word[i] = '_';
+//     }
+//     hidden_word[word_len] = '\0'; 
     
-    printf("Starting Time Attack Mode Test...\n");
+//     printf("Starting Time Attack Mode Test...\n");
     
-    /*time_attack_mode(chosen_word, hidden_word, guessed_letters, lives, word_len, scores);*/
+//     /*time_attack_mode(chosen_word, hidden_word, guessed_letters, lives, word_len, scores);*/
     
-    printf("\nSwitching to Endless Mode Test...\n");
-    /*endless_mode();*/
+//     printf("\nSwitching to Endless Mode Test...\n");
+//     /*endless_mode();*/
 
-    printf("\nSwitching to Endless Mode Test...\n");
-    multiplayer_mode();
+//     printf("\nSwitching to Endless Mode Test...\n");
+//     multiplayer_mode();
 
-    free(chosen_word);
+//     free(chosen_word);
 
-    free(guessed_letters);
-    free(hidden_word);
-    free(game_levels);
-    return 0;
+//     free(guessed_letters);
+//     free(hidden_word);
+//     free(game_levels);
+//     return 0;
 
 
-}
+// }
 
