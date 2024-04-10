@@ -77,7 +77,7 @@ int suggest_hint(char *chosen_word, char *guessed_letters, game_level *game_leve
 void time_attack_mode(char *chosen_word, char *hidden_word, char *guessed_letters, int *lives, int word_len, int *scores);
 
 /* Main Menu */
-void main_menu();
+void main_menu(int *current_state, game_level *game_levels);
 int validateChoice(int start, int end);
 void enter_player_name(char *name);
 /*int main1();*/

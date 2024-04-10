@@ -36,14 +36,12 @@ int validateChoice(int start, int end)
             return 0;
         }
 
-        // Validate data type
         if (sscanf(input, "%d", &choice) != 1)
         {
             printf("Invalid input. Please enter a number.\n");
             continue;
         }
 
-        // Validate range
         if (choice < start || choice > end)
         {
             printf("Invalid choice. Please select an option between %d and %d.\n", start, end);
@@ -117,7 +115,7 @@ void main_menu(int *current_state, game_level *game_levels)
     printf("    Enter the number 0 if you want to exit\n");
     printf("\n");
 
-    choice = validateChoice(0, 7); // Validate the main menu choice
+    choice = validateChoice(0, 7);
 
     printf("\n");
 
@@ -150,7 +148,7 @@ void main_menu(int *current_state, game_level *game_levels)
         printf("    3. Hard\n");
         printf("\n");
 
-        choice2 = validateChoice(1, 3); // Validate the difficulty choice
+        choice2 = validateChoice(1, 3); 
         switch (choice2)
         {
         case EASY:
@@ -251,7 +249,6 @@ void main_menu(int *current_state, game_level *game_levels)
         current_state = LEADERBOARD;
         printf("    You have selected Leaderboard.\n");
         printf("    Loading leaderboard...\n");
-        // updateLeaderboard(0);
         break;
 
     case ATTACK:
@@ -282,11 +279,16 @@ void main_menu(int *current_state, game_level *game_levels)
     }
 }
 
-// int main(){
+int main(int argc, char *argv[]){
+    int* currentState;
+    game_level *game_levels;
 
-//     while (currentState != END) {
-//         main_menu();
-//     }
+    game_levels = (game_level*)malloc(sizeof(game_level));
+    game_levels->current_level = 1;
 
-//     return 0;
-// }
+    while (currentState != END) {
+        main_menu(currentState, game_levels);
+    }
+
+    return 0;
+}

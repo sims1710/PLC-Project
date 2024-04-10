@@ -1,29 +1,6 @@
 #include <time.h>
-
-/*TODO: where does the fixed values were used?*/
-/* Fixed Values */
-#define MAX_LIVES 7
+#include "game_structures.h"
 #define ALPHABET_COUNT 26
-#define MAX_ENTRIES 100
-#define MAX_NAME_LENGTH 50
-#define EXIT_CHAR 0
-#define MAX_LEADERBOARD_ENTRIES 10
-#define MAX_GUESSES 8
-#define MAX_WORD_LENGTH 100
-
-/* Return filename to read from, no external input, only player input inside function */
-typedef struct
-{
-    char *filename;
-    int word_len;
-} chosen_difficulty;
-
-typedef struct
-{
-    int current_level;
-    int difficulty;
-    chosen_difficulty chosenDiff;
-} game_level;
 
 void choose_difficulty(game_level *game_levels);
 
@@ -41,6 +18,4 @@ int *link_number(void);
 int suggest_hint(char* chosen_word, char *guessed_letters, game_level *game_levels, int* hints_given, int* player_points);
 
 void score_tracker(int *score, int *lives);
-
-void add_new_word(void);
 
