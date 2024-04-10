@@ -451,7 +451,7 @@ void score_tracker(int *score, int *lives)
     }
 }
 
-int main(int argc, char *argv[])
+/*int main(int argc, char *argv[])
 {
     char *chosen_word, *hidden_word, *hint_char;
     game_level *game_levels = (game_level *)malloc(sizeof(game_level));
@@ -462,8 +462,7 @@ int main(int argc, char *argv[])
     int player_points = 0;
     int want_hint = 0;
 
-    /*hints given in each game are 2 hints*/
-    hint_char = (char*)malloc(sizeof(char)*3); /*size is 3, extra 1 is for the null terminating*/
+    hint_char = (char*)malloc(sizeof(char)*3); 
     hint_integer = (int*)malloc(sizeof(int)*2);
     hint_integer[0] = -1;
     hint_integer[1] = -1;
@@ -538,5 +537,5 @@ int main(int argc, char *argv[])
     free(game_levels);
 
     return 0;
-}
+}*/
 

@@ -6,8 +6,6 @@
 #include "game_functions.h"
 #include "clear_functions.h"
 
-/*multiplayer function is not added yet*/
-
 /*  The time attack mode is to time the player against the time when they trying to guess a word that was randomly selected
     the player will lose if they are unable to guess the word correctly before the fixed time limit ends (4 minutes)
     or the player will lose if they lose their all of their lives even before the time ends
@@ -173,19 +171,13 @@ void endless_mode(void)
     fclose(fp);
 }
 
-typedef struct {
-    char name[MAX_WORD_LENGTH];
-    int lives;
-    int score;
-} Player;
-
-void enter_player_name(char name[]) {
+void enter_name(char name[]) {
     printf("Enter your name: ");
     fgets(name, MAX_WORD_LENGTH, stdin);
     name[strcspn(name, "\n")] = '\0';
 }
 
-void multiplayer_mode() {
+void multiplayer_mode(void) {
     char guessed_letters[MAX_WORD_LENGTH] = "";
     char hidden_word[MAX_WORD_LENGTH];
     char chosen_word[MAX_WORD_LENGTH];
@@ -193,9 +185,9 @@ void multiplayer_mode() {
     int turn = 1;
 
     printf("Ready Player 1?\n");
-    enter_player_name(player1.name);
+    enter_name(player1.name);
     printf("Ready Player 2?\n");
-    enter_player_name(player2.name);
+    enter_name(player2.name);
     player1.lives = player2.lives = MAX_GUESSES;
     player1.score = player2.score = 0;
 
@@ -235,7 +227,7 @@ void multiplayer_mode() {
 
 /*TODO: for modes, need to create their own word.txt and then select any word from there, don't use the choose_difficulty functions*/
 
-int main(int argc, char *argv[]){
+/*int main(int argc, char *argv[]){
     char *hidden_word, *guessed_letters, *chosen_word;
     int word_len = 0, i, actualLives;
     int *lives = &actualLives;
@@ -260,12 +252,11 @@ int main(int argc, char *argv[]){
     
     printf("Starting Time Attack Mode Test...\n");
     
-    /*time_attack_mode(chosen_word, hidden_word, guessed_letters, lives, word_len, scores);*/
+    time_attack_mode(chosen_word, hidden_word, guessed_letters, lives, word_len, scores);
     
-    printf("\nSwitching to Endless Mode Test...\n");
-    /*endless_mode();*/
+    printf("\nSwitching to Endless Mode Test...\n");*/
 
-    printf("\nSwitching to Endless Mode Test...\n");
+    /*printf("\nSwitching to Endless Mode Test...\n");
     multiplayer_mode();
 
     free(chosen_word);
@@ -275,6 +266,5 @@ int main(int argc, char *argv[]){
     free(game_levels);
     return 0;
 
-
-}
+}*/
 

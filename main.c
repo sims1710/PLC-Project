@@ -1,18 +1,17 @@
 /* Where all functions are run to make the game run*/
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "ui.h"
 #include "game_functions.h"
 #include "clear_functions.h"
 #include "game_modes.h"
 #include "game_state.h"
 #include "leaderboard.h"
-#include "utility.h"
 #include "game_structures.h"
 
 #define MAX_LIVES 7
 #define MAX_ENTRIES 100
-#define EXIT_CHAR 0
 #define MAX_LEADERBOARD_ENTRIES 10
 #define MAX_GUESSES 8
 #define MAX_WORD_LENGTH 100
@@ -41,13 +40,14 @@ typedef enum
 int main(int argc, char *argv[])
 {
     char *chosen_word, *guessed_letters, *hidden_word, *hint_char;
-    int difficulty, lives_address, score_address, hint_address, word_len, i, hint, continue_game, initialised, want_hint, game_over, currentState;
+    int difficulty, lives_address, score_address, hint_address, word_len, continue_game, want_hint, game_over, currentState;
+    /*int initialised;*/
     int *lives = &lives_address, *score = &score_address, *hints_given = &hint_address, *hint_integer;
     game_level *game_levels;
     
     currentState = MAIN_MENU;
     continue_game = 1;
-    initialised = 0;
+    /*initialised = 0;*/
 
     /*allocate memory for game_levels with size of game_level structure*/
     game_levels = (game_level *)malloc(sizeof(game_level));
@@ -77,13 +77,12 @@ int main(int argc, char *argv[])
         {   
             difficulty = game_levels->difficulty;
             load_game_state(lives, score, guessed_letters, chosen_word, difficulty, hints_given); 
-            initialised = 1;
+            /*initialised = 1;*/
         }
 
         switch (currentState)
         {
         case NEW_GAME:
-            main_menu(currentState, game_levels);
             /*set the current game levels as 1, the first level*/
             game_levels->current_level = 1;
             while(!game_over && (game_levels->current_level <= 20)){
@@ -111,18 +110,18 @@ int main(int argc, char *argv[])
                 /*display the initial hangman*/
                 display_hangman(chosen_word, hidden_word, lives, word_len, hint_char, hint_integer, hints_given, score);
 
-                while(lives>0){
+                while(*lives>0){
                 printf("\nCurrent word to guess: %s\n", hidden_word);
                 printf("Do you want a hint? (0 for no, 1 for yes): ");
                 scanf("%d", &want_hint);
                 if (want_hint) {
-                    suggest_hint(chosen_word, guessed_letters, game_levels, &hints_given, &score, hint_integer, hint_char);
+                    suggest_hint(chosen_word, guessed_letters, game_levels, hints_given, score, hint_integer, hint_char);
                 }
                 clear_stdin();
 
                 /*processing the player input when they are playing the hangman*/
-                player_input(chosen_word, hidden_word, guessed_letters, &lives, word_len, &score);
-                score_tracker(&score, &lives);
+                player_input(chosen_word, hidden_word, guessed_letters, lives, word_len, score);
+                score_tracker(score, lives);
 
                 /*displaying hangman for every input given by player*/
                 display_hangman(chosen_word, hidden_word, lives, word_len, hint_char, hint_integer, hints_given, score);
@@ -133,7 +132,7 @@ int main(int argc, char *argv[])
                 }
             }
 
-            if (lives <= 0) {
+            if (*lives <= 0) {
                 printf("Game over! You've run out of lives.\n");
                 game_over = 1;
             }
