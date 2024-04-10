@@ -450,12 +450,11 @@ void update_hidden_word(char *hidden_word, char *chosen_word, char input_letter)
 /* for the hints implementation, link numbers to letters */
 int *link_number(void)
 {
-    int letter_index, tracker_count, number, i;
+    int letter_index, tracker_count, number, i, valid;
     int tracker[26];
     int *output = (int *)malloc(sizeof(int) * ALPHABET_COUNT);
     tracker_count = 0;
     letter_index = 0;
-    int valid;
     while (tracker_count < 26)
     {
         valid = 1;
