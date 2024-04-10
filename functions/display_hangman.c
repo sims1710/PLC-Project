@@ -77,21 +77,7 @@ void display_hangman(char *chosen_word, char *hidden_word, int *lives, int word_
                 /* Head + Hint code*/
                 printf("           ");
                 // int base = 11;
-                switch (hints_given)
-                {
-                case 0:
-                    printf("__ __");
-                    break;
-                case 1:
-                    printf("%02d __", hint_code[hint_letter[0] - 'a']);
-                    break;
-                case 2:
-                    printf("%02d %02d", hint_code[hint_letter[0] - 'a'], hint_code[hint_letter[1] - 'a']);
-                    break;
-                default:
-                    printf("You shouldn't see this");
-                    break;
-                }
+                printf("%02d %02d", hint_code[hint_letter[0] - 'a'], hint_code[hint_letter[1] - 'a']);
                 int base = 16;
                 int i;
                 for (i = base; i < window_width - 8; i++)
