@@ -114,13 +114,11 @@ int main(int argc, char *argv[])
                 while(lives>0){
                 printf("\nCurrent word to guess: %s\n", hidden_word);
                 printf("Do you want a hint? (0 for no, 1 for yes): ");
-
-                want_hint = fgetc(stdin);
-                if ((int)want_hint==49) {
+                scanf("%d", &want_hint);
+                if (want_hint) {
                     suggest_hint(chosen_word, guessed_letters, game_levels, &hints_given, &score, hint_integer, hint_char);
                 }
                 clear_stdin();
-            
 
                 /*processing the player input when they are playing the hangman*/
                 player_input(chosen_word, hidden_word, guessed_letters, &lives, word_len, &score);
@@ -151,18 +149,19 @@ int main(int argc, char *argv[])
 
             while (getchar() != '\n');
         }
+            
         break;
         case MULTIPLAYER:
-            /* code */
+            multiplayer();
             break;
         case LEADERBOARD:
-            /* code */
+            displayLeaderboard();
             break;
         case ATTACK:
-            /* code */
+            time_attack_mode(chosen_word, hidden_word, guessed_letters, lives, word_len, scores);
             break;
         case ENDLESS:
-            /* code */
+            endless_mode()
             break;
         case GAMERULE:
             /*display the game rules*/

@@ -14,3 +14,4 @@ void generateLeaderboardHTML(void);
 
 int validateChoice(int start, int end);
 void enter_player_name(char *name);
+void displayLeaderboard();
