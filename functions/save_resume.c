@@ -11,7 +11,7 @@ word: list of chars
 gameOver: if 1, do not scan other game state, else scan other game state
 */
 
-void save_game_state(int lives, int score, char* lettersGuessed, char* word, char * difficulty, int * hints_given) {
+void save_game_state(int lives, int score, char* lettersGuessed, char* word, int * difficulty, int * hints_given) {
     FILE* file = fopen("input.txt", "w");
     time_t time;
     if (file == NULL) {
@@ -29,7 +29,7 @@ void save_game_state(int lives, int score, char* lettersGuessed, char* word, cha
     fclose(file);
 }
 
-void load_game_state(int* lives, int* score, char* lettersGuessed, char* word, char * difficulty, int * hints_given) {
+void load_game_state(int* lives, int* score, char* lettersGuessed, char* word, int * difficulty, int * hints_given) {
     int i;
 
     FILE* file = fopen("input.txt", "r");
