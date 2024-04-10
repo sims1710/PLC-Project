@@ -173,6 +173,67 @@ void endless_mode(void)
     fclose(fp);
 }
 
+# include "all_functions.h"
+
+typedef struct {
+    char name[MAX_WORD_LENGTH];
+    int lives;
+    int score;
+} Player;
+
+void enter_player_name(char name[]) {
+    printf("Enter your name: ");
+    fgets(name, MAX_WORD_LENGTH, stdin);
+    name[strcspn(name, "\n")] = '\0';
+}
+
+void multiplayer_mode() {
+    char guessed_letters[MAX_WORD_LENGTH] = "";
+    char hidden_word[MAX_WORD_LENGTH];
+    char *chosen_word;
+    Player player1, player2;
+    int turn = 1;
+
+    enter_player_name(player1.name);
+    enter_player_name(player2.name);
+    player1.lives = player2.lives = MAX_GUESSES;
+    player1.score = player2.score = 0;
+
+    chosen_word = get_word_multi("6letter.txt"); // Get word from file
+    printf("This is the chosen word: %s\n", chosen_word);
+
+    strcpy(guessed_letters, "");
+
+    memset(hidden_word, '_', strlen(chosen_word));
+    hidden_word[strlen(chosen_word)] = '\0';
+
+    printf("\n\nLevel 1\n\n");
+
+    while (player1.lives > 0 && player2.lives > 0) {
+        Player *current_player = (turn == 1) ? &player1 : &player2;
+        printf("\n%s's turn\n\n", current_player->name);
+        printf("Hidden Word: %s\n", hidden_word);
+        printf("Guessed Letters: %s\n", guessed_letters);
+
+        player_input(chosen_word, hidden_word, guessed_letters, &(current_player->lives), strlen(chosen_word), &(current_player->score));
+
+        if (strcmp(hidden_word, chosen_word) == 0) {
+            printf("\nCongratulations, %s! You guessed the word.\n", current_player->name);
+            break;
+        }
+
+        turn = (turn == 1) ? 2 : 1;
+    }
+
+    printf("\nFinal Scores:\n");
+    printf("%s's Score: %d\n", player1.name, player1.score);
+    printf("%s's Score: %d\n", player2.name, player2.score);
+
+    if (chosen_word != NULL) {
+        free(chosen_word);
+    }
+}
+
 /*TODO: for modes, need to create their own word.txt and then select any word from there, don't use the choose_difficulty functions*/
 
 int main(int argc, char *argv[]){
