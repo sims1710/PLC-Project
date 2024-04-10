@@ -173,8 +173,6 @@ void endless_mode(void)
     fclose(fp);
 }
 
-# include "all_functions.h"
-
 typedef struct {
     char name[MAX_WORD_LENGTH];
     int lives;
@@ -194,12 +192,14 @@ void multiplayer_mode() {
     Player player1, player2;
     int turn = 1;
 
+    printf("Ready Player 1?\n");
     enter_player_name(player1.name);
-    strcpy(player2.name, "Player 2");
+    printf("Ready Player 2?\n");
+    enter_player_name(player2.name);
     player1.lives = player2.lives = MAX_GUESSES;
     player1.score = player2.score = 0;
 
-    get_word(2); /* Medium Level */
+    strcpy(chosen_word, "star"); /* Easy Level */
 
     strcpy(guessed_letters, "");
 
@@ -224,6 +224,10 @@ void multiplayer_mode() {
         turn = (turn == 1) ? 2 : 1;
     }
 
+    if (player1.lives <= 0) {
+        printf("\n%s is out of lives. Game Over!\n", player1.name);
+    }
+
     printf("\nFinal Scores:\n");
     printf("%s's Score: %d\n", player1.name, player1.score);
     printf("%s's Score: %d\n", player2.name, player2.score);
@@ -234,7 +238,7 @@ void multiplayer_mode() {
 int main(int argc, char *argv[]){
     char *hidden_word, *guessed_letters, *chosen_word;
     int word_len = 0, i, actualLives;
-    int *lives = &actualLives, *scores;
+    int *lives = &actualLives;
 
     game_level *game_levels = (game_level *)malloc(sizeof(game_level));
     game_levels->current_level = 1;
@@ -248,7 +252,6 @@ int main(int argc, char *argv[]){
     hidden_word = (char *)malloc(sizeof(char) * word_len+1);
 
     *lives = 7; 
-    scores = 0;
     
     for ( i = 0; i < word_len; i++) {
         hidden_word[i] = '_';
@@ -257,10 +260,13 @@ int main(int argc, char *argv[]){
     
     printf("Starting Time Attack Mode Test...\n");
     
-    time_attack_mode(chosen_word, hidden_word, guessed_letters, lives, word_len, scores);
+    /*time_attack_mode(chosen_word, hidden_word, guessed_letters, lives, word_len, scores);*/
     
     printf("\nSwitching to Endless Mode Test...\n");
     /*endless_mode();*/
+
+    printf("\nSwitching to Endless Mode Test...\n");
+    multiplayer_mode();
 
     free(chosen_word);
 
