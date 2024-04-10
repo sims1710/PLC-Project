@@ -203,13 +203,13 @@ void generateLeaderboardHTML(void) {
 
 void displayLeaderboard() {
     #ifdef _WIN32
-        // Open the HTML file using the default web browser on Windows
+        /* Open the HTML file using the default web browser on Windows */
         ShellExecute(NULL, "open", "leaderboard.html", NULL, NULL, SW_SHOWNORMAL);
     #elif __APPLE__
-        // Open the HTML file using the default web browser on macOS
+        /* Open the HTML file using the default web browser on macOS */
         system("open leaderboard.html");
     #else
-        // Open the HTML file using the default web browser on Linux
+        /* Open the HTML file using the default web browser on Linux */
         system("xdg-open leaderboard.html");
     #endif
 }
