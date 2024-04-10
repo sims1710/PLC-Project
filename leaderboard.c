@@ -201,7 +201,7 @@ void generateLeaderboardHTML(void) {
     fclose(fp);
 }
 
-void displayLeaderboard() {
+void displayLeaderboard(void) {
     #ifdef _WIN32
         /* Open the HTML file using the default web browser on Windows */
         ShellExecute(NULL, "open", "leaderboard.html", NULL, NULL, SW_SHOWNORMAL);

@@ -40,12 +40,12 @@ typedef enum
 int main(int argc, char *argv[])
 {
     char *chosen_word, *guessed_letters, *hidden_word, *hint_char;
-    int difficulty, lives_address, score_address, hint_address, word_len, continue_game, want_hint, game_over, currentState;
+    int difficulty, lives_address, score_address, hint_address, word_len, continue_game, want_hint, game_over, state;
     /*int initialised;*/
-    int *lives = &lives_address, *score = &score_address, *hints_given = &hint_address, *hint_integer;
+    int *lives = &lives_address, *score = &score_address, *hints_given = &hint_address, *hint_integer, *currentState;
     game_level *game_levels;
-    
-    currentState = MAIN_MENU;
+    currentState = &state;
+    *currentState = MAIN_MENU;
     continue_game = 1;
     /*initialised = 0;*/
 
@@ -71,16 +71,16 @@ int main(int argc, char *argv[])
         game_over = 0;
 
         /*display the main menu*/
-        main_menu(currentState, game_levels);
+        main_menu(*currentState, game_levels);
 
-        if (currentState == SAVED_GAME)
+        if (*currentState == SAVED_GAME)
         {   
             difficulty = game_levels->difficulty;
             load_game_state(lives, score, guessed_letters, chosen_word, difficulty, hints_given); 
             /*initialised = 1;*/
         }
 
-        switch (currentState)
+        switch (*currentState)
         {
         case NEW_GAME:
             /*set the current game levels as 1, the first level*/
@@ -151,7 +151,7 @@ int main(int argc, char *argv[])
             
         break;
         case MULTIPLAYER:
-            multiplayer();
+            multiplayer_mode();
             break;
         case LEADERBOARD:
             displayLeaderboard();
@@ -170,7 +170,7 @@ int main(int argc, char *argv[])
             exit(0);
             break;
         default:
-            currentState = MAIN_MENU;
+            *currentState = MAIN_MENU;
             break;
         }
     }

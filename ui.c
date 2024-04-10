@@ -68,7 +68,7 @@ void enter_player_name(char *name) {
 }
 
 /* Main menu function */
-void main_menu(int current_state, game_level *game_levels)
+void main_menu(int *current_state, game_level *game_levels)
 {
     int choice, choice2;
     char name[100];
@@ -120,7 +120,7 @@ void main_menu(int current_state, game_level *game_levels)
     switch (choice)
     {
     case NEW_GAME:
-        current_state = NEW_GAME;
+        *current_state = NEW_GAME;
         printf("   *************************************************************************************************************\n");
         printf("\n");
         printf("\n");
@@ -233,45 +233,45 @@ void main_menu(int current_state, game_level *game_levels)
         }
         break;
     case SAVED_GAME:
-        current_state = SAVED_GAME;
+        *current_state = SAVED_GAME;
         printf("    You have selected Saved Game.\n");
         printf("    Loading saved game...\n");
         break;
 
     case MULTIPLAYER:
-        current_state = MULTIPLAYER;
+        *current_state = MULTIPLAYER;
         printf("    You have selected Multiplayer.\n");
         printf("    Loading multiplayer mode...\n");
 
         break;
 
     case LEADERBOARD:
-        current_state = LEADERBOARD;
+        *current_state = LEADERBOARD;
         printf("    You have selected Leaderboard.\n");
         printf("    Loading leaderboard...\n");
         /* updateLeaderboard(0);*/
         break;
 
     case ATTACK:
-        current_state = ATTACK;
+        *current_state = ATTACK;
         printf("    You have selected Time Attack Mode.\n");
         printf("    Loading Time Attack Mode...\n");
         break;
 
     case ENDLESS:
-        current_state = ENDLESS;
+        *current_state = ENDLESS;
         printf("    You have selected Endless Mode.\n");
         printf("    Loading Endless Mode...\n");
         break;
 
     case GAMERULE:
-        current_state = GAMERULE;
+        *current_state = GAMERULE;
         printf("    You have selected Game Rules.\n");
         printf("    Loading Game Rules...\n");
         break;
 
     case END:
-        current_state = END;
+        *current_state = END;
         exit(0);
         break;
 

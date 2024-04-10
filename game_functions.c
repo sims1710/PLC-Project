@@ -214,10 +214,9 @@ void initCheatFSM(CheatsFSM *cheatFsm, char* hintCheat, char* liveCheat) {
 }
 
 void processCheatChoice(CheatsFSM *cheatFsm, char * input, char * chosen_word, int * lives) {
-    int cheat1, cheat2;
+    int cheat1, cheat2, i;
     switch(cheatFsm->current){
     	case NOCHEAT:
-            int i;
             cheat1 = 1;
             cheat2 = 1;
             for(i=0; i< 8; i++){
@@ -240,7 +239,7 @@ void processCheatChoice(CheatsFSM *cheatFsm, char * input, char * chosen_word, i
                 cheatFsm->current = CHEAT;
                 *lives = 7;
             }
-            // cheatFsm->current = NOCHEAT;
+    
             break;
         case CHEAT:
             cheat1 = 1;
@@ -282,12 +281,12 @@ void player_input(char *chosen_word, char *hidden_word, char *guessed_letters, i
 {
     char input_letter;
     int valid, match, i;
-    valid = 0;
-    char * full_input;
+    char *full_input;
     int length_of_stdin = 0;
     char hintCheat[8] = "HINTSALL";
     char liveCheat[8] = "LIVEFULL";
     CheatsFSM cheatFsm;
+    valid = 0;
     full_input = (char*) malloc(sizeof(char) * 11);
     initCheatFSM(&cheatFsm, hintCheat, liveCheat);
 
