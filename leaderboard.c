@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "leaderboard.h"
 
 /* For opening the HTML files */
