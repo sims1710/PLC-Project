@@ -483,6 +483,18 @@ void display_rules(void) {
     fprintf(file, "</html>\n");
 
     fclose(file); /*Close the file*/
+
+    #ifdef _WIN32
+        /* Open the HTML file using the default web browser on Windows */
+        ShellExecute(NULL, "open", "how_to_play.html", NULL, NULL, SW_SHOWNORMAL);
+    #elif __APPLE__
+        /* Open the HTML file using the default web browser on macOS */
+        system("open how_to_play.html");
+    #else
+        /* Open the HTML file using the default web browser on Linux */
+        system("xdg-open how_to_play.html");
+    #endif
+
 }
 
 /* Print out the hangman screen on console */

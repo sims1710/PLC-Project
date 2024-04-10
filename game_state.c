@@ -21,13 +21,14 @@ void save_game_state(int* lives, int* score, char* lettersGuessed, char* word, i
     fprintf(file, "score: %d\n", *score);
     fprintf(file, "letters_guessed: %s\n", lettersGuessed);
     fprintf(file, "word: %s\n", word);
-    fprintf(file, "level: %d\n", difficulty);
-    fprintf(file, "hints_given: %d\n", *hints_given);
+    fprintf(file, "level: %s\n", difficulty);
+    fprintf(file, "hints_given: %d\n", hints_given);
 
     fclose(file);
 }
 
 void load_game_state(int* lives, int* score, char* lettersGuessed, char* word, int difficulty, int * hints_given) {
+
     FILE* file = fopen("input.txt", "r");
 
     if (file == NULL) {
@@ -41,7 +42,7 @@ void load_game_state(int* lives, int* score, char* lettersGuessed, char* word, i
             fscanf(file, "score: %d\n", score);
             fscanf(file, "letters_guessed: %s\n", lettersGuessed);
             fscanf(file, "word: %s\n", word);
-            fscanf(file, "difficulty: %d\n", &difficulty);
+            fscanf(file, "difficulty: %s\n", &difficulty);
             fscanf(file, "hints_given: %d\n", hints_given);
 
         }

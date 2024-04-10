@@ -151,16 +151,16 @@ int main(int argc, char *argv[])
             
         break;
         case MULTIPLAYER:
-            /* code */
+            multiplayer();
             break;
         case LEADERBOARD:
-            /* code */
+            displayLeaderboard();
             break;
         case ATTACK:
-            /* code */
+            time_attack_mode(chosen_word, hidden_word, guessed_letters, lives, word_len, scores);
             break;
         case ENDLESS:
-            /* code */
+            endless_mode()
             break;
         case GAMERULE:
             /*display the game rules*/

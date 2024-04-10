@@ -15,6 +15,17 @@ typedef enum
     END
 } State;
 
+typedef enum {
+    NOCHEAT,
+    CHEAT
+} Cheats;
+
+typedef struct {
+    Cheats current;
+    char* hintsCheatCode;
+    char * livesCheatCode;
+} CheatsFSM;
+
 void choose_difficulty(game_level *game_levels)
 {
     char difficulty;
@@ -196,6 +207,69 @@ char *get_word(chosen_difficulty *file_set)
     return chosen_word;
 }
 
+void initCheatFSM(CheatsFSM *cheatFsm, char* hintCheat, char* liveCheat) {
+    cheatFsm->current = NOCHEAT;
+    cheatFsm->hintsCheatCode = hintCheat;
+    cheatFsm->livesCheatCode = liveCheat;
+}
+
+void processCheatChoice(CheatsFSM *cheatFsm, char * input, char * chosen_word, int * lives) {
+    int cheat1, cheat2;
+    switch(cheatFsm->current){
+    	case NOCHEAT:
+            int i;
+            cheat1 = 1;
+            cheat2 = 1;
+            for(i=0; i< 8; i++){
+                if (cheat1){
+                    if(input[i] != cheatFsm->hintsCheatCode[i]){
+                        cheat1 = 0;
+                    }
+                }
+                if (cheat2){
+                    if(input[i] != cheatFsm->livesCheatCode[i]){
+                        cheat2 = 0;
+                    }
+                }
+            }
+            if(cheat1){
+                cheatFsm->current = CHEAT;
+                printf("%s", chosen_word);                
+            }
+            else if(cheat2){
+                cheatFsm->current = CHEAT;
+                *lives = 7;
+            }
+            // cheatFsm->current = NOCHEAT;
+            break;
+        case CHEAT:
+            cheat1 = 1;
+            cheat2 = 1;
+            for(i=0; i< 8; i++){
+                if (cheat1){
+                    if(input[i] != cheatFsm->hintsCheatCode[i]){
+                        cheat1 = 0;
+                    }
+                }
+                if (cheat2){
+                    if(input[i] != cheatFsm->livesCheatCode[i]){
+                        cheat2 = 0;
+                    }
+                }
+            }
+            if(cheat1){
+                cheatFsm->current = CHEAT;
+                printf("%s", chosen_word);                
+            }
+            else if(cheat2){
+                cheatFsm->current = CHEAT;
+                *lives = 7;
+            }
+            break;
+	}	
+
+}
+
 /* Track guesses and lives, check player input. This function is run in main in a while loop with lives */
 /* Steps
 1a. Get input from player
@@ -209,13 +283,36 @@ void player_input(char *chosen_word, char *hidden_word, char *guessed_letters, i
     char input_letter;
     int valid, match, i;
     valid = 0;
+    char * full_input;
+    int length_of_stdin = 0;
+    char hintCheat[8] = "HINTSALL";
+    char liveCheat[8] = "LIVEFULL";
+    CheatsFSM cheatFsm;
+    full_input = (char*) malloc(sizeof(char) * 11);
+    initCheatFSM(&cheatFsm, hintCheat, liveCheat);
+
     while (valid == 0)
     {
-    
-        /* Get single char as user input */
-        input_letter = fgetc(stdin);
-        /* clear stdin */
+        length_of_stdin = 0;
+        
+        fgets(full_input, sizeof(char) * 9, stdin);
         clear_stdin();
+        
+        /* Get single char as user input */
+        for(i=0; full_input[i] != '\0'; i++){
+            length_of_stdin++;
+        }
+
+        if(length_of_stdin == 8){
+            processCheatChoice(&cheatFsm, full_input, chosen_word, lives);
+            if(cheatFsm.current== CHEAT){ 
+                printf("Guess a letter!\n");
+                continue;
+            }          
+        }
+
+
+        input_letter = full_input[0];
         /* Case converter */
         if (input_letter >= 'A' && input_letter <= 'Z')
         {
@@ -241,6 +338,9 @@ void player_input(char *chosen_word, char *hidden_word, char *guessed_letters, i
             printf("Invalid Input. Please enter a letter of the alphabet, preferably lowercase.");
         }
     }
+
+    free(full_input);
+
     /* Check if letter in word and act on it */
     match = 0;
     for (i = 0; i < word_len; i++)
@@ -462,6 +562,7 @@ void score_tracker(int *score, int *lives)
     int player_points = 0;
     int want_hint = 0;
 
+    
     hint_char = (char*)malloc(sizeof(char)*3); 
     hint_integer = (int*)malloc(sizeof(int)*2);
     hint_integer[0] = -1;
@@ -472,69 +573,73 @@ void score_tracker(int *score, int *lives)
     clear_stdin();
     word_len = game_levels->chosenDiff.word_len;
 
-    game_over = 0;
-    lives = 7;
-    scores = 0;
-    roundOver = 0;
-    hidden_word = (char*)malloc(sizeof(char)*word_len+1);
-    memset(hidden_word, '_', word_len);
-    hidden_word[word_len] = '\0'; 
+//     game_over = 0;
+//     lives = 7;
+//     scores = 0;
+//     roundOver = 0;
+//     hidden_word = (char*)malloc(sizeof(char)*word_len+1);
+//     memset(hidden_word, '_', word_len);
+//     hidden_word[word_len] = '\0'; 
 
-    memset(guessed_letters, 0, sizeof(guessed_letters));
+//     memset(guessed_letters, 0, sizeof(guessed_letters));
 
 
-    while (!game_over && (game_levels->current_level <= 20))
-    {
-        update_game_level(game_levels);
-        chosen_word = get_word(&game_levels->chosenDiff);
-        if (chosen_word == NULL)
-        {
-            printf("Failed to load the word. Exiting...\n");
-            exit(EXIT_FAILURE);
-        }
+//     while (!game_over && (game_levels->current_level <= 20))
+//     {
+//         update_game_level(game_levels);
+//         chosen_word = get_word(&game_levels->chosenDiff);
+//         if (chosen_word == NULL)
+//         {
+//             printf("Failed to load the word. Exiting...\n");
+//             exit(EXIT_FAILURE);
+//         }
     
-
-        while (!roundOver && lives > 0) {
-            printf("\nCurrent word to guess: %s\n", hidden_word);
-            printf("Do you want a hint? (0 for no, 1 for yes): ");
-            scanf("%d", &want_hint);
-            if (want_hint) {
-                suggest_hint(chosen_word, guessed_letters, game_levels, &hints_given, &player_points, hint_integer, hint_char);
-            }
-            clear_stdin();
+//         printf("a");
+//         while (!roundOver && lives > 0) {
+//             printf("\nCurrent word to guess: %s\n", hidden_word);
+//             printf("Do you want a hint? (0 for no, 1 for yes): ");
             
-            printf("\nCurrent word to guess: %s\n", hidden_word);
-            player_input(chosen_word, hidden_word, guessed_letters, &lives, word_len, &scores);
+//             want_hint = fgetc(stdin);
+//             clear_stdin();
+            
+//             printf("b, %d", want_hint);
+//             if (want_hint == 49) {
+//                 suggest_hint(chosen_word, guessed_letters, game_levels, &hints_given, &player_points, hint_integer, hint_char);
+//             }
+            
+            
+//             printf("\nCurrent word to guess: %s\n", hidden_word);
+//             player_input(chosen_word, hidden_word, guessed_letters, &lives, word_len, &scores);
         
-            if (strcmp(hidden_word, chosen_word) == 0) {
-                printf("Congratulations! You've guessed the word: %s\n", chosen_word);
-                scores += lives; 
-                roundOver = 1;
-            }
+//             if (strcmp(hidden_word, chosen_word) == 0) {
+//                 printf("Congratulations! You've guessed the word: %s\n", chosen_word);
+//                 scores += lives; 
+//                 roundOver = 1;
+//             }
                 
-            printf("Your score: %d, Lives remaining: %d\n", scores, lives);
-            }
+//             printf("Your score: %d, Lives remaining: %d\n", scores, lives);
+//             }
 
-        score_tracker(&scores, &lives);
+//         score_tracker(&scores, &lives);
 
-        if (lives <= 0) {
-            printf("Game over! You've run out of lives.\n");
-            game_over = 1;
-        }
+//         if (lives <= 0) {
+//             printf("Game over! You've run out of lives.\n");
+//             game_over = 1;
+//         }
 
-        if (game_levels->current_level > 20)
-        {
-            printf("Congratulations! You have completed all levels.\n");
-        }
+//         if (game_levels->current_level > 20)
+//         {
+//             printf("Congratulations! You have completed all levels.\n");
+//         }
 
-        free(chosen_word);
-        free(hidden_word);
+//         free(chosen_word);
+//         free(hidden_word);
 
-        while (getchar() != '\n');
-    }
-    free(hint_char);
-    free(hint_integer);
-    free(game_levels);
+//         while (getchar() != '\n');
+//     }
+//     free(hint_char);
+//     free(hint_integer);
+//     free(game_levels);
 
     return 0;
 }*/
