@@ -17,6 +17,5 @@ void display_rules(void);
 /*change the parameter type of the current_state form int* into int */
 void main_menu(int current_state, game_level *game_levels);
 
-void display_hangman(char *hidden_word, int *lives, int word_len);
+void display_hangman(char *chosen_word, char *hidden_word, int *lives, int word_len, char *hint_letter, int *hint_code, int *hints_given, int *score);
 
-void display_hangman_initial(char *hidden_word, int word_len);
