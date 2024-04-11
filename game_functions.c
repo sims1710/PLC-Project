@@ -452,7 +452,7 @@ void link_number(int *hint_integer)
 {
     int letter_index, tracker_count, number, i, valid;
     int tracker[26];
-    // hint_integer = (int *)realloc(hint_integer, sizeof(int) * ALPHABET_COUNT);
+    /*hint_integer = (int *)realloc(hint_integer, sizeof(int) * ALPHABET_COUNT);*/
     tracker_count = 0;
     letter_index = 0;
 
