@@ -28,7 +28,7 @@ void time_attack_mode(char *chosen_word, char *hidden_word, char *guessed_letter
     while (*lives > 0) {
         printf("Guess the word: %s\n", hidden_word);
         player_input(chosen_word, hidden_word, guessed_letters, lives, word_len, scores);
-        clear_stdin();
+        /*clear_stdin();*/
 
         /*Check current time*/
         current_time = time(NULL);
@@ -38,7 +38,7 @@ void time_attack_mode(char *chosen_word, char *hidden_word, char *guessed_letter
         /*Checking if the player time exceed the game time, if it exceeds, Time's up*/
         if(time_left > 0) {
             printf("You still have %d seconds left!\n", time_left);
-            clear_stdin();
+            /*clear_stdin();*/
         } else {
             /*Printing out the remaining time left for the player*/
             printf("Time's up! You didn't guess the word in time.\n");
