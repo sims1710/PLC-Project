@@ -312,7 +312,7 @@ void player_input(char *chosen_word, char *hidden_word, char *guessed_letters, i
 
         /*fgets(full_input, sizeof(char) * 9, stdin); */
         input_letter = fgetc(stdin);
-
+        clear_stdin(void);
         /* for (i = 0; full_input[i] != '\0'; i++)
         {
             length_of_stdin++;
@@ -452,7 +452,7 @@ void link_number(int *hint_integer)
 {
     int letter_index, tracker_count, number, i, valid;
     int tracker[26];
-    // hint_integer = (int *)realloc(hint_integer, sizeof(int) * ALPHABET_COUNT);
+    /* hint_integer = (int *)realloc(hint_integer, sizeof(int) * ALPHABET_COUNT);*/
     tracker_count = 0;
     letter_index = 0;
 

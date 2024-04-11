@@ -26,25 +26,30 @@ typedef enum
 } Difficulty;
 
 /* Function to validate user input within a specified range */
-int validateChoice(int start, int end) {
+int validateChoice(int start, int end)
+{
     int choice;
     char input[100];
 
-    do {
+    do
+    {
         printf("    Option: ");
-        if (fgets(input, sizeof(input), stdin) == NULL) {
+        if (fgets(input, sizeof(input), stdin) == NULL)
+        {
             printf("Error reading input.\n");
             return 0;
         }
 
         /*Validate data type*/
-        if (sscanf(input, "%d", &choice) != 1) {  
+        if (sscanf(input, "%d", &choice) != 1)
+        {
             printf("Invalid input. Please enter a number.\n");
             continue;
         }
 
         /*Validate range*/
-        if (choice < start || choice > end) {  
+        if (choice < start || choice > end)
+        {
             printf("Invalid choice. Please select an option between %d and %d.\n", start, end);
         }
     } while (choice < start || choice > end);
@@ -53,7 +58,8 @@ int validateChoice(int start, int end) {
 }
 
 /* Function to get player's name */
-void enter_player_name(char *name) {
+void enter_player_name(char *name)
+{
     printf("\n");
     printf("   *************************************************************************************************************\n");
     printf("\n");
@@ -281,10 +287,12 @@ void main_menu(int *current_state, game_level *game_levels)
 }
 
 /*function to display the game rules*/
-void display_rules(void) {
+void display_rules(void)
+{
     FILE *file = fopen("how_to_play.html", "w"); /*Create a new HTML file*/
-    
-    if (file == NULL) {
+
+    if (file == NULL)
+    {
         printf("Error creating file!\n");
     }
 
@@ -484,17 +492,16 @@ void display_rules(void) {
 
     fclose(file); /*Close the file*/
 
-    #ifdef _WIN32
-        /* Open the HTML file using the default web browser on Windows */
-        ShellExecute(NULL, "open", "how_to_play.html", NULL, NULL, SW_SHOWNORMAL);
-    #elif __APPLE__
-        /* Open the HTML file using the default web browser on macOS */
-        system("open how_to_play.html");
-    #else
-        /* Open the HTML file using the default web browser on Linux */
-        system("xdg-open how_to_play.html");
-    #endif
-
+#ifdef _WIN32
+    /* Open the HTML file using the default web browser on Windows */
+    ShellExecute(NULL, "open", "how_to_play.html", NULL, NULL, SW_SHOWNORMAL);
+#elif __APPLE__
+    /* Open the HTML file using the default web browser on macOS */
+    system("open how_to_play.html");
+#else
+    /* Open the HTML file using the default web browser on Linux */
+    system("xdg-open how_to_play.html");
+#endif
 }
 
 /* Print out the hangman screen on console */
@@ -568,7 +575,7 @@ void display_hangman(char *chosen_word, char *hidden_word, int *lives, int word_
                 break;
             case 4:
                 /* Head + Hint code*/
-                printf("           ");
+                printf("#          ");
                 printf("%02d %02d", hint_code[hint_letter[0] - 'a'], hint_code[hint_letter[1] - 'a']);
                 base = 16;
                 for (i = base; i < window_width - 8; i++)
@@ -712,7 +719,6 @@ void display_hangman(char *chosen_word, char *hidden_word, int *lives, int word_
 #                                       #
 #########################################
 */
-
 
 /*int main(int argc, char *argv[]){
     char *hidden_word;
