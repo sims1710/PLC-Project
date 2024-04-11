@@ -13,10 +13,4 @@ void time_attack_mode(char *chosen_word, char *hidden_word, char *guessed_letter
 
 void multiplayer_mode(void);
 
-void add_new_word(void);
-
-void endless_mode(void);
-
 void enter_name(char name[]);
-
-
