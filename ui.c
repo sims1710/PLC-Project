@@ -12,7 +12,6 @@ typedef enum
     MULTIPLAYER = 3,
     LEADERBOARD = 4,
     ATTACK = 5,
-    ENDLESS = 6,
     GAMERULE = 7,
     MAIN_MENU = 8,
     END = 0
@@ -262,12 +261,6 @@ void main_menu(int *current_state, game_level *game_levels)
         *current_state = ATTACK;
         printf("    You have selected Time Attack Mode.\n");
         printf("    Loading Time Attack Mode...\n");
-        break;
-
-    case ENDLESS:
-        *current_state = ENDLESS;
-        printf("    You have selected Endless Mode.\n");
-        printf("    Loading Endless Mode...\n");
         break;
 
     case GAMERULE:
