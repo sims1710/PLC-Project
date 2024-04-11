@@ -180,8 +180,9 @@ void generateLeaderboardHTML(void) {
         fprintf(fp, "</div>\n");
         fprintf(fp, "<table>\n");
         fprintf(fp, "<tr><th>RANK</th><th>NAME</th><th>SCORE</th></tr>\n");
-
-        
+    
+        count = 0; // Reset count for each mode
+    
         for (i = 0; i < numEntries && count < 10; i++) {
             if (leaderboard[i].mode == mode) {
                 fprintf(fp, "<tr><td>%d</td><td>%s</td><td>%d</td></tr>\n",
@@ -189,14 +190,14 @@ void generateLeaderboardHTML(void) {
                 count++;
             }
         }
-
+    
         /* Add dummy rows if count is less than 10 */
         while (count < 10) {
             fprintf(fp, "<tr><td>%d</td><td>%s</td><td>%d</td></tr>\n",
                     count + 1, "Dummy", 0);
             count++;
         }
-
+    
         fprintf(fp, "</table>\n");
         fprintf(fp, "</div>\n"); 
     }
