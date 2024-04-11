@@ -162,13 +162,13 @@ void update_game_level(game_level *game_levels)
 }
 
 /* Retrieve word from file */
-void get_word(chosen_difficulty *file_set, char* chosen_word)
+void get_word(chosen_difficulty *file_set, char *chosen_word)
 {
     FILE *fptr;
     int index, iterate;
     char *word_count = (char *)malloc(sizeof(char) * 100); /*temporary allocation*/
     char *buffer = (char *)malloc(sizeof(char) * 100);
-    chosen_word = (char *)realloc(chosen_word, sizeof(char) * ((file_set->word_len)+1));
+    chosen_word = (char *)realloc(chosen_word, sizeof(char) * ((file_set->word_len) + 1));
 
     if (!word_count || !buffer || !chosen_word)
     {
@@ -176,7 +176,6 @@ void get_word(chosen_difficulty *file_set, char* chosen_word)
         free(word_count);
         free(buffer);
         free(chosen_word);
-
     }
 
     /* Open file */
@@ -196,8 +195,9 @@ void get_word(chosen_difficulty *file_set, char* chosen_word)
     {
         if (iterate == index)
         {
-            /* Might need to redo this part */
-            fgets(chosen_word, 100, fptr);
+            /* Take from buffer instead */
+            strncpy(chosen_word, buffer, file_set->word_len);
+            chosen_word[file_set->word_len] = '\0';
             break;
         }
         iterate++;
@@ -312,9 +312,7 @@ void player_input(char *chosen_word, char *hidden_word, char *guessed_letters, i
 
         /*fgets(full_input, sizeof(char) * 9, stdin); */
         input_letter = fgetc(stdin);
-        
 
-    
         /* for (i = 0; full_input[i] != '\0'; i++)
         {
             length_of_stdin++;
@@ -450,35 +448,37 @@ void update_hidden_word(char *hidden_word, char *chosen_word, char input_letter)
 }
 
 /* for the hints implementation, link numbers to letters */
-void link_number(int* hint_integer)
+void link_number(int *hint_integer)
 {
     int letter_index, tracker_count, number, i, valid;
     int tracker[26];
-    hint_integer = (int *)realloc(hint_integer, sizeof(int) * ALPHABET_COUNT);
+    // hint_integer = (int *)realloc(hint_integer, sizeof(int) * ALPHABET_COUNT);
     tracker_count = 0;
     letter_index = 0;
-    
+
     while (tracker_count < 26)
     {
         valid = 1;
         srand(time(NULL));
         number = rand() % 26;
-        for (i = 0; i < tracker_count; i++)
+        if (tracker_count != 0)
         {
-            if (number == tracker[i])
+            for (i = 0; i < tracker_count; i++)
             {
-                valid = 0;
+                if (number == tracker[i])
+                {
+                    valid = 0;
+                }
             }
         }
-        if (valid == 0)
+        if (valid == 1)
         {
-            continue;
+            tracker[letter_index] = number;
+            hint_integer[letter_index] = number + 1;
+            letter_index++;
+            tracker_count++;
+            printf("number: %d /n", number);
         }
-        tracker[letter_index] = number;
-        hint_integer[letter_index] = number + 1;
-        letter_index++;
-        tracker_count++;
-        printf("number: %d /n", number);
     }
 }
 
@@ -544,7 +544,7 @@ void suggest_hint(char *chosen_word, char *guessed_letters, game_level *game_lev
                 hint_char[0] = current_letter;
             }
             else
-            {   
+            {
                 hint_char[1] = current_letter;
             }
 
@@ -553,7 +553,6 @@ void suggest_hint(char *chosen_word, char *guessed_letters, game_level *game_lev
             letter_found = 1;
         }
     }
-
 }
 
 /*keeping track of the players score*/
