@@ -24,9 +24,8 @@ typedef enum
     MULTIPLAYER = 3,
     LEADERBOARD = 4,
     ATTACK = 5,
-    ENDLESS = 6,
-    GAMERULE = 7,
-    MAIN_MENU = 8,
+    GAMERULE = 6,
+    MAIN_MENU = 7,
     END = 0
 } Choice;
 
@@ -197,9 +196,6 @@ int main(int argc, char *argv[])
             free(guessed_letters);
             free(hidden_word);
             free(game_levels);
-            break;
-        case ENDLESS:
-            endless_mode();
             break;
         case GAMERULE:
             /*display the game rules*/
