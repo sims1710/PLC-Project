@@ -115,8 +115,9 @@ int main(int argc, char *argv[])
                 {
                     printf("\nCurrent word to guess: %s\n", hidden_word);
                     printf("Do you want a hint? (0 for no, 1 for yes): \n");
-                    clear_stdin();
+
                     want_hint = fgetc(stdin);
+                    clear_stdin();
 
                     if (want_hint == 49)
                     {
@@ -124,13 +125,11 @@ int main(int argc, char *argv[])
                     }
                     printf("Please input your guess!\n");
 
-                    clear_stdin();
                     /*processing the player input when they are playing the hangman*/
                     player_input(chosen_word, hidden_word, guessed_letters, lives, word_len, score);
 
                     /*displaying hangman for every input given by player*/
                     display_hangman(chosen_word, hidden_word, lives, word_len, hint_char, hint_integer, hints_given, score);
-                    clear_stdin();
 
                     score_tracker(score, lives);
 
