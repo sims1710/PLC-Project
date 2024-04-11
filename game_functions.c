@@ -312,7 +312,7 @@ void player_input(char *chosen_word, char *hidden_word, char *guessed_letters, i
 
         /*fgets(full_input, sizeof(char) * 9, stdin); */
         input_letter = fgetc(stdin);
-
+        clear_stdin();
         /* for (i = 0; full_input[i] != '\0'; i++)
         {
             length_of_stdin++;
