@@ -39,7 +39,7 @@ typedef enum
 int main(int argc, char *argv[])
 {
     char *chosen_word, *guessed_letters, *hidden_word, *hint_char;
-    int difficulty, lives_address, score_address, hint_address, word_len, continue_game, want_hint, i, game_over, state;
+    int difficulty, lives_address, score_address, hint_address, word_len, continue_game, want_hint, i, game_over, state, hidden_index;
     int *lives = &lives_address, *score = &score_address, *hints_given = &hint_address, *hint_integer, *currentState;
 
     game_level *game_levels;
@@ -83,11 +83,11 @@ int main(int argc, char *argv[])
         switch (*currentState)
         {
         case NEW_GAME:
+            srand(time(NULL));
             /*set the current game levels as 1, the first level*/
             game_levels->current_level = 1;
             while (!game_over && (game_levels->current_level <= 20))
             {
-                update_game_level(game_levels);
                 get_word(&game_levels->chosenDiff, chosen_word);
                 if (chosen_word == NULL)
                 {
@@ -101,7 +101,6 @@ int main(int argc, char *argv[])
                 /*allocating memory for guessed letters and hidden word*/
                 guessed_letters = (char *)realloc(guessed_letters, sizeof(char) * 26);
                 hidden_word = (char *)realloc(hidden_word, sizeof(char) * word_len + 1);
-                int hidden_index;
                 for (hidden_index = 0; hidden_index < word_len; hidden_index++)
                 {
                     hidden_word[hidden_index] = '_';
@@ -116,7 +115,7 @@ int main(int argc, char *argv[])
 
                 /*display the initial hangman*/
                 display_hangman(chosen_word, hidden_word, lives, word_len, hint_char, hint_integer, hints_given, score);
-
+                clear_stdin();
                 while (*lives > 0)
                 {
                     printf("\nCurrent word to guess: %s\n", hidden_word);
@@ -142,6 +141,7 @@ int main(int argc, char *argv[])
                     if (strncmp(hidden_word, chosen_word, word_len) == 0)
                     {
                         printf("Congratulations! You move on to the next word");
+                        update_game_level(game_levels);
                     }
                 }
 

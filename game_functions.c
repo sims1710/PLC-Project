@@ -165,15 +165,17 @@ void update_game_level(game_level *game_levels)
 void get_word(chosen_difficulty *file_set, char *chosen_word)
 {
     FILE *fptr;
-    int index, iterate;
+    int index, iterate, i, flag;
     char *word_count = (char *)malloc(sizeof(char) * 100); /*temporary allocation*/
     char *buffer = (char *)malloc(sizeof(char) * 100);
     chosen_word = (char *)realloc(chosen_word, sizeof(char) * ((file_set->word_len) + 1));
 
+    flag = 0;
+
     if (!word_count || !buffer || !chosen_word)
     {
         fprintf(stderr, "Memory allocation failed\n");
-        free(word_count);
+        /*free(word_count);*/
         free(buffer);
         free(chosen_word);
     }
@@ -195,6 +197,17 @@ void get_word(chosen_difficulty *file_set, char *chosen_word)
     {
         if (iterate == index)
         {
+            for(i=0; i<file_set->word_len;i++){
+                if (buffer[i] < 'a' || buffer[i] > 'z'){
+                    flag = 1;
+                    break;
+                }
+            }
+            if(flag){
+                flag = 0;
+                continue;
+            }
+
             /* Take from buffer instead */
             strncpy(chosen_word, buffer, file_set->word_len);
             chosen_word[file_set->word_len] = '\0';
@@ -459,7 +472,7 @@ void link_number(int *hint_integer)
     while (tracker_count < 26)
     {
         valid = 1;
-        srand(time(NULL));
+        /*srand(time(NULL));*/
         number = rand() % 26;
         if (tracker_count != 0)
         {
