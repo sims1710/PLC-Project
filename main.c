@@ -53,7 +53,9 @@ int main(int argc, char *argv[])
     /*hints given in each game are 2 hints*/
     hint_char = (char *)malloc(sizeof(char) * 3); /*size is 3, extra 1 is for the null terminating*/
     hint_integer = (int *)malloc(sizeof(int) * 26);
+    guessed_letters = (char *)malloc(sizeof(char) * 26);
     chosen_word = (char *)malloc(sizeof(char) * 7);
+    hidden_word = (char *)malloc(sizeof(char) * 7);
     hint_char[0] = '_';
     hint_char[1] = '_';
     if (!game_levels || !hint_char)
@@ -100,6 +102,11 @@ int main(int argc, char *argv[])
                 /*allocating memory for guessed letters and hidden word*/
                 guessed_letters = (char *)realloc(guessed_letters, sizeof(char) * 26);
                 hidden_word = (char *)realloc(hidden_word, sizeof(char) * word_len + 1);
+                int hidden_index;
+                for (hidden_index = 0; hidden_index < word_len; hidden_index++)
+                {
+                    hidden_word[hidden_index] = '_';
+                }
                 /*check if the memory allocation failed*/
                 if (!guessed_letters || !hidden_word)
                 {
@@ -136,7 +143,6 @@ int main(int argc, char *argv[])
                     if (strncmp(hidden_word, chosen_word, word_len) == 0)
                     {
                         printf("Congratulations! You move on to the next word");
-
                     }
                 }
 
@@ -207,8 +213,10 @@ int main(int argc, char *argv[])
         }
     }
     free(chosen_word);
+    free(hidden_word);
     free(game_levels);
     free(hint_char);
     free(hint_integer);
+    free(guessed_letters);
     return 0;
 }
