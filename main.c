@@ -98,8 +98,8 @@ int main(int argc, char *argv[])
                 word_len = game_levels->chosenDiff.word_len;
 
                 /*allocating memory for guessed letters and hidden word*/
-                guessed_letters = (char *)malloc(sizeof(char) * 26);
-                hidden_word = (char *)malloc(sizeof(char) * word_len + 1);
+                guessed_letters = (char *)realloc(guessed_letters, sizeof(char) * 26);
+                hidden_word = (char *)realloc(hidden_word, sizeof(char) * word_len + 1);
                 /*check if the memory allocation failed*/
                 if (!guessed_letters || !hidden_word)
                 {
@@ -133,7 +133,7 @@ int main(int argc, char *argv[])
 
                     score_tracker(score, lives);
 
-                    if (strcmp(hidden_word, chosen_word) == 0)
+                    if (strncmp(hidden_word, chosen_word, word_len) == 0)
                     {
                         printf("Congratulations! You move on to the next word");
 
@@ -151,15 +151,17 @@ int main(int argc, char *argv[])
                     printf("Congratulations! You have completed all levels.\n");
                 }
 
-                free(chosen_word);
-                free(hidden_word);
-                free(game_levels);
-                free(hint_char);
-                free(hint_integer);
-                free(guessed_letters);
+                /*free(chosen_word);*/
+                /*free(hidden_word);*/
+                /*free(game_levels);*/
+                /*free(hint_char);*/
+                hint_char[0] = '_';
+                hint_char[1] = '_';
+                /*free(hint_integer);*/
+                /*free(guessed_letters);*/
 
-                while (getchar() != '\n')
-                    ;
+                /*while (getchar() != '\n')
+                    ;*/
             }
 
             break;
@@ -205,6 +207,9 @@ int main(int argc, char *argv[])
             break;
         }
     }
-
+    free(chosen_word);
+    free(game_levels);
+    free(hint_char);
+    free(hint_integer);
     return 0;
 }
