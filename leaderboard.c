@@ -181,6 +181,8 @@ void generateLeaderboardHTML(void) {
         fprintf(fp, "<table>\n");
         fprintf(fp, "<tr><th>RANK</th><th>NAME</th><th>SCORE</th></tr>\n");
 
+        count = 0;
+
         
         for (i = 0; i < numEntries && count < 10; i++) {
             if (leaderboard[i].mode == mode) {

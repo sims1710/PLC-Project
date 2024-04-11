@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
     char *chosen_word, *guessed_letters, *hidden_word, *hint_char;
     int difficulty, lives_address, score_address, hint_address, word_len, continue_game, want_hint, i, game_over, state, hidden_index;
     int *lives = &lives_address, *score = &score_address, *hints_given = &hint_address, *hint_integer, *currentState;
-
+    char name[100];
     game_level *game_levels;
     currentState = &state;
     *currentState = MAIN_MENU;
@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
     hint_char = (char *)malloc(sizeof(char) * 3); /*size is 3, extra 1 is for the null terminating*/
     hint_integer = (int *)malloc(sizeof(int) * 26);
     guessed_letters = (char *)malloc(sizeof(char) * 26);
-    chosen_word = (char *)malloc(sizeof(char) * 7);
+    chosen_word = (char *)malloc(sizeof(char) * 8);
     hidden_word = (char *)malloc(sizeof(char) * 7);
     hint_char[0] = '_';
     hint_char[1] = '_';
@@ -72,12 +72,16 @@ int main(int argc, char *argv[])
         game_over = 0;
 
         /*display the main menu*/
-        main_menu(currentState, game_levels);
+        main_menu(currentState, game_levels, name);
 
         if (*currentState == SAVED_GAME)
         {
             difficulty = game_levels->difficulty;
             load_game_state(lives, score, guessed_letters, chosen_word, difficulty, hints_given);
+            if(lives == NULL || score == NULL || chosen_word ==NULL){
+                *currentState = NEW_GAME;
+            }
+            
         }
 
         switch (*currentState)
@@ -86,7 +90,7 @@ int main(int argc, char *argv[])
             srand(time(NULL));
             /*set the current game levels as 1, the first level*/
             game_levels->current_level = 1;
-            while (!game_over && (game_levels->current_level <= 20))
+            while (!game_over && (game_levels->current_level <= 2))
             {
                 get_word(&game_levels->chosenDiff, chosen_word);
                 if (chosen_word == NULL)
@@ -100,11 +104,15 @@ int main(int argc, char *argv[])
 
                 /*allocating memory for guessed letters and hidden word*/
                 guessed_letters = (char *)realloc(guessed_letters, sizeof(char) * 26);
+                for(i=0; i<26; i++){
+                    guessed_letters[i] = '\0';
+                }
                 hidden_word = (char *)realloc(hidden_word, sizeof(char) * word_len + 1);
                 for (hidden_index = 0; hidden_index < word_len; hidden_index++)
                 {
                     hidden_word[hidden_index] = '_';
                 }
+                hidden_word[word_len] = '\0';
                 /*check if the memory allocation failed*/
                 if (!guessed_letters || !hidden_word)
                 {
@@ -142,12 +150,24 @@ int main(int argc, char *argv[])
                     {
                         printf("Congratulations! You move on to the next word");
                         update_game_level(game_levels);
+                        if((game_levels->current_level) >= 2){
+                            updateLeaderboard(*score, difficulty);
+                            displayLeaderboard();
+                            
+                        }
+                        break;
                     }
                 }
 
                 if (*lives <= 0)
                 {
                     printf("Game over! You've run out of lives.\n");
+                    free(chosen_word);
+                    free(hidden_word);
+                    free(game_levels);
+                    free(hint_char);
+                    free(hint_integer);
+                    free(guessed_letters);
                     game_over = 1;
                 }
 
@@ -162,6 +182,8 @@ int main(int argc, char *argv[])
                 /*free(hint_char);*/
                 hint_char[0] = '_';
                 hint_char[1] = '_';
+                *hints_given = 0;
+                *lives = MAX_LIVES;
                 /*free(hint_integer);*/
                 /*free(guessed_letters);*/
 
@@ -174,8 +196,8 @@ int main(int argc, char *argv[])
             multiplayer_mode();
             break;
         case LEADERBOARD:
-            generateLeaderboardHTML();
             displayLeaderboard();
+            addToLeaderboard(name, *score, game_levels->difficulty);
             break;
         case ATTACK:
             choose_difficulty(game_levels);

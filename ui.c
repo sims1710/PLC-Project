@@ -73,10 +73,10 @@ void enter_player_name(char *name)
 }
 
 /* Main menu function */
-void main_menu(int *current_state, game_level *game_levels)
+void main_menu(int *current_state, game_level *game_levels, char *name)
 {
     int choice, choice2;
-    char name[100];
+    /*char name[100];*/
     printf(" \n");
     printf("    █     █░▓█████  ██▓     ▄████▄   ▒█████   ███▄ ▄███▓▓█████    ▄▄▄█████▓ ▒█████     ▄▄▄█████▓ ██░ ██ ▓█████ \n");
     printf("    ▓█░ █ ░█░▓█   ▀ ▓██▒    ▒██▀ ▀█  ▒██▒  ██▒▓██▒▀█▀ ██▒▓█   ▀    ▓  ██▒ ▓▒▒██▒  ██▒   ▓  ██▒ ▓▒▓██░ ██▒▓█   ▀ \n");
@@ -107,14 +107,13 @@ void main_menu(int *current_state, game_level *game_levels)
     printf("\n");
 
     printf("\n");
-    printf("    Please select an option (by inputing 1\\2\\3\\4\\5\\6\\7\\0): \n");
+    printf("    Please select an option (by inputing 1\\2\\3\\4\\5\\6\\0): \n");
     printf("    1. New Game\n");
     printf("    2. Saved Game\n");
     printf("    3. Multiplayer\n");
     printf("    4. Leaderboard\n");
     printf("    5. Time Attack Mode\n");
-    printf("    6. Endless Mode\n");
-    printf("    7. Game Rules\n");
+    printf("    6. Game Rules\n");
     printf("    Enter the number 0 if you want to exit\n");
     printf("\n");
 
@@ -427,7 +426,7 @@ void display_rules(void)
     fprintf(file, "2. You can either: guess a letter once at a time or try guessing the word all at once. <br><br> ");
     fprintf(file, "3. You will get hints that will guide you to solving the word. <br><br> ");
     fprintf(file, "4. You can exit and save your game at any point using the number 0. <br><br> ");
-    fprintf(file, "5. They are 6 modes that you can choose to explore: Easy, Medium, Hard, Time Attack, Endless and Multiplayer. More details about them below! <br><br> ");
+    fprintf(file, "5. They are 5 modes that you can choose to explore: Easy, Medium, Hard, Time Attack and Multiplayer. More details about them below! <br><br> ");
     fprintf(file, "6. For all the modes, if you beat them, you get to input your own word to be solved. The word length should be greater than 3 letters. <br><br> ");
     fprintf(file, "7. You also get revealed a cheat code randomly upon winning any mode, which will ease your playing experience.</p>\n");
     fprintf(file, "        </div>\n");
@@ -452,7 +451,6 @@ void display_rules(void)
     fprintf(file, "            <p>In the time attack, you get to play with words of lengths 4-7 and try to guess the words within xx seconds.(TBC)</p>\n");
     fprintf(file, "        </div>\n");
     fprintf(file, "\n");
-    fprintf(file, "        <button class=\"accordion\">Endless Mode</button>\n");
     fprintf(file, "        <div class=\"panel\">\n");
     fprintf(file, "            <p>There are unlimited tries and levels! You get to play wordds inputted by winners of other modes and play around without any constraints.</p>\n");
     fprintf(file, "        </div>\n");
