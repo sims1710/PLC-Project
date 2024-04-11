@@ -12,8 +12,8 @@ typedef enum
     MULTIPLAYER = 3,
     LEADERBOARD = 4,
     ATTACK = 5,
-    GAMERULE = 7,
-    MAIN_MENU = 8,
+    GAMERULE = 6,
+    MAIN_MENU = 7,
     END = 0
 } Choice;
 
