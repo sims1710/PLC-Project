@@ -8,12 +8,11 @@
 typedef enum
 {
     NEW_GAME = 1,
-    SAVED_GAME = 2,
-    MULTIPLAYER = 3,
-    LEADERBOARD = 4,
-    ATTACK = 5,
-    GAMERULE = 6,
-    MAIN_MENU = 7,
+    MULTIPLAYER = 2,
+    LEADERBOARD = 3,
+    ATTACK = 4,
+    GAMERULE = 5,
+    MAIN_MENU = 6,
     END = 0
 } Choice;
 
@@ -98,22 +97,21 @@ void main_menu(int *current_state, game_level *game_levels, char *name)
     printf("    ░  ░░ ░  ░   ▒      ░   ░ ░ ░ ░   ░ ░      ░     ░   ▒      ░   ░ ░    ░ ░   ░   ░   ▒   ░      ░      ░      \n");
     printf("    ░  ░  ░      ░  ░         ░       ░        ░         ░  ░         ░          ░       ░  ░       ░      ░  ░   \n");
     printf("                                                                                                                     \n");
-    printf("                   ┌────────────┐     ┌────────────┐     ┌─────────────┐     ┌─────────────┐\n");
-    printf("                   │  New Game  │     │ Saved Game │     │ Multiplayer │     │ Leaderboard │\n");
-    printf("                   └────────────┘     └────────────┘     └─────────────┘     └─────────────┘\n");
-    printf("                             ┌────────────┐     ┌────────────┐     ┌─────────────┐          \n");
-    printf("                             │Time Attack │     │   Endless  │     │  Game Rules │          \n");
-    printf("                             └────────────┘     └────────────┘     └─────────────┘          \n");
+    printf("                   ┌────────────┐     ┌─────────────┐     ┌─────────────┐\n");
+    printf("                   │  New Game  │     │ Multiplayer │     │ Leaderboard │\n");
+    printf("                   └────────────┘     └─────────────┘     └─────────────┘\n");
+    printf("                   ┌────────────┐     ┌────────────┐     ┌─────────────┐          \n");
+    printf("                   │Time Attack │     │   Endless  │     │  Game Rules │          \n");
+    printf("                   └────────────┘     └────────────┘     └─────────────┘          \n");
     printf("\n");
 
     printf("\n");
     printf("    Please select an option (by inputing 1\\2\\3\\4\\5\\6\\0): \n");
     printf("    1. New Game\n");
-    printf("    2. Saved Game\n");
-    printf("    3. Multiplayer\n");
-    printf("    4. Leaderboard\n");
-    printf("    5. Time Attack Mode\n");
-    printf("    6. Game Rules\n");
+    printf("    2. Multiplayer\n");
+    printf("    3. Leaderboard\n");
+    printf("    4. Time Attack Mode\n");
+    printf("    5. Game Rules\n");
     printf("    Enter the number 0 if you want to exit\n");
     printf("\n");
 
@@ -235,11 +233,6 @@ void main_menu(int *current_state, game_level *game_levels, char *name)
         default:
             break;
         }
-        break;
-    case SAVED_GAME:
-        *current_state = SAVED_GAME;
-        printf("    You have selected Saved Game.\n");
-        printf("    Loading saved game...\n");
         break;
 
     case MULTIPLAYER:
@@ -425,10 +418,9 @@ void display_rules(void)
     fprintf(file, "1. For every word you are trying to solve, you have 8 chances (8 lives). If you fail to solve the word after the 8 chances, the game terminates. <br><br> ");
     fprintf(file, "2. You can either: guess a letter once at a time or try guessing the word all at once. <br><br> ");
     fprintf(file, "3. You will get hints that will guide you to solving the word. <br><br> ");
-    fprintf(file, "4. You can exit and save your game at any point using the number 0. <br><br> ");
-    fprintf(file, "5. They are 5 modes that you can choose to explore: Easy, Medium, Hard, Time Attack and Multiplayer. More details about them below! <br><br> ");
-    fprintf(file, "6. For all the modes, if you beat them, you get to input your own word to be solved. The word length should be greater than 3 letters. <br><br> ");
-    fprintf(file, "7. You also get revealed a cheat code randomly upon winning any mode, which will ease your playing experience.</p>\n");
+    fprintf(file, "4. They are 5 modes that you can choose to explore: Easy, Medium, Hard, Time Attack and Multiplayer. More details about them below! <br><br> ");
+    fprintf(file, "5. For all the modes, if you beat them, you get to input your own word to be solved. The word length should be greater than 3 letters. <br><br> ");
+    fprintf(file, "6. You also get revealed a cheat code randomly upon winning any mode, which will ease your playing experience.</p>\n");
     fprintf(file, "        </div>\n");
     fprintf(file, "\n");
     fprintf(file, "        <button class=\"accordion\">Easy Mode</button>\n");

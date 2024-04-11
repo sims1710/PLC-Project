@@ -225,8 +225,8 @@ void displayLeaderboard(void) {
 }
 
 /* Function to update the leaderboard with a new score for a specific mode */
-void updateLeaderboard(int score, int mode) {
-    addToLeaderboard("Player", score, mode); /* Assuming mode 1 for this example */
+void updateLeaderboard(const char *name,int score, int mode) {
+    addToLeaderboard(name, score, mode); /* Assuming mode 1 for this example */
     bubbleSortLeaderboard();
     generateLeaderboardHTML();
 }

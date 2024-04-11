@@ -20,12 +20,11 @@
 typedef enum
 {
     NEW_GAME = 1,
-    SAVED_GAME = 2,
-    MULTIPLAYER = 3,
-    LEADERBOARD = 4,
-    ATTACK = 5,
-    GAMERULE = 6,
-    MAIN_MENU = 7,
+    MULTIPLAYER = 2,
+    LEADERBOARD = 3,
+    ATTACK = 4,
+    GAMERULE = 5,
+    MAIN_MENU = 6,
     END = 0
 } Choice;
 
@@ -38,6 +37,7 @@ typedef enum
 
 int main(int argc, char *argv[])
 {
+    
     char *chosen_word, *guessed_letters, *hidden_word, *hint_char;
     int difficulty, lives_address, score_address, hint_address, word_len, continue_game, want_hint, i, game_over, state, hidden_index;
     int *lives = &lives_address, *score = &score_address, *hints_given = &hint_address, *hint_integer, *currentState;
@@ -62,7 +62,6 @@ int main(int argc, char *argv[])
         printf("Failed to allocate memory for game levels.\n");
         return 1;
     }
-
     while (continue_game)
     {
         *lives = MAX_LIVES;
@@ -74,15 +73,15 @@ int main(int argc, char *argv[])
         /*display the main menu*/
         main_menu(currentState, game_levels, name);
 
-        if (*currentState == SAVED_GAME)
+        /*if (*currentState == SAVED_GAME)
         {
             difficulty = game_levels->difficulty;
             load_game_state(lives, score, guessed_letters, chosen_word, difficulty, hints_given);
             if(lives == NULL || score == NULL || chosen_word ==NULL){
                 *currentState = NEW_GAME;
             }
-            
-        }
+
+        }*/
 
         switch (*currentState)
         {
@@ -90,6 +89,7 @@ int main(int argc, char *argv[])
             srand(time(NULL));
             /*set the current game levels as 1, the first level*/
             game_levels->current_level = 1;
+            difficulty = game_levels->difficulty;
             while (!game_over && (game_levels->current_level <= 2))
             {
                 get_word(&game_levels->chosenDiff, chosen_word);
@@ -151,7 +151,7 @@ int main(int argc, char *argv[])
                         printf("Congratulations! You move on to the next word");
                         update_game_level(game_levels);
                         if((game_levels->current_level) >= 2){
-                            updateLeaderboard(*score, difficulty);
+                            updateLeaderboard(name, *score, difficulty);
                             displayLeaderboard();
                             
                         }

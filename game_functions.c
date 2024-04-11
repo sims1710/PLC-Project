@@ -318,6 +318,7 @@ void player_input(char *chosen_word, char *hidden_word, char *guessed_letters, i
     valid = 0;
     /*full_input = (char *)malloc(sizeof(char) * 11);
     initCheatFSM(&cheatFsm, hintCheat, liveCheat);*/
+    
 
     while (valid == 0)
     {
