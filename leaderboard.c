@@ -191,14 +191,14 @@ void generateLeaderboardHTML(void) {
                 count++;
             }
         }
-
+    
         /* Add dummy rows if count is less than 10 */
         while (count < 10) {
             fprintf(fp, "<tr><td>%d</td><td>%s</td><td>%d</td></tr>\n",
                     count + 1, "Dummy", 0);
             count++;
         }
-
+    
         fprintf(fp, "</table>\n");
         fprintf(fp, "</div>\n"); 
     }
