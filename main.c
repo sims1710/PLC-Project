@@ -175,6 +175,7 @@ int main(int argc, char *argv[])
             word_len = game_levels->chosenDiff.word_len;
             get_word(&game_levels->chosenDiff, chosen_word);
             guessed_letters = (char *)malloc(sizeof(char) * 26);
+            chosen_word = (char *)malloc(sizeof(char) * 7);
             hidden_word = (char *)malloc(sizeof(char) * word_len + 1);
             for (i = 0; i < word_len; i++)
             {
