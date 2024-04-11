@@ -563,7 +563,7 @@ void suggest_hint(char *chosen_word, char *guessed_letters, game_level *game_lev
             }
 
             (*hints_given)++;
-            printf("Hint provided is %d and the character of the hint letter is %c\n", hint_integer[i], current_letter);
+            printf("Hint provided of the hint letter is %c\n", current_letter);
             letter_found = 1;
         }
     }

@@ -230,6 +230,7 @@ int main(int argc, char *argv[])
             *currentState = MAIN_MENU;
             break;
         }
+        
     }
     free(chosen_word);
     free(hidden_word);
