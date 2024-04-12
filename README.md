@@ -124,14 +124,3 @@ You can take a look of our excel sheet [here](https://docs.google.com/spreadshee
 
 ### ASCII Word Art
 The ASCII Word Art used in the code was generated from this [website](https://patorjk.com/software/taag/#p=display&f=Graffiti&t=Type%20Something%20).
-
-Content before the tabs.
-
-### [Tab A](#tab/tab-a)
-Tab A content.
-
-### [Tab B](#tab/tab-b)
-Tab B content.
-***
-
-Content after the tabs.
