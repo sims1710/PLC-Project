@@ -8,7 +8,7 @@ Our revamped Hangman game aims to provide an engaging and immersive experience b
 
 The codebase consists of C files (.c), header files (.h), and text files for word storage. Libraries required include standard C libraries for file handling, time measurement, and console manipulation. The primary code files include `main.c`, `game_functions.c`, `game_modes.c`, `ui.c`, `leaderboard.c`, `clear_functions.c`, and `utility.c`, each responsible for specific aspects of the game logic and user interface.
 
-You can read the Code Documentation [here](). 
+You can read the Code Documentation [here](https://github.com/sims1710/PLC-Project/blob/main/Code%20Documentation.md). 
 
 ### How to Install C Library and Run the Program
 
