@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Rules</title>
+    <link rel="icon" href="/images/hangman.webp" type="image/png">
+    <style>
+        body {
+            background-image: url('/images/background.png') !important;
+            font-family: Arial, sans-serif;
+            background-size: cover;
+            background-size: 99%; /* Adjust the percentages as needed */
+        }
+
+        .Introduction,
+        .General_Rules,
+        .Have_Fun {
+            margin: 0 auto; /* Center the content */
+        }
+
+        .Introduction {
+            background-color: #000000;
+            padding: 10px;
+            text-align: center;
+            color: #ffffff;
+            width: 60%;
+            margin-bottom: 10px;
+        }
+        .General_Rules {
+            background-color: #000000;
+            padding: 10px;
+            text-align: center;
+            color: #ffffff;
+            width: 60%;
+            margin-bottom: 10px;
+        }
+
+        .Have_Fun {
+            margin-top: 10px;
+            background-color: #000000;
+            padding: 10px;
+            text-align: center;
+            color: #ffffff;
+            width: 75%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #ffffff;
+            background-color: #000000;
+            width: 61.5%;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            margin-left: 270px !important;
+            animation: changeColor 3s infinite;
+        }
+
+        @keyframes changeColor {
+            0% { color: red; }
+            25% { color: green; }
+            50% { color: blue; }
+            75% { color: yellow; }
+            100% { color: orange; }
+        }
+
+        /* Style the buttons that are used to open and close the accordion panel */
+        .accordion {
+            background-color: black;
+            color: white;
+            cursor: pointer;
+            padding: 18px;
+            width: 61.35%;
+            text-align: left;
+            border: none;
+            outline: none;
+            transition: 0.4s;
+            margin-left: 274px !important;
+            margin-bottom: 2px;
+            font-size: medium;
+        }
+        
+        /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+        .active, .accordion:hover {
+            background-color: #ccc;
+            color:#000000;
+        }
+        
+        /* Style the accordion panel. Note: hidden by default */
+        .panel {
+            padding: 0 18px;
+            background-color: white;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+            width: 58.8%;
+            margin-left: 274px !important;
+        }
+
+        .accordion:after {
+            content: '\2304'; /* Unicode character for "plus" sign (+) */
+            font-size: 13px;
+            color: #777;
+            float: right;
+            margin-left: 5px;
+        }
+          
+        .active:after {
+            content: "\2038"; /* Unicode character for "minus" sign (-) */
+        }
+
+        p {
+            text-align: left;
+            padding: 10px;
+        }
+
+        h2 {
+            text-align: left;
+            padding-left: 10px;
+        }
+
+    </style>
+</head>
+<body>
+        <h1>HANGMAN GAME RULES</h1>
+        <div class="Introduction">
+            <h2>Introduction</h2>
+            <p>Welcome to the text-based Hangman Game! Dive into word-cracking fun, but first, get familiar with our Game Rule Guide for an overview of what's in store!</p>
+        </div>
+
+        <div class="General_Rules">
+           <h2>General Rule</h2> 
+           <p>This section covers the general rules applicable to the different modes of the game. Here they are: <br> <br> <br> 1. For every word you are trying to solve, you have 7 chances (7 lives). If you fail to solve the word after the 7 chances, the game terminates. <br><br> 2. You can either: guess a letter once at a time or try guessing the word all at once. <br><br> 3. You will get hints that will guide you to solving the word. <br><br> 4. You can exit and save your game at any point using the letter 'E'. <br><br> 5. They are 6 modes that you can choose to explore: Easy, Medium, Hard, Time Attack, Endless and Multiplayer. More details about them below! <br><br> 6. For all the modes, if you beat them, you get to input your own word to be solved. The word length should be greater than 3 letters. <br><br> 7. You also get revealed a cheat code randomly upon winning any mode, which will ease your playing experience.</p>
+        </div>
+
+        <button class="accordion">Easy Mode</button>
+        <div class="panel">
+            <p>There are 20 levels on Easy Mode and the word length ranges between 4 and 5 letters. The 7 lives rule is applicable. If you finish with one of the top scores, it will be added to our Leaderboard!</p>
+        </div>
+
+        <button class="accordion">Medium Mode</button>
+        <div class="panel">
+            <p>There are 20 levels on Medium Mode and the word length ranges between 4 and 6 letters. The 7 lives rule is applicable. If you finish with one of the top scores, it will be added to our Leaderboard!.</p>
+        </div>
+
+        <button class="accordion">Hard Mode</button>
+        <div class="panel">
+            <p>There are 20 levels on Hard Mode and the word length ranges between 6 and 7 letters. The 7 lives rule is applicable. Each time you guess wrongly, you lose 1 point. If you manage to guess the word with 120 seconds (2 minutes), you earn an extra point. If you finish with one of the top scores, it will be added to our Leaderboard!</p>
+        </div>
+
+        <button class="accordion">Time Attack Mode</button>
+        <div class="panel">
+            <p>In the time attack, you get to experience the countdown difficulty of Hard Mode and try to solve one word within 4 minutes. The word can be of any length between 4 to 7 letters. The 7 lives rule is applicable. If you manage to solve the game in 360 seconds (6 min), you win the round.</p>
+        </div>
+
+        <button class="accordion">Endless Mode</button>
+        <div class="panel">
+            <p>There are unlimited tries and levels! You get to play words inputted by winners of other modes and play around without any constraints.</p>
+        </div>
+
+        <button class="accordion">Multiplayer Mode</button>
+        <div class="panel">
+            <p>You get to play 20 levels consisting with words of word length 4-6 with a friend! You each have 7 lives and get to guess the word. If Player 1 fails to guess on the first try, for example, Player 2 gets to play.</p>
+        </div>
+
+        <div class="Have_Fun">Hope you have a fun time!</div>
+
+    <script>
+        var acc = document.getElementsByClassName("accordion");
+        var i;
+
+        for (i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var panel = this.nextElementSibling;
+                if (panel.style.maxHeight) {
+                  panel.style.maxHeight = null;
+                } else {
+                  panel.style.maxHeight = panel.scrollHeight + "px";
+                }
+            });
+        }
+    </script>
+</body>
+</html>
