@@ -1,1 +1,151 @@
 # Code Documentation
+
+## [main.c](https://github.com/sims1710/PLC-Project/blob/main/main.c):
+This file is the backbone of the code. It orchestrates a text-based hangman game, managing game setup, player input, gameplay mechanics such as word guessing and hint usage, score tracking, and interaction with other modules for UI display and leaderboard management. Its equivalent .h file is [game_structure.h](https://github.com/sims1710/PLC-Project/blob/main/game_structures.h) which has structures storing information related to game difficulty and progression, including details about word files, word lengths, current levels, and game difficulty settings.
+
+#### 1. Choice (enum structure):
+
+This typedef enum defines different choices available in the game menu.
+    Players can select options like starting a new game, entering multiplayer mode,
+    checking the leaderboard, attacking in a game, viewing game rules, going back to the main menu,
+    or ending the game.
+
+    Values:
+    - NEW_GAME: Represents starting a new game (value = 1).
+    - MULTIPLAYER: Represents entering multiplayer mode (value = 2).
+    - LEADERBOARD: Represents checking the leaderboard (value = 3).
+    - ATTACK: Represents attacking in a game (value = 4).
+    - GAMERULE: Represents viewing game rules (value = 5).
+    - MAIN_MENU: Represents going back to the main menu (value = 6).
+    - END: Represents ending the game (value = 0).
+
+#### 2. Difficulty (enum structure):
+
+This typedef enum defines different difficulty levels available in the game.
+    Players can choose between easy, medium, and hard difficulty levels.
+
+    Values:
+    - EASY: Represents the easy difficulty level (value = 1).
+    - MEDIUM: Represents the medium difficulty level (value = 2).
+    - HARD: Represents the hard difficulty level (value = 3).
+
+#### 3. int main function:
+
+This main function controls the execution flow of a Hangman game program. It includes game initialization, memory allocation, menu handling, gameplay logic, and resource deallocation.
+
+* @param argc: The number of command-line arguments.
+* @param argv: An array of strings representing the command-line arguments.
+* @return Returns 0 on successful execution, or 1 if memory allocation fails.
+
+**Functions used in main:**
+
+1. void display_rules() : Display the rules of the hangman game.
+2. void main_menu(int *currentState, game_level *game_levels, char *name) : Display the main menu and handle user input.
+3. void load_game_state(int *lives, int *score, char *guessed_letters, char *chosen_word, int difficulty, int *hints_given) : Load a saved game state if available.
+4. void get_word(struct difficultyLevel *chosenDiff, char *chosen_word) : Get a random word based on the chosen difficulty level.
+5. void display_hangman(char *chosen_word, char *hidden_word, int *lives, int word_len, char *hint_char, int *hint_integer, int *hints_given, int *score) : Display the hangman interface with the hidden word, guessed letters, hangman status, etc.
+6. void clear_stdin() : Clear input buffer.
+7. void suggest_hint(char *chosen_word, char *guessed_letters, game_level *game_levels, int *hints_given, int *score, int *hint_integer, char *hint_char) : Provide a hint to the player based on the chosen word and guessed letters.
+8. void player_input(char *chosen_word, char *hidden_word, char *guessed_letters, int *lives, int word_len, int *score) : Process player input during the game.
+9. void score_tracker(int *score, int *lives) : Track the player's score and remaining lives.
+10. void update_game_level(game_level *game_levels) : Update the game level after successfully guessing a word.
+11. void updateLeaderboard(char *name, int score, int difficulty) : Update the leaderboard with the player's name, score, and difficulty level.
+12. void displayLeaderboard() : Display the leaderboard.
+13. void time_attack_mode(char *chosen_word, char *hidden_word, char *guessed_letters, int *lives, int word_len, int *score) : Start the time attack mode where the player has a time limit to guess a word.
+14. void choose_difficulty(game_level *game_levels) : Choose the difficulty level for the game.
+15. void multiplayer_mode() : Multiplayer mode functionality.
+16. void addToLeaderboard(char *name, int score, int difficulty) : Add player's score to the leaderboard.
+
+## [game_functions.c:](https://github.com/sims1710/PLC-Project/blob/main/game_functions.c)
+The functions in the file manage game setup, gameplay mechanics like player input and word updates, and also handle cheat/hint functionalities such as revealing letters and managing player scores. Additionally, there are utility functions for generating random integers and tracking game progress, including challenge completion and leaderboard display. The function prototypes are defined in [game_functions.h](https://github.com/sims1710/PLC-Project/blob/main/game_functions.h).
+
+#### 1. State (enum structure):
+
+The State enum represents different states or phases in the game's logic or workflow.
+
+    Values:
+    - START: Initial state or starting point of a particular process or action.
+    - CHECK_LETTER: State for checking a letter, such as verifying if a guessed letter is correct.
+    - UPDATE_LETTER: State for updating a letter, typically used after confirming a correct guess.
+    - CONTINUE_SEARCH: State for continuing the search or iteration process, often used in loops or sequential checks.
+    - END: Final state or endpoint of a process or action, marking its completion or termination.
+
+These states are used to manage the flow of operations and decision-making within the game or program.
+
+#### 2. void choose_difficulty(game_level *game_levels):
+
+It allows the player to select a difficulty level for the game. It displays the available difficulties (Easy, Medium, Hard) and prompts the player to choose one by entering a corresponding number.
+
+- @param game_levels: A pointer to the game_level structure where the chosen difficulty will be stored.
+- @return void - The function does not return anything but updates the game_levels structure.
+
+#### 3. void update_game_level(game_level *game_levels):
+
+The function updates the current level of the game based on the difficulty mode selected by the player. It determines the sequence of words to be guessed according to the chosen difficulty level.
+
+- @param game_levels: A pointer to the game_level structure containing the current level and difficulty.
+- @return void - The function does not return anything but updates the game_levels structure with the new level and word length.
+
+#### 4. void get_word(chosen_difficulty *file_set, char *chosen_word):
+
+The get_word function retrieves a word from a specified file based on the chosen difficulty level and word length.
+
+- @param file_set: A pointer to the chosen_difficulty structure containing the filename and word length information.
+- @param chosen_word: A pointer to the character array where the retrieved word will be stored.
+- @return void - The function does not return anything but updates the chosen_word array with the retrieved word.
+
+#### 5. void player_input(char *chosen_word, char *hidden_word, char *guessed_letters, int *lives, int word_len, int *score):
+
+The function handles player input during the game, checking for validity, updating hidden word, and managing lives.
+
+- @param chosen_word: A pointer to the chosen word in the game.
+- @param hidden_word: A pointer to the hidden word where guessed letters are updated.
+- @param guessed_letters: A pointer to an array containing guessed letters.
+- @param lives: A pointer to the player's remaining lives.
+- @param word_len: The length of the word to be guessed.
+- @param score: A pointer to the player's score.
+- @return void - The function does not return anything but updates game parameters based on player input.
+
+#### 6. void update_hidden_word(char *hidden_word, char *chosen_word, char input_letter):
+
+It updates the hidden word based on the player's input letter and the chosen word.
+
+- @param hidden_word: A pointer to the hidden word where guessed letters are updated.
+- @param chosen_word: A pointer to the chosen word in the game.
+- @param input_letter: The letter input by the player.
+- @return void - The function does not return anything but updates the hidden_word array.
+
+#### 7. void link_number(int *hint_integer):
+
+The link_number function generates random numbers linked to letters for hints implementation.
+
+- @param hint_integer: A pointer to an integer array where the random numbers will be stored.
+- @return void - The function does not return anything but updates the hint_integer array.
+
+#### 8. void suggest_hint(char *chosen_word, char *guessed_letters, game_level *game_levels, int *hints_given, int *player_points, int *hint_integer, char *hint_char):
+
+It suggests a hint to the player during the game, revealing a letter in the word.
+
+- @param chosen_word: A pointer to the chosen word in the game.
+- @param guessed_letters: A pointer to an array containing guessed letters.
+- @param game_levels: A pointer to the game_level structure containing difficulty information.
+- @param hints_given: A pointer to the number of hints given to the player.
+- @param player_points: A pointer to the player's points.
+- @param hint_integer: A pointer to an integer array containing random numbers linked to letters.
+- @param hint_char: A pointer to a character array where the hint letter will be stored.
+- @return void - The function does not return anything but updates game parameters.
+
+#### 9. void score_tracker(int *score, int *lives):
+
+The function tracks the player's score and manages game challenges.
+
+- @param score: A pointer to the player's score.
+- @param lives: A pointer to the player's remaining lives.
+- @return void - The function does not return anything but manages score and challenges.
+
+## [game_modes.c](https://github.com/sims1710/PLC-Project/blob/main/game_modes.c)
+
+
+
+
+
