@@ -9,14 +9,7 @@
 /*  The time attack mode is to time the player against the time when they trying to guess a word that was randomly selected
     the player will lose if they are unable to guess the word correctly before the fixed time limit ends (4 minutes)
     or the player will lose if they lose their all of their lives even before the time ends
- 
-    @parameter chosen_word: is a string of the word that is needed to be guessed by the player
-               hidden_word: is a string that is the player that need to guess and will updated the guess letter into this string
-               guessed_letters: array of character which is the letters that the players had guessed
-               lives: pointer to the players' lives
-               word_len: the length of the word that is going to be guessed
-               scores: pointer to the scores of the player
-    @return nothing is returned as this is a time attack mode, it will keep on looping while the time and lives is not 0*/
+*/
 void time_attack_mode(char *chosen_word, char *hidden_word, char *guessed_letters, int *lives, int word_len, int *scores){
     time_t start_time, current_time;
     /*4 minutes (360 seconds) for the player to guess the word in this time attack mode*/
@@ -66,9 +59,6 @@ void enter_name(char name[]) {
 /*  In multiplayer mode, two players alternate turns to guess letters of a hidden word. Each player starts
     with a predetermined number of lives and scores, both initialized to zero at the start of the game. The 
     game continues until one of the players runs out of lives or correctly guesses the word.
-    
-    @param: nothing
-    @return: nothing
 */
 void multiplayer_mode(void) {
     char guessed_letters[MAX_WORD_LENGTH] = "";

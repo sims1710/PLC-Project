@@ -33,11 +33,7 @@ typedef struct
 /* Configures the difficulty level for a word-guessing game by allowing the user to select a difficulty level.
    This function prompts the user to choose from predefined difficulty levels, each corresponding to different 
    word lengths. Upon a valid choice, it updates the game_levels structure with the appropriate file path for
-   the word list and the expected word length for the selected difficulty.
- 
-   @param: game_levels: A pointer to a game_level struct that holds game state information including the selected 
-                        difficulty, the file name from which to read words, and the word length to be used in the game.
-    @return: nothing           
+   the word list and the expected word length for the selected difficulty.        
 */
 void choose_difficulty(game_level *game_levels)
 {
@@ -106,9 +102,6 @@ void choose_difficulty(game_level *game_levels)
     for easy mode: first 12 words to be guessed are 4 letters and the 8 words to be guessed are 5 letters
     for medium mode: first 8 words are 4 letters, 6 words next are 5 letters and 6 words next are 6 letters
     for hard mode: first 6 words are 5 letters, next 6 words are 6 letters and next 8 words are 7 letters
-
-    @param game_levels: is the game_level structure which stores the current level and difficulty
-    @return nothing because the function is only updating the current level
 */
 void update_game_level(game_level *game_levels)
 {
@@ -175,13 +168,6 @@ void update_game_level(game_level *game_levels)
 /* Retrieves a random word from a specified file and assigns it to the chosen_word variable. The word is selected based on a random index, 
    which is determined by the total number of words listed in the first line of the file. The function ensures that the word consists only 
    of lowercase letters and matches the specified length from the chosen_difficulty structure.
- 
-  @param:
-    - file_set: A pointer to a chosen_difficulty struct that contains information about the word length and the filename from which the 
-      word should be retrieved.
-    - chosen_word: A pointer to a character array where the chosen word will be stored. The function reallocates this pointer to match 
-      the required word length.
-  @return: nothing
 */
 void get_word(chosen_difficulty *file_set, char *chosen_word)
 {
@@ -250,18 +236,6 @@ void get_word(chosen_difficulty *file_set, char *chosen_word)
 2. Check if input exists in chosen
 3. If exists, run update hidden, else -1 lives
 4. Function ends
-
-  @param:
-    - chosen_word: A pointer to the character array holding the word that the player needs to guess.
-    - hidden_word: A pointer to the character array that displays the current state of the guessed word, with unguessed
-      letters represented by underscores or another placeholder.
-    - guessed_letters: A pointer to the character array that stores all letters guessed so far to prevent repeat guesses.
-    - lives: A pointer to an integer representing the player's remaining lives. This value is decremented if the player
-      makes an incorrect guess.
-    - word_len: An integer representing the length of the chosen_word.
-    - score: A pointer to an integer representing the player's score. The score is increased by the number of lives left
-      for every correct guess.
-  @return: nothing
 */
 void player_input(char *chosen_word, char *hidden_word, char *guessed_letters, int *lives, int word_len, int *score)
 {
@@ -333,11 +307,7 @@ void player_input(char *chosen_word, char *hidden_word, char *guessed_letters, i
    Using the State struct to keep track of the letter guessed by the player
    this function will end (when reach the END state) when all of the letters have been checked
    and it will check the input letter when it reach the CHECK_LETTER state
-
-   @param hidden_word: is a string that is the player that need to guess and will updated the guess letter into this string
-          chosen_word: is a string which is the word that the player need to guess and will be used to check against hidden_word
-          input_letter: is a character that the player inputs
-   @return return nothing because it is updating the hidden_word string character upon successful guess*/
+*/
 void update_hidden_word(char *hidden_word, char *chosen_word, char input_letter)
 {
     State currentState = START;
@@ -390,12 +360,6 @@ void update_hidden_word(char *hidden_word, char *chosen_word, char input_letter)
 /*  for the hints implementation, link numbers to letters 
     Populates an integer array with unique random numbers from 1 to 26. Each number in the range is used exactly once.
     This function can be used to assign random unique identifiers or to shuffle numbers without repetition.
- 
-    @params:
-    - hint_integer: A pointer to an integer array that must be preallocated with at least 26 integers. This array will
-      be filled with the unique numbers. The size of the array should match the number of unique numbers to generate,
-      which is defined by ALPHABET_COUNT (assumed to be 26 here).
-    @return: nothing
 */
 void link_number(int *hint_integer)
 {
@@ -429,21 +393,7 @@ void link_number(int *hint_integer)
     }
 }
 
-/* suggest_hint function is to allow players to use 2 hints to guess the letter
-   the hints rules are as follows:
-       1. First hint used doesn't require points (no point will be deducted from the player)
-       2. The second hint require points to be deducted which depends on the player's game difficulty
-          The cost of the hint are as follows:
-               - easy and medium: 1 point
-               - hard: 2 points
-
-   @param  chosen_word: A pointer to the chosen word in the game.
-           guessed_letters: A pointer to an array containing guessed letters.
-           game_levels: A pointer to the game_level structure containing difficulty information.
-           hints_given: A pointer to the number of hints given to the player.
-           player_points: A pointer to the player's points.
-           hint_integer: A pointer to an integer array containing random numbers linked to letters.
-           hint_char: A pointer to a character array where the hint letter will be stored.
+/* function to produce the hint for users according to the game difficulty that was chosen 
 */
 void suggest_hint(char *chosen_word, char *guessed_letters, game_level *game_levels, int *hints_given, int *player_points, int *hint_integer, char *hint_char)
 {
