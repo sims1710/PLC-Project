@@ -58,7 +58,7 @@ Here's the revised section:
 To run the game, compile the C files using a C compiler like GCC or Clang, linking any required libraries. You can use the following command:
 
 ```bash
-gcc main.c -o hangman game_functions.c clear_functions.c game_modes.c game_state.c leaderboard.c ui.c -ansi -pedantic -Wall -Werror
+gcc main.c -o hangman game_functions.c clear_functions.c game_modes.c leaderboard.c ui.c -ansi -pedantic -Wall -Werror
 ```
 
 Make sure the text files containing words are accessible in the same directory as the compiled executable. After compiling, run the executable file using the command:
