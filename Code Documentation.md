@@ -283,7 +283,7 @@ The function updates the leaderboard with a new entry for the provided player na
     @return This function does not return any value.
 
 ## [clear_functions.c](https://github.com/sims1710/PLC-Project/blob/main/clear_functions.c)
-The file provides functionality to clear the console screen using an escape sequence (`clear_screen`), and it also includes a function (`clear_stdin`) that clears the standard input stream by discarding characters until a newline character is found. [function.h](https://github.com/sims1710/PLC-Project/blob/main/clear_functions.h) displays the function prototypes for this file.
+The file provides functionality to clear the console screen using an escape sequence (`clear_screen`), and it also includes a function (`clear_stdin`) that clears the standard input stream by discarding characters until a newline character is found. [clear_function.h](https://github.com/sims1710/PLC-Project/blob/main/clear_functions.h) displays the function prototypes for this file.
 
 #### 1. void clear_screen(void):
 
