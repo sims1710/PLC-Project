@@ -282,7 +282,7 @@ void player_input(char *chosen_word, char *hidden_word, char *guessed_letters, i
         {
             match = 1;
             update_hidden_word(hidden_word, chosen_word, input_letter);
-            *score =+ *lives; /* Increment score for correct guess*/
+            *score += *lives; /* Increment score for correct guess*/
         }
     }
     /* Response to match */
