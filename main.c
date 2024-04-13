@@ -6,7 +6,6 @@
 #include "game_functions.h"
 #include "clear_functions.h"
 #include "game_modes.h"
-#include "game_state.h"
 #include "leaderboard.h"
 #include "game_structures.h"
 
@@ -73,6 +72,7 @@ int main(int argc, char *argv[])
         /*display the main menu*/
         main_menu(currentState, game_levels, name);
 
+        /*the saved_game was decided not to be implemented*/
         /*if (*currentState == SAVED_GAME)
         {
             difficulty = game_levels->difficulty;
@@ -90,7 +90,7 @@ int main(int argc, char *argv[])
             /*set the current game levels as 1, the first level*/
             game_levels->current_level = 1;
             difficulty = game_levels->difficulty;
-            while (!game_over && (game_levels->current_level <= 2))
+            while (!game_over && (game_levels->current_level <= 20))
             {
                 get_word(&game_levels->chosenDiff, chosen_word);
                 if (chosen_word == NULL)
@@ -150,7 +150,7 @@ int main(int argc, char *argv[])
                     {
                         printf("Congratulations! You move on to the next word");
                         update_game_level(game_levels);
-                        if((game_levels->current_level) >= 2){
+                        if((game_levels->current_level) >= 20){
                             updateLeaderboard(name, *score, difficulty);
                             displayLeaderboard();
                             
@@ -176,19 +176,10 @@ int main(int argc, char *argv[])
                     printf("Congratulations! You have completed all levels.\n");
                 }
 
-                /*free(chosen_word);*/
-                /*free(hidden_word);*/
-                /*free(game_levels);*/
-                /*free(hint_char);*/
                 hint_char[0] = '_';
                 hint_char[1] = '_';
                 *hints_given = 0;
                 *lives = MAX_LIVES;
-                /*free(hint_integer);*/
-                /*free(guessed_letters);*/
-
-                /*while (getchar() != '\n')
-                    ;*/
             }
 
             break;

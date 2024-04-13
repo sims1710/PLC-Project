@@ -15,6 +15,7 @@ typedef enum
     END
 } State;
 
+/* The cheat codes features are not implemented
 typedef enum
 {
     NOCHEAT,
@@ -27,7 +28,17 @@ typedef struct
     char *hintsCheatCode;
     char *livesCheatCode;
 } CheatsFSM;
+*/
 
+/* Configures the difficulty level for a word-guessing game by allowing the user to select a difficulty level.
+   This function prompts the user to choose from predefined difficulty levels, each corresponding to different 
+   word lengths. Upon a valid choice, it updates the game_levels structure with the appropriate file path for
+   the word list and the expected word length for the selected difficulty.
+ 
+   @param: game_levels: A pointer to a game_level struct that holds game state information including the selected 
+                        difficulty, the file name from which to read words, and the word length to be used in the game.
+    @return: nothing           
+*/
 void choose_difficulty(game_level *game_levels)
 {
     char difficulty;
@@ -161,7 +172,17 @@ void update_game_level(game_level *game_levels)
     }
 }
 
-/* Retrieve word from file */
+/* Retrieves a random word from a specified file and assigns it to the chosen_word variable. The word is selected based on a random index, 
+   which is determined by the total number of words listed in the first line of the file. The function ensures that the word consists only 
+   of lowercase letters and matches the specified length from the chosen_difficulty structure.
+ 
+  @param:
+    - file_set: A pointer to a chosen_difficulty struct that contains information about the word length and the filename from which the 
+      word should be retrieved.
+    - chosen_word: A pointer to a character array where the chosen word will be stored. The function reallocates this pointer to match 
+      the required word length.
+  @return: nothing
+*/
 void get_word(chosen_difficulty *file_set, char *chosen_word)
 {
     FILE *fptr;
@@ -220,6 +241,278 @@ void get_word(chosen_difficulty *file_set, char *chosen_word)
     free(buffer);
 }
 
+
+
+/* Track guesses and lives, check player input. This function is run in main in a while loop with lives */
+/* Steps
+1a. Get input from player
+1b. Check if input has not already been guessed and is valid.
+2. Check if input exists in chosen
+3. If exists, run update hidden, else -1 lives
+4. Function ends
+
+  @param:
+    - chosen_word: A pointer to the character array holding the word that the player needs to guess.
+    - hidden_word: A pointer to the character array that displays the current state of the guessed word, with unguessed
+      letters represented by underscores or another placeholder.
+    - guessed_letters: A pointer to the character array that stores all letters guessed so far to prevent repeat guesses.
+    - lives: A pointer to an integer representing the player's remaining lives. This value is decremented if the player
+      makes an incorrect guess.
+    - word_len: An integer representing the length of the chosen_word.
+    - score: A pointer to an integer representing the player's score. The score is increased by the number of lives left
+      for every correct guess.
+  @return: nothing
+*/
+void player_input(char *chosen_word, char *hidden_word, char *guessed_letters, int *lives, int word_len, int *score)
+{
+    char input_letter;
+    int valid, match, i;
+    valid = 0;
+
+    while (valid == 0)
+    {
+        input_letter = fgetc(stdin);
+        clear_stdin();
+       
+        /* Case converter */
+        if (input_letter >= 'A' && input_letter <= 'Z')
+        {
+            input_letter = (char)((int)input_letter + 32);
+        }
+        /* Validity check */
+        if (input_letter >= 'a' && input_letter <= 'z')
+        {
+            valid = 1;
+            i = 0;
+            while (guessed_letters[i] != '\0')
+            {
+                if (input_letter == guessed_letters[i])
+                {
+                    printf("Invalid Input. You have already guessed this letter.");
+                    valid = 0;
+                }
+                i++;
+            }
+        }
+        else
+        {
+            printf("Invalid Input. Please enter a letter of the alphabet, preferably lowercase.");
+        }
+    }
+
+    /* Check if letter in word and act on it */
+    match = 0;
+    for (i = 0; i < word_len; i++)
+    {
+        if (input_letter == chosen_word[i])
+        {
+            match = 1;
+            update_hidden_word(hidden_word, chosen_word, input_letter);
+            *score =+ *lives; /* Increment score for correct guess*/
+        }
+    }
+    /* Response to match */
+    switch (match)
+    {
+    case 0:
+        /* No match, minus lives */
+        *lives = *lives - 1;
+        break;
+    case 1:
+        /* Match found, no action */
+        break;
+    default:
+        printf("You should not see this message.");
+        break;
+    }
+    /*Add input into guessed letters */
+    guessed_letters[input_letter - 'a'] = input_letter;
+}
+
+/* This function is to update the pointer for the hidden word display
+   Using the State struct to keep track of the letter guessed by the player
+   this function will end (when reach the END state) when all of the letters have been checked
+   and it will check the input letter when it reach the CHECK_LETTER state
+
+   @param hidden_word: is a string that is the player that need to guess and will updated the guess letter into this string
+          chosen_word: is a string which is the word that the player need to guess and will be used to check against hidden_word
+          input_letter: is a character that the player inputs
+   @return return nothing because it is updating the hidden_word string character upon successful guess*/
+void update_hidden_word(char *hidden_word, char *chosen_word, char input_letter)
+{
+    State currentState = START;
+    int i = 0;
+    int length = strlen(chosen_word);
+
+    while (currentState != END)
+    {
+        switch (currentState)
+        {
+        case START:
+            i = 0;
+            currentState = CHECK_LETTER;
+            break;
+        case CHECK_LETTER:
+            if (i >= length)
+            {
+                /*End if all letters have been checked*/
+                currentState = END;
+            }
+            else if (chosen_word[i] == input_letter)
+            {
+                /*Match found, update the letter*/
+                currentState = UPDATE_LETTER;
+            }
+            else
+            {
+                /*No match, move to the next letter*/
+                currentState = CONTINUE_SEARCH;
+            }
+            break;
+        case UPDATE_LETTER:
+            /*Update the hidden word with the input letter*/
+            hidden_word[i] = input_letter;
+            /*Continue search after updating*/
+            currentState = CONTINUE_SEARCH;
+            break;
+        case CONTINUE_SEARCH:
+            i++;
+            /*Check the next letter*/
+            currentState = CHECK_LETTER;
+            break;
+        case END:
+            /*Exit the loop*/
+            break;
+        }
+    }
+}
+
+/*  for the hints implementation, link numbers to letters 
+    Populates an integer array with unique random numbers from 1 to 26. Each number in the range is used exactly once.
+    This function can be used to assign random unique identifiers or to shuffle numbers without repetition.
+ 
+    @params:
+    - hint_integer: A pointer to an integer array that must be preallocated with at least 26 integers. This array will
+      be filled with the unique numbers. The size of the array should match the number of unique numbers to generate,
+      which is defined by ALPHABET_COUNT (assumed to be 26 here).
+    @return: nothing
+*/
+void link_number(int *hint_integer)
+{
+    int letter_index, tracker_count, number, i, valid;
+    int tracker[26];
+    tracker_count = 0;
+    letter_index = 0;
+
+    while (tracker_count < 26)
+    {
+        valid = 1;
+        number = rand() % 26;
+        if (tracker_count != 0)
+        {
+            for (i = 0; i < tracker_count; i++)
+            {
+                if (number == tracker[i])
+                {
+                    valid = 0;
+                }
+            }
+        }
+        if (valid == 1)
+        {
+            tracker[letter_index] = number;
+            hint_integer[letter_index] = number + 1;
+            letter_index++;
+            tracker_count++;
+            printf("number: %d /n", number);
+        }
+    }
+}
+
+/* suggest_hint function is to allow players to use 2 hints to guess the letter
+   the hints rules are as follows:
+       1. First hint used doesn't require points (no point will be deducted from the player)
+       2. The second hint require points to be deducted which depends on the player's game difficulty
+          The cost of the hint are as follows:
+               - easy and medium: 1 point
+               - hard: 2 points
+
+   @param  chosen_word: A pointer to the chosen word in the game.
+           guessed_letters: A pointer to an array containing guessed letters.
+           game_levels: A pointer to the game_level structure containing difficulty information.
+           hints_given: A pointer to the number of hints given to the player.
+           player_points: A pointer to the player's points.
+           hint_integer: A pointer to an integer array containing random numbers linked to letters.
+           hint_char: A pointer to a character array where the hint letter will be stored.
+*/
+void suggest_hint(char *chosen_word, char *guessed_letters, game_level *game_levels, int *hints_given, int *player_points, int *hint_integer, char *hint_char)
+{
+    int i, hint_cost;
+    char current_letter;
+    int word_len, letter_found = 0;
+
+    /*Determine the cost of the second hint used based on the difficulty level*/
+    hint_cost = (game_levels->difficulty == 3) ? 2 : 1;
+    /*Getting the length of the word*/
+    word_len = game_levels->chosenDiff.word_len;
+
+    /*Check if hint is available */
+    if (*hints_given >= 2)
+    {
+        printf("No more hints available.\n");
+        return;
+    }
+
+    /*Check if this is the second hint and if the player has enough points*/
+    if (*hints_given == 1 && *player_points < hint_cost)
+    {
+        printf("Not enough points for a hint.\n");
+        return;
+    }
+
+    /*Deduct the point for using the hint*/
+    if (*hints_given == 1)
+    {
+        *player_points -= hint_cost;
+    }
+
+    /*Find a letter in the word that hasn't been guessed yet and return its associated random number*/
+    for (i = 0; i < word_len && !letter_found; i++)
+    {
+        current_letter = chosen_word[i];
+        if (!strchr(guessed_letters, chosen_word[i]))
+        {
+
+            if (hint_char[0] == '_')
+            {
+                hint_char[0] = current_letter;
+            }
+            else
+            {
+                hint_char[1] = current_letter;
+            }
+
+            (*hints_given)++;
+            printf("Hint provided of the hint letter is %c\n", current_letter);
+            letter_found = 1;
+        }
+    }
+}
+
+/*keeping track of the players score*/
+void score_tracker(int *score, int *lives)
+{
+    if (*lives == 0)
+    {
+        printf("You have run out of lives! Your score is %d\n", *score);
+    }
+    else
+    {
+        printf("Your score is %d\n", *score);
+    }
+}
+
+/* The cheat features are not implemented
 void initCheatFSM(CheatsFSM *cheatFsm, char *hintCheat, char *liveCheat)
 {
     cheatFsm->current = NOCHEAT;
@@ -297,390 +590,4 @@ void processCheatChoice(CheatsFSM *cheatFsm, char *input, char *chosen_word, int
         break;
     }
 }
-
-/* Track guesses and lives, check player input. This function is run in main in a while loop with lives */
-/* Steps
-1a. Get input from player
-1b. Check if input has not already been guessed and is valid.
-2. Check if input exists in chosen
-3. If exists, run update hidden, else -1 lives
-4. Function ends
 */
-void player_input(char *chosen_word, char *hidden_word, char *guessed_letters, int *lives, int word_len, int *score)
-{
-    char input_letter;
-    int valid, match, i;
-    /*char full_input;
-    int length_of_stdin = 0;
-    char hintCheat[8] = "HINTSALL";
-    char liveCheat[8] = "LIVEFULL";
-    CheatsFSM cheatFsm; */
-    valid = 0;
-    /*full_input = (char *)malloc(sizeof(char) * 11);
-    initCheatFSM(&cheatFsm, hintCheat, liveCheat);*/
-    
-
-    while (valid == 0)
-    {
-        /*length_of_stdin = 0;*/
-
-        /*fgets(full_input, sizeof(char) * 9, stdin); */
-        input_letter = fgetc(stdin);
-        clear_stdin();
-        /* for (i = 0; full_input[i] != '\0'; i++)
-        {
-            length_of_stdin++;
-        }
-
-        if (length_of_stdin == 8)
-        {
-            processCheatChoice(&cheatFsm, full_input, chosen_word, lives);
-            if (cheatFsm.current == CHEAT)
-            {
-                printf("Guess a letter!\n");
-                continue;
-            }
-        }
-        else if(!(length_of_stdin < 8)){
-            clear_stdin();
-        }
-
-        input_letter = full_input[0]; */
-        /* Case converter */
-        if (input_letter >= 'A' && input_letter <= 'Z')
-        {
-            input_letter = (char)((int)input_letter + 32);
-        }
-        /* Validity check */
-        if (input_letter >= 'a' && input_letter <= 'z')
-        {
-            valid = 1;
-            i = 0;
-            while (guessed_letters[i] != '\0')
-            {
-                if (input_letter == guessed_letters[i])
-                {
-                    printf("Invalid Input. You have already guessed this letter.");
-                    valid = 0;
-                }
-                i++;
-            }
-        }
-        else
-        {
-            printf("Invalid Input. Please enter a letter of the alphabet, preferably lowercase.");
-        }
-    }
-
-    /*free(full_input);*/
-
-    /* Check if letter in word and act on it */
-    match = 0;
-    for (i = 0; i < word_len; i++)
-    {
-        if (input_letter == chosen_word[i])
-        {
-            match = 1;
-            update_hidden_word(hidden_word, chosen_word, input_letter);
-            (*score)++; /* Increment score for correct guess*/
-        }
-    }
-    /* Response to match */
-    switch (match)
-    {
-    case 0:
-        /* No match, minus lives */
-        *lives = *lives - 1;
-        break;
-    case 1:
-        /* Match found, no action */
-        break;
-    default:
-        printf("You should not see this message.");
-        break;
-    }
-    /* TODO: Add input into guessed letters */
-    guessed_letters[input_letter - 'a'] = input_letter;
-}
-
-/* This function is to update the pointer for the hidden word display
-   Using the State struct to keep track of the letter guessed by the player
-   this function will end (when reach the END state) when all of the letters have been checked
-   and it will check the input letter when it reach the CHECK_LETTER state
-
-   @param hidden_word: is a string that is the player that need to guess and will updated the guess letter into this string
-          chosen_word: is a string which is the word that the player need to guess and will be used to check against hidden_word
-          input_letter: is a character that the player inputs
-   @return return nothing because it is updating the hidden_word string character upon successful guess*/
-void update_hidden_word(char *hidden_word, char *chosen_word, char input_letter)
-{
-    State currentState = START;
-    int i = 0;
-    int length = strlen(chosen_word);
-
-    while (currentState != END)
-    {
-        switch (currentState)
-        {
-        case START:
-            i = 0;
-            currentState = CHECK_LETTER;
-            break;
-        case CHECK_LETTER:
-            if (i >= length)
-            {
-                /*End if all letters have been checked*/
-                currentState = END;
-            }
-            else if (chosen_word[i] == input_letter)
-            {
-                /*Match found, update the letter*/
-                currentState = UPDATE_LETTER;
-            }
-            else
-            {
-                /*No match, move to the next letter*/
-                currentState = CONTINUE_SEARCH;
-            }
-            break;
-        case UPDATE_LETTER:
-            /*Update the hidden word with the input letter*/
-            hidden_word[i] = input_letter;
-            /*Continue search after updating*/
-            currentState = CONTINUE_SEARCH;
-            break;
-        case CONTINUE_SEARCH:
-            i++;
-            /*Check the next letter*/
-            currentState = CHECK_LETTER;
-            break;
-        case END:
-            /*Exit the loop*/
-            break;
-        }
-    }
-}
-
-/* for the hints implementation, link numbers to letters */
-void link_number(int *hint_integer)
-{
-    int letter_index, tracker_count, number, i, valid;
-    int tracker[26];
-    /*hint_integer = (int *)realloc(hint_integer, sizeof(int) * ALPHABET_COUNT);*/
-    tracker_count = 0;
-    letter_index = 0;
-
-    while (tracker_count < 26)
-    {
-        valid = 1;
-        /*srand(time(NULL));*/
-        number = rand() % 26;
-        if (tracker_count != 0)
-        {
-            for (i = 0; i < tracker_count; i++)
-            {
-                if (number == tracker[i])
-                {
-                    valid = 0;
-                }
-            }
-        }
-        if (valid == 1)
-        {
-            tracker[letter_index] = number;
-            hint_integer[letter_index] = number + 1;
-            letter_index++;
-            tracker_count++;
-            printf("number: %d /n", number);
-        }
-    }
-}
-
-/* suggest_hint function is to allow players to use 2 hints to guess the letter
-   the hints rules are as follows:
-       1. First hint used doesn't require points (no point will be deducted from the player)
-       2. The second hint require points to be deducted which depends on the player's game difficulty
-          The cost of the hint are as follows:
-               - easy and medium: 1 point
-               - hard: 2 points
-
-   @param chosen_word: is a string which is the word that the player will need to guess
-          guessed_letters: is an array of character of the letters that had been guessed by the player
-          game_levels: is a pointer to the struct GameLevels
-          hints_given: is an array of integer to check how many hints that the player had used
-          player_points: is an integer pointer to keep track of how many points that the players have
-
-*/
-void suggest_hint(char *chosen_word, char *guessed_letters, game_level *game_levels, int *hints_given, int *player_points, int *hint_integer, char *hint_char)
-{
-    int i, hint_cost;
-    char current_letter;
-    int word_len, letter_found = 0;
-
-    /*Determine the cost of the second hint used based on the difficulty level*/
-    hint_cost = (game_levels->difficulty == 3) ? 2 : 1;
-    /*Getting the length of the word*/
-    word_len = game_levels->chosenDiff.word_len;
-
-    /*Getting an array of random integers according to the alphabets*/
-    /*link_number(hint_integer);*/
-
-    /*Check if hint is available */
-    if (*hints_given >= 2)
-    {
-        printf("No more hints available.\n");
-        return;
-    }
-
-    /*Check if this is the second hint and if the player has enough points*/
-    if (*hints_given == 1 && *player_points < hint_cost)
-    {
-        printf("Not enough points for a hint.\n");
-        return;
-    }
-
-    /*Deduct the point for using the hint*/
-    if (*hints_given == 1)
-    {
-        *player_points -= hint_cost;
-    }
-
-    /*Find a letter in the word that hasn't been guessed yet and return its associated random number*/
-    for (i = 0; i < word_len && !letter_found; i++)
-    {
-        current_letter = chosen_word[i];
-        if (!strchr(guessed_letters, chosen_word[i]))
-        {
-            /*letter_index = current_letter - 'a';*/
-
-            if (hint_char[0] == '_')
-            {
-                hint_char[0] = current_letter;
-            }
-            else
-            {
-                hint_char[1] = current_letter;
-            }
-
-            (*hints_given)++;
-            printf("Hint provided of the hint letter is %c\n", current_letter);
-            letter_found = 1;
-        }
-    }
-}
-
-/*keeping track of the players score*/
-void score_tracker(int *score, int *lives)
-{
-    static int challenges_completed = 0;
-
-    if (*lives == 0)
-    {
-        printf("You have run out of lives! Your score is %d\n", *score);
-        challenges_completed = 0; /* Reset challenges completed */
-    }
-    else
-    {
-        printf("Your score is %d\n", *score);
-        challenges_completed++;
-        if (challenges_completed >= 20)
-        {
-            printf("Congratulations! You have completed 20 challenges.\n");
-            generateLeaderboardHTML(); /* Display leaderboard after completing 20 challenges */
-            challenges_completed = 0;  /* Reset challenges completed */
-        }
-    }
-}
-
-/*int main(int argc, char *argv[])
-{
-    char *chosen_word, *hidden_word, *hint_char;
-    game_level *game_levels = (game_level *)malloc(sizeof(game_level));
-    int word_len, game_over, lives, scores, roundOver;
-    int *hint_integer;
-    char guessed_letters[26] = {0};
-    int hints_given = 0;
-    int player_points = 0;
-    int want_hint = 0;
-
-
-    hint_char = (char*)malloc(sizeof(char)*3);
-    hint_integer = (int*)malloc(sizeof(int)*2);
-    hint_integer[0] = -1;
-    hint_integer[1] = -1;
-
-    game_levels->current_level = 1;
-    choose_difficulty(game_levels);
-    clear_stdin();
-    word_len = game_levels->chosenDiff.word_len;
-
-//     game_over = 0;
-//     lives = 7;
-//     scores = 0;
-//     roundOver = 0;
-//     hidden_word = (char*)malloc(sizeof(char)*word_len+1);
-//     memset(hidden_word, '_', word_len);
-//     hidden_word[word_len] = '\0';
-
-//     memset(guessed_letters, 0, sizeof(guessed_letters));
-
-
-//     while (!game_over && (game_levels->current_level <= 20))
-//     {
-//         update_game_level(game_levels);
-//         chosen_word = get_word(&game_levels->chosenDiff);
-//         if (chosen_word == NULL)
-//         {
-//             printf("Failed to load the word. Exiting...\n");
-//             exit(EXIT_FAILURE);
-//         }
-
-//         printf("a");
-//         while (!roundOver && lives > 0) {
-//             printf("\nCurrent word to guess: %s\n", hidden_word);
-//             printf("Do you want a hint? (0 for no, 1 for yes): ");
-
-//             want_hint = fgetc(stdin);
-//             clear_stdin();
-
-//             printf("b, %d", want_hint);
-//             if (want_hint == 49) {
-//                 suggest_hint(chosen_word, guessed_letters, game_levels, &hints_given, &player_points, hint_integer, hint_char);
-//             }
-
-
-//             printf("\nCurrent word to guess: %s\n", hidden_word);
-//             player_input(chosen_word, hidden_word, guessed_letters, &lives, word_len, &scores);
-
-//             if (strcmp(hidden_word, chosen_word) == 0) {
-//                 printf("Congratulations! You've guessed the word: %s\n", chosen_word);
-//                 scores += lives;
-//                 roundOver = 1;
-//             }
-
-//             printf("Your score: %d, Lives remaining: %d\n", scores, lives);
-//             }
-
-//         score_tracker(&scores, &lives);
-
-//         if (lives <= 0) {
-//             printf("Game over! You've run out of lives.\n");
-//             game_over = 1;
-//         }
-
-//         if (game_levels->current_level > 20)
-//         {
-//             printf("Congratulations! You have completed all levels.\n");
-//         }
-
-//         free(chosen_word);
-//         free(hidden_word);
-
-//         while (getchar() != '\n');
-//     }
-//     free(hint_char);
-//     free(hint_integer);
-//     free(game_levels);
-
-    return 0;
-}*/

@@ -1,6 +1,0 @@
-lives: 
-score:
-letters_guessed:
-word:
-difficulty:
-hints_given:
