@@ -1,5 +1,5 @@
 # Code Documentation
-This file contains the code documentation of the following files: [`main.c`](https://github.com/sims1710/PLC-Project/blob/main/main.c), [`game_functions.c`](https://github.com/sims1710/PLC-Project/blob/main/game_functions.c), [`game_modes.c`](https://github.com/sims1710/PLC-Project/blob/main/game_modes.c), [`ui.c`](https://github.com/sims1710/PLC-Project/blob/main/ui.c), [`leaderboard.c`](https://github.com/sims1710/PLC-Project/blob/main/leaderboard.c) and [`clear_functions.c`]() for the revamped Hangman Game Project.
+This file contains the code documentation of the following files: [`main.c`](https://github.com/sims1710/PLC-Project/blob/main/main.c), [`game_functions.c`](https://github.com/sims1710/PLC-Project/blob/main/game_functions.c), [`game_modes.c`](https://github.com/sims1710/PLC-Project/blob/main/game_modes.c), [`ui.c`](https://github.com/sims1710/PLC-Project/blob/main/ui.c), [`leaderboard.c`](https://github.com/sims1710/PLC-Project/blob/main/leaderboard.c) and [`clear_functions.c`](https://github.com/sims1710/PLC-Project/blob/main/clear_functions.c) for the revamped Hangman Game Project.
 
 ## [main.c](https://github.com/sims1710/PLC-Project/blob/main/main.c):
 This file is the backbone of the code. It orchestrates a text-based hangman game, managing game setup, player input, gameplay mechanics such as word guessing and hint usage, score tracking, and interaction with other modules for UI display and leaderboard management. Its equivalent .h file is [game_structure.h](https://github.com/sims1710/PLC-Project/blob/main/game_structures.h) which has structures storing information related to game difficulty and progression, including details about word files, word lengths, current levels, and game difficulty settings.
@@ -41,22 +41,22 @@ This main function controls the execution flow of a Hangman game program. It inc
 
 **Functions used in main:**
 
-1. void display_rules() : Display the rules of the hangman game.
-2. void main_menu(int *currentState, game_level *game_levels, char *name) : Display the main menu and handle user input.
-3. void load_game_state(int *lives, int *score, char *guessed_letters, char *chosen_word, int difficulty, int *hints_given) : Load a saved game state if available.
-4. void get_word(struct difficultyLevel *chosenDiff, char *chosen_word) : Get a random word based on the chosen difficulty level.
-5. void display_hangman(char *chosen_word, char *hidden_word, int *lives, int word_len, char *hint_char, int *hint_integer, int *hints_given, int *score) : Display the hangman interface with the hidden word, guessed letters, hangman status, etc.
-6. void clear_stdin() : Clear input buffer.
-7. void suggest_hint(char *chosen_word, char *guessed_letters, game_level *game_levels, int *hints_given, int *score, int *hint_integer, char *hint_char) : Provide a hint to the player based on the chosen word and guessed letters.
-8. void player_input(char *chosen_word, char *hidden_word, char *guessed_letters, int *lives, int word_len, int *score) : Process player input during the game.
-9. void score_tracker(int *score, int *lives) : Track the player's score and remaining lives.
-10. void update_game_level(game_level *game_levels) : Update the game level after successfully guessing a word.
-11. void updateLeaderboard(char *name, int score, int difficulty) : Update the leaderboard with the player's name, score, and difficulty level.
+1. void display_rules() : Displays the rules of the hangman game.
+2. void main_menu(int *currentState, game_level *game_levels, char *name) : Displays the main menu and handle user input.
+3. void load_game_state(int *lives, int *score, char *guessed_letters, char *chosen_word, int difficulty, int *hints_given) : Loads a saved game state if available.
+4. void get_word(struct difficultyLevel *chosenDiff, char *chosen_word) : Gets a random word based on the chosen difficulty level.
+5. void display_hangman(char *chosen_word, char *hidden_word, int *lives, int word_len, char *hint_char, int *hint_integer, int *hints_given, int *score) : Displays the hangman interface with the hidden word, guessed letters, hangman status, etc.
+6. void clear_stdin() : Clears input buffer.
+7. void suggest_hint(char *chosen_word, char *guessed_letters, game_level *game_levels, int *hints_given, int *score, int *hint_integer, char *hint_char) : Provides a hint to the player based on the chosen word and guessed letters.
+8. void player_input(char *chosen_word, char *hidden_word, char *guessed_letters, int *lives, int word_len, int *score) : Processes player input during the game.
+9. void score_tracker(int *score, int *lives) : Tracks the player's score and remaining lives.
+10. void update_game_level(game_level *game_levels) : Updates the game level after successfully guessing a word.
+11. void updateLeaderboard(char *name, int score, int difficulty) : Updates the leaderboard with the player's name, score, and difficulty level.
 12. void displayLeaderboard() : Display the leaderboard.
-13. void time_attack_mode(char *chosen_word, char *hidden_word, char *guessed_letters, int *lives, int word_len, int *score) : Start the time attack mode where the player has a time limit to guess a word.
-14. void choose_difficulty(game_level *game_levels) : Choose the difficulty level for the game.
+13. void time_attack_mode(char *chosens_word, char *hidden_word, char *guessed_letters, int *lives, int word_len, int *score) : Starts the time attack mode where the player has a time limit to guess a word.
+14. void choose_difficulty(game_level *game_levels) : Chooses the difficulty level for the game.
 15. void multiplayer_mode() : Multiplayer mode functionality.
-16. void addToLeaderboard(char *name, int score, int difficulty) : Add player's score to the leaderboard.
+16. void addToLeaderboard(char *name, int score, int difficulty) : Adds player's score to the leaderboard.
 
 ## [game_functions.c:](https://github.com/sims1710/PLC-Project/blob/main/game_functions.c)
 The functions in the file manage game setup, gameplay mechanics like player input and word updates, and also handle cheat/hint functionalities such as revealing letters and managing player scores. Additionally, there are utility functions for generating random integers and tracking game progress, including challenge completion and leaderboard display. The function prototypes are defined in [game_functions.h](https://github.com/sims1710/PLC-Project/blob/main/game_functions.h).
@@ -244,7 +244,55 @@ The function prints the hangman screen with game-related information.
 ## [leaderboard.c](https://github.com/sims1710/PLC-Project/blob/main/leaderboard.c): 
 The functions manage a game leaderboard by adding entries, sorting them, generating HTML for display, and updating scores. They also include platform-specific code to open the leaderboard in the default web browser. The file [leaderboard.h](https://github.com/sims1710/PLC-Project/blob/main/leaderboard.h) has the function prototypes of the aforementioned functions.
 
-#### 
+#### 1. void addToLeaderboard(const char *name, int score, int mode):
 
+This function adds a new entry to the leaderboard with the provided name, score, and mode.
+ 
+    @param name Name of the player.
+           score Score achieved by the player.
+           mode Game mode of the player.
 
+    @return This function does not return any value.
 
+#### 2. void bubbleSortLeaderboard(void):
+
+The function sorts the leaderboard entries in descending order based on the score using bubble sort algorithm.
+
+     @return This function does not return any value.
+
+#### 3. void generateLeaderboardHTML(void):
+
+The function generates HTML code for displaying the leaderboard entries and saves it to a file named "leaderboard.html". It includes styling for the leaderboard structure and entries based on the provided CSS code.
+
+    @return This function does not return any value.
+
+#### 4. void displayLeaderboard(void):
+
+This function opens the generated "leaderboard.html" file in the default web browser for the user to view the leaderboard. The display format includes player names, scores, and ranks based on the game modes (Easy, Medium, Hard).
+
+    @return This function does not return any value.
+
+#### 5. void updateLeaderboard(const char *name, int score, int mode):
+
+The function updates the leaderboard with a new entry for the provided player name, score, and game mode. It then sorts the updated leaderboard and generates HTML code for displaying the updated leaderboard entries.
+
+    @param name Name of the player.
+           score Score achieved by the player.
+           mode Game mode of the player.
+            
+    @return This function does not return any value.
+
+## [clear_functions.c](https://github.com/sims1710/PLC-Project/blob/main/clear_functions.c)
+The file provides functionality to clear the console screen using an escape sequence (`clear_screen`), and it also includes a function (`clear_stdin`) that clears the standard input stream by discarding characters until a newline character is found. [function.h](https://github.com/sims1710/PLC-Project/blob/main/clear_functions.h) displays the function prototypes for this file.
+
+#### 1. void clear_screen(void):
+
+This function clears the console screen when called, providing a clean slate for displaying new content. It uses escape sequences (octal notation) to move the cursor to the top-left corner and clear the screen.
+ 
+    @return This function does not return any value.
+
+#### 2. void clear_stdin(void):
+
+This function clears the standard input buffer, discarding any remaining input including newline characters. It is useful for preventing unwanted input from affecting subsequent input operations.
+
+    @return This function does not return any value.
