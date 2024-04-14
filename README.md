@@ -56,7 +56,7 @@ Here's the revised section:
 ## How to Run the Application
 
 To run the game, there are two options. 
-- Run the Makefile in the main directory.
+- Either run the Makefile in the main directory.
 ```bash
 make
 ```
@@ -66,7 +66,7 @@ To clean up the compiled executable:
 make clean
 ```
 
-- Compile the C files using a C compiler like GCC or Clang, linking any required libraries. You can use the following command:
+- Or compile the C files using a C compiler like GCC or Clang, linking any required libraries. You can use the following command:
 
 ```bash
 gcc main.c -o hangman game_functions.c clear_functions.c game_modes.c leaderboard.c ui.c -ansi -pedantic -Wall -Werror
