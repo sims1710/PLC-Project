@@ -43,20 +43,19 @@ This main function controls the execution flow of a Hangman game program. It inc
 
 1. void display_rules() : Displays the rules of the hangman game.
 2. void main_menu(int *currentState, game_level *game_levels, char *name) : Displays the main menu and handle user input.
-3. void load_game_state(int *lives, int *score, char *guessed_letters, char *chosen_word, int difficulty, int *hints_given) : Loads a saved game state if available.
-4. void get_word(struct difficultyLevel *chosenDiff, char *chosen_word) : Gets a random word based on the chosen difficulty level.
-5. void display_hangman(char *chosen_word, char *hidden_word, int *lives, int word_len, char *hint_char, int *hint_integer, int *hints_given, int *score) : Displays the hangman interface with the hidden word, guessed letters, hangman status, etc.
-6. void clear_stdin() : Clears input buffer.
-7. void suggest_hint(char *chosen_word, char *guessed_letters, game_level *game_levels, int *hints_given, int *score, int *hint_integer, char *hint_char) : Provides a hint to the player based on the chosen word and guessed letters.
-8. void player_input(char *chosen_word, char *hidden_word, char *guessed_letters, int *lives, int word_len, int *score) : Processes player input during the game.
-9. void score_tracker(int *score, int *lives) : Tracks the player's score and remaining lives.
-10. void update_game_level(game_level *game_levels) : Updates the game level after successfully guessing a word.
-11. void updateLeaderboard(char *name, int score, int difficulty) : Updates the leaderboard with the player's name, score, and difficulty level.
-12. void displayLeaderboard() : Display the leaderboard.
-13. void time_attack_mode(char *chosens_word, char *hidden_word, char *guessed_letters, int *lives, int word_len, int *score) : Starts the time attack mode where the player has a time limit to guess a word.
-14. void choose_difficulty(game_level *game_levels) : Chooses the difficulty level for the game.
-15. void multiplayer_mode() : Multiplayer mode functionality.
-16. void addToLeaderboard(char *name, int score, int difficulty) : Adds player's score to the leaderboard.
+3. void get_word(struct difficultyLevel *chosenDiff, char *chosen_word) : Gets a random word based on the chosen difficulty level.
+4. void display_hangman(char *chosen_word, char *hidden_word, int *lives, int word_len, char *hint_char, int *hint_integer, int *hints_given, int *score) : Displays the hangman interface with the hidden word, guessed letters, hangman status, etc.
+5. void clear_stdin() : Clears input buffer.
+6. void suggest_hint(char *chosen_word, char *guessed_letters, game_level *game_levels, int *hints_given, int *score, int *hint_integer, char *hint_char) : Provides a hint to the player based on the chosen word and guessed letters.
+7. void player_input(char *chosen_word, char *hidden_word, char *guessed_letters, int *lives, int word_len, int *score) : Processes player input during the game.
+8. void score_tracker(int *score, int *lives) : Tracks the player's score and remaining lives.
+9. void update_game_level(game_level *game_levels) : Updates the game level after successfully guessing a word.
+10. void updateLeaderboard(char *name, int score, int difficulty) : Updates the leaderboard with the player's name, score, and difficulty level.
+11. void displayLeaderboard() : Display the leaderboard.
+12. void time_attack_mode(char *chosens_word, char *hidden_word, char *guessed_letters, int *lives, int word_len, int *score) : Starts the time attack mode where the player has a time limit to guess a word.
+13. void choose_difficulty(game_level *game_levels) : Chooses the difficulty level for the game.
+14. void multiplayer_mode() : Multiplayer mode functionality.
+15. void addToLeaderboard(char *name, int score, int difficulty) : Adds player's score to the leaderboard.
 
 ## [game_functions.c:](https://github.com/sims1710/PLC-Project/blob/main/game_functions.c)
 The functions in the file manage game setup, gameplay mechanics like player input and word updates, and also handle cheat/hint functionalities such as revealing letters and managing player scores. Additionally, there are utility functions for generating random integers and tracking game progress, including challenge completion and leaderboard display. The function prototypes are defined in [game_functions.h](https://github.com/sims1710/PLC-Project/blob/main/game_functions.h).
