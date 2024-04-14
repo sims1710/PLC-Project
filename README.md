@@ -20,7 +20,7 @@ You can read the Code Documentation [here](https://github.com/sims1710/PLC-Proje
 2. **Compile and Run**:
    - Open Command Prompt.
    - Navigate to the directory containing your C files.
-   - Compile using `gcc` command: `gcc main.c game_functions.c ... -o hangman.exe`.
+   - See the compile options at the section below.
    - Run the executable: `hangman.exe`.
 
 #### Linux (Debian/Ubuntu):
@@ -30,7 +30,7 @@ You can read the Code Documentation [here](https://github.com/sims1710/PLC-Proje
 
 2. **Compile and Run**:
    - Navigate to the directory containing your C files.
-   - Compile using `gcc` command: `gcc main.c game_functions.c ... -o hangman`.
+   - See the compile options at the section below.
    - Run the executable: `./hangman`.
 
 #### macOS:
@@ -46,7 +46,7 @@ You can read the Code Documentation [here](https://github.com/sims1710/PLC-Proje
 
 4. **Compile and Run**:
    - Navigate to the directory containing your C files.
-   - Compile using `gcc` command: `gcc main.c game_functions.c ... -o hangman`.
+   - See the compile options at the section below.
    - Run the executable: `./hangman`.
 
 These steps should help you set up and run the Hangman game on Windows, Linux, and macOS systems.
@@ -55,6 +55,7 @@ Here's the revised section:
 
 ## How to Run the Application
 
+### Compilation
 To run the game, there are two options. 
 - Either run the Makefile in the main directory.
 ```bash
